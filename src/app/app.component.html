@@ -54,6 +54,7 @@
             <button class="sheet-unit" type="button" [class.active]="study.filters().units.includes(theme.id)" [attr.aria-pressed]="study.filters().units.includes(theme.id)" [attr.aria-label]="'Tema '+theme.id+': '+theme.name" (click)="study.toggleUnit(theme.id)"><span>{{study.filters().units.includes(theme.id)?'✓':'+'}}</span><strong>{{theme.id}}</strong></button>
           }
         </div>
+        <label class="sheet-check"><input type="checkbox" [checked]="!!study.filters().strict" (change)="study.updateFilters({strict:$any($event.target).checked})"> Modo examen: ocultar soluciones hasta finalizar</label>
         <label class="sheet-check"><input type="checkbox" [checked]="study.filters().withImages" (change)="study.updateFilters({withImages:$any($event.target).checked})"> Solo preguntas con imágenes</label>
         @if(error()){<p class="message-line">{{error()}}</p>}
         <div class="estudio-builder-summary"><strong>Tu examen</strong><span>{{activeSubject().shortName}} · {{study.filters().units.length}} temas · {{study.filters().mode==='mixed'?'Mixto':modesLabel()}} · {{study.filters().count===0?'Todas':study.filters().count}} preguntas solicitadas</span></div>

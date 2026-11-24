@@ -4,9 +4,9 @@
     <section class="module-hero"><span class="eyebrow">{{subject.shortName}} · TEMA {{unit}}</span><h2>{{theme.name}}</h2>
       <p>{{theme.description}}</p>
       <div class="hero-progress"><div><strong>{{percent()}}%</strong><span>exploradas</span></div>
-        <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards.length}}</small></div>
+        <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards().length}}</small></div>
     </section>
-    <div class="section-title topic-title"><h2>Tipo de examen</h2><span>{{cards.length}} preguntas</span></div>
+    <div class="section-title topic-title"><h2>Tipo de examen</h2><span>{{cards().length}} preguntas</span></div>
     <div class="topic-list">
       @for(type of types; track type.mode) {
         @if(count(type.kinds, type.mode)) {

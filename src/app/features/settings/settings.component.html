@@ -13,6 +13,15 @@
     <button class="setting-row" type="button" (click)="router.navigateByUrl('/inicio')"><div><strong>Crear simulacro desde Inicio</strong><span>Personaliza asignatura, temas, modalidad y dificultad</span></div><app-icon name="chevron" [size]="18"/></button>
     <div class="setting-row"><div><strong>Preguntas por reforzar</strong><span>Repite errores y respuestas regulares</span></div><strong>{{study.weakCount()}}</strong></div>
   </div>
+  <h3 class="settings-label">REVISIÓN DE PREGUNTAS</h3>
+  <div class="settings-group">
+    <div class="setting-row"><div><strong>Preguntas con errores señalados</strong><span>{{study.reportCount()}} avisos guardados en este dispositivo</span></div><strong>{{study.reportCount()}}</strong></div>
+    <button class="setting-row" type="button" (click)="router.navigateByUrl('/preguntas')"><div><strong>Revisar avisos y favoritas</strong><span>Consulta las preguntas marcadas en el banco</span></div><app-icon name="chevron" [size]="18"/></button>
+    <button class="setting-row" type="button" (click)="copyReview()"><div><strong>Copiar preguntas marcadas</strong><span>Copia las preguntas y tus observaciones para pegarlas directamente en ChatGPT</span></div><app-icon name="chevron" [size]="18"/></button>
+    <button class="setting-row" type="button" (click)="exportReview()"><div><strong>Exportar preguntas para revisar</strong><span>Descarga un JSON con avisos, favoritas, preguntas y soluciones para enviarlo</span></div><app-icon name="chevron" [size]="18"/></button>
+  </div>
+  <h3 class="settings-label">MATERIAL LOCAL DE REPASO</h3>
+  <div class="settings-group"><a class="setting-row" href="/descargas/material-php-estudio.zip" download="material-php-estudio.zip"><div><strong>Descargar ejemplos PHP para estudiar sin conexión</strong><span>UD1 · UD2 · UD3; formularios, arrays, talleres, cookies y sesiones</span></div><app-icon name="chevron" [size]="18"/></a></div>
   <h3 class="settings-label">APARIENCIA</h3><div class="settings-group"><div class="setting-row"><div class="setting-with-icon"><span class="setting-icon"><app-icon [name]="study.theme()==='dark'?'moon':'sun'" [size]="19"/></span><div><strong>Modo oscuro</strong><span>Más cómodo con poca luz</span></div></div>
     <button type="button" class="toggle" [class.on]="study.theme()==='dark'" [attr.aria-pressed]="study.theme()==='dark'" aria-label="Modo oscuro" (click)="study.toggleTheme()"><i></i></button></div></div>
   <h3 class="settings-label">PROGRESO</h3><div class="settings-group">
@@ -22,5 +31,5 @@
     <button class="setting-row reset" type="button" (click)="clear()"><div class="setting-with-icon"><span class="setting-icon danger"><app-icon name="trash" [size]="19"/></span><div><strong>Reiniciar progreso</strong><span>Borra las estadísticas de este dispositivo</span></div></div><app-icon name="chevron" [size]="18"/></button>
   </div>
   @if(message()){<p class="message-line" role="status">{{message()}}</p>}
-  <p class="version">Estudio · Angular · versión 5.0</p>
+  <p class="version">Estudio · Angular · versión 9.0</p>
 </main>

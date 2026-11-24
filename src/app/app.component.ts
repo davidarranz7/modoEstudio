@@ -34,7 +34,8 @@ export class AppComponent {
     {id:'develop',label:'Desarrollo'},
     {id:'code',label:'Código · todos'},
     {id:'write',label:'Escribir código PHP'},
-    {id:'interpret',label:'Interpretar código PHP'}
+    {id:'interpret',label:'Interpretar código PHP'},
+    {id:'match',label:'Relacionar conceptos'}, {id:'order',label:'Ordenar pasos'}
   ];
   includedCount():number {return this.study.filters().count===0?this.study.filtered().length:Math.min(this.study.filters().count,this.study.filtered().length);}
   modesLabel(): string { return this.modes.find(m => m.id === this.study.filters().mode)?.label ?? 'Mixto'; }

@@ -16,16 +16,32 @@
       <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.kind==='code'?(card.codeTask==='interpret'?'Interpretar PHP':'Escribir PHP'):typeNames[card.kind]}}</small></div>
         <article class="flashcard">
           <div class="question-context-head"><p class="context">{{card.origin==='audio'?'Práctica relacionada con temas destacados en los audios':'Pregunta basada en el temario y las actividades'}}</p><button class="question-favorite" type="button" (click)="study.toggleStar(card.id)" [attr.aria-label]="study.record(card.id).starred?'Quitar favorita':'Guardar favorita'">{{study.record(card.id).starred?'★':'☆'}}</button></div>
+          <app-question-report [questionId]="card.id"/>
           @if(card.activity){<p class="question-activity"><app-icon name="code" [size]="14"/> {{card.activity}}</p>}
           @if(card.scenario){<section class="case-context"><span class="case-kicker">CONTEXTO DEL EJERCICIO</span><p>{{card.scenario}}</p></section>}
           <h1>{{card.prompt}}</h1>
-          @if(card.image){<figure class="question-image"><img [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen del material de clase'" loading="lazy"/><figcaption>{{card.imageCaption||'Imagen del material de clase'}}</figcaption></figure>}
+          @if(card.image){<figure class="question-image"><button type="button" (click)="imageOpen.set(true)" aria-label="Ampliar imagen del temario"><img [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen del material de clase'" loading="lazy"/></button><figcaption>{{card.imageCaption||'Imagen del material de clase'}} · Pulsa para ampliar</figcaption></figure>}
           @if(card.code){<pre class="question-code"><code>{{card.code}}</code></pre>}
           @if(card.exampleInput || card.exampleOutput){
             <section class="practice-example"><span class="case-kicker">EJEMPLO PARA COMPROBAR TU SOLUCIÓN</span>
               @if(card.exampleInput){<div><strong>Datos de entrada</strong><p>{{card.exampleInput}}</p></div>}
               @if(card.exampleOutput){<div><strong>Resultado esperado</strong><pre>{{card.exampleOutput}}</pre></div>}
             </section>
+          }
+          @if(card.hints?.length && !session.revealed && !session.config.strict){
+            <section class="study-hints">
+              <strong>Ayudas progresivas (opcional)</strong>
+              @for(hint of card.hints;track $index){@if($index<(session.hintLevel??0)){<p><span>Pista {{$index+1}}:</span> {{hint}}</p>}}
+              @if((session.hintLevel??0)<card.hints!.length){<button type="button" (click)="study.nextHint()">Mostrar pista {{(session.hintLevel??0)+1}} de {{card.hints!.length}}</button>}
+            </section>
+          }
+          @if(card.kind==='match' && card.pairs;as pairs){
+            <p class="question-instruction">Relaciona cada concepto con su definición.</p>
+            @for(pair of pairs;track pair.left){<label class="match-row"><strong>{{pair.left}}</strong><select [disabled]="session.revealed" [value]="session.matched?.[pair.left]??''" (change)="study.chooseMatch(pair.left,$any($event.target).value)"><option value="">Elegir definición</option>@for(right of pairs;track right.right){<option [value]="right.right">{{right.right}}</option>}</select></label>}
+          }
+          @if(card.kind==='order' && card.sequence){
+            <p class="question-instruction">Ordena las fases usando las flechas.</p>
+            @for(step of study.orderItems();track step){<div class="order-step"><span>{{$index+1}}. {{step}}</span><button type="button" [disabled]="session.revealed||$first" (click)="study.moveOrder($index,-1)" aria-label="Subir paso">↑</button><button type="button" [disabled]="session.revealed||$last" (click)="study.moveOrder($index,1)" aria-label="Bajar paso">↓</button></div>}
           }
           @if(card.kind==='single'||card.kind==='multi'){
             <p class="question-instruction">{{card.kind==='single'?'Selecciona una respuesta correcta.':'Marca todas las respuestas correctas.'}}</p>
@@ -34,9 +50,19 @@
                 <button type="button" class="answer-option" [class.chosen]="session.selected.includes($index)" [class.correct]="session.revealed&&isCorrect($index)" [class.incorrect]="session.revealed&&session.selected.includes($index)&&!isCorrect($index)" [disabled]="session.revealed" (click)="study.select($index)"><span class="option-marker">{{'ABCDEFGH'[$index]||$index+1}}</span><span>{{option}}</span></button>
               }
             </div>
-          }@else if(!session.revealed){
-            <label class="study-draft-label" for="self-answer">Escribe tu respuesta</label>
-            <textarea id="self-answer" class="study-draft" [class.code-input]="card.kind==='code' && card.codeTask!=='interpret'" [rows]="card.kind==='short'?5:9" [value]="session.draft" (input)="study.write($any($event.target).value)" [placeholder]="card.kind==='code'?(card.codeTask==='interpret'?'Indica la salida exacta y explica el razonamiento...':'Escribe aquí tu solución PHP...'):'Explica tu respuesta con tus palabras...'"></textarea>
+          }@else if(!session.revealed && card.kind!=='match' && card.kind!=='order'){
+            @if(card.kind==='code' && card.codeTask==='write'){
+              <p class="study-draft-label">Escribe tu solución</p>
+              @if(card.starterFiles;as starter){
+                <div class="code-file-tabs">@for(file of files(starter);track file){<button type="button" [class.active]="activeFile(starter)===file" (click)="chooseFile(file)">{{file}}</button>}</div>
+                <app-code-workspace [filename]="activeFile(starter)" [value]="codeFor(activeFile(starter),starter)" (valueChange)="study.writeFile(activeFile(starter),$event,starter)"/>
+              }@else{
+                <app-code-workspace [value]="session.draft" (valueChange)="study.write($event)"/>
+              }
+            }@else{
+              <label class="study-draft-label" for="self-answer">Escribe tu respuesta</label>
+              <textarea id="self-answer" class="study-draft" [rows]="card.kind==='short'?5:9" [value]="session.draft" (input)="study.write($any($event.target).value)" [placeholder]="card.codeTask==='interpret'?'Indica la salida exacta y explica el razonamiento...':'Explica tu respuesta con tus palabras...'"></textarea>
+            }
           }
           @if(session.revealed){
             <section class="answer"><span class="answer-label">{{session.lastGrade==='good'?'RESPUESTA CORRECTA':session.lastGrade==='bad'?'REVISA ESTA RESPUESTA':'SOLUCIÓN RAZONADA'}}</span>
@@ -45,6 +71,8 @@
                   @for(index of card.correct;track index){<p>{{'ABCDEFGH'[index]}}. {{card.options[index]}}</p>}
                 </div>
               }
+              @if(card.kind==='match'&&card.pairs){<p class="answer-subhead">Relaciones correctas</p>@for(pair of card.pairs;track pair.left){<p>{{pair.left}} → {{pair.right}}</p>}}
+              @if(card.kind==='order'&&card.sequence){<p class="answer-subhead">Orden correcto</p>@for(step of card.sequence;track step){<p>{{$index+1}}. {{step}}</p>}}
               @if(card.expectedOutput){<div class="expected-output-answer"><strong>Salida o resultado de la ejecución</strong><pre>{{card.expectedOutput}}</pre></div>}
               @if(card.kind==='code' && card.codeTask==='write'){<p class="answer-subhead">Solución de referencia en PHP</p>}
               @if(card.kind==='code' && card.codeTask==='interpret'){<p class="answer-subhead">Por qué se obtiene este resultado</p>}
@@ -57,8 +85,8 @@
       </main>
       <footer class="study-actions">
         @if(!session.revealed){
-          <p>Responde con calma. Puedes guardar y continuar más tarde.</p>
-          <button class="primary-button wide" type="button" [disabled]="(card.kind==='single'||card.kind==='multi')&&!session.selected.length" (click)="revealAnswer()">{{card.kind==='single'||card.kind==='multi'?'Comprobar respuesta':'Ver solución'}}</button>
+          <p>{{session.config.strict?'Modo examen: las soluciones aparecen al finalizar.':'Responde con calma. Puedes guardar y continuar más tarde.'}}</p>
+          <button class="primary-button wide" type="button" [disabled]="(card.kind==='single'||card.kind==='multi')&&!session.selected.length || (card.kind==='match' && !session.matched)" (click)="revealAnswer()">{{session.config.strict?'Guardar respuesta y continuar':['single','multi','match','order'].includes(card.kind)?'Comprobar respuesta':'Ver solución'}}</button>
           <button class="study-skip" type="button" (click)="skip()">Omitir esta pregunta</button>
         }@else if(!session.graded){
           <p>¿Qué tal has respondido?</p><div class="rating-row">
@@ -72,6 +100,7 @@
         }
       </footer>
     </div>
+    @if(imageOpen() && card.image){<div class="overlay question-lightbox" (click)="imageOpen.set(false)"><button type="button" (click)="imageOpen.set(false)" aria-label="Cerrar imagen" class="lightbox-close">Cerrar ×</button><img [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen ampliada'" (click)="$event.stopPropagation()"/></div>}
     @if(paused()){
       <div class="overlay"><div class="pause-modal"><div class="pause-icon"><app-icon name="pause" [size]="28"/></div><h2>Sesión en pausa</h2><p>Tu progreso está guardado. Puedes retomarla cuando quieras.</p>
         <button class="primary-button wide" type="button" (click)="togglePause()"><app-icon name="play" [size]="18"/>Continuar</button>

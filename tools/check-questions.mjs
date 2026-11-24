@@ -7,7 +7,7 @@ const subjectsSource = readFileSync('src/app/core/subjects.ts', 'utf8');
 const subjectIds = new Set([...subjectsSource.matchAll(/id:\s*'([a-z0-9-]+)'/g)].map(match => match[1]));
 const ids = new Set();
 const questions = [];
-const kinds = new Set(['single', 'multi', 'short', 'develop', 'code']);
+const kinds = new Set(['single', 'multi', 'short', 'develop', 'code', 'match', 'order']);
 const codeTasks = new Set(['interpret', 'write']);
 const counters = {};
 for (const name of names) {
@@ -23,6 +23,8 @@ for (const name of names) {
     if (!['medio', 'alto'].includes(q.level) || !['audio', 'temario'].includes(q.origin)) throw Error(`Dificultad o origen inválido: ${q.id}`);
     if (typeof q.prompt !== 'string' || q.prompt.trim().length < 18 || typeof q.solution !== 'string' || q.solution.trim().length < 3) throw Error(`Enunciado o solución insuficiente: ${q.id}`);
     if (!Array.isArray(q.options) || !Array.isArray(q.correct) || typeof q.code !== 'string') throw Error(`Campos mal formados: ${q.id}`);
+    if (q.kind === 'match' && (!Array.isArray(q.pairs)||q.pairs.length<2)) throw Error(`Relación sin pares: ${q.id}`);
+    if (q.kind === 'order' && (!Array.isArray(q.sequence)||q.sequence.length<3)) throw Error(`Ordenación incompleta: ${q.id}`);
     if (q.kind === 'code') {
       if (!codeTasks.has(q.codeTask)) throw Error(`Falta clasificar código como interpretar/escribir: ${q.id}`);
       if (q.subjectId === 'dwcs' && q.codeTask === 'write') {

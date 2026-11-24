@@ -4,9 +4,9 @@
     <section class="module-hero"><span class="eyebrow">{{subject.shortName}} · ASIGNATURA</span><h2>{{subject.name}}</h2>
       <p>{{subject.description}}</p>
       <div class="hero-progress"><div><strong>{{percent()}}%</strong><span>exploradas</span></div>
-        <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards.length}}</small></div>
+        <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards().length}}</small></div>
     </section>
-    <button class="primary-button wide" type="button" [disabled]="!cards.length" (click)="openExam()"><app-icon name="play" [size]="18"/>Practicar todos los temas</button>
+    <button class="primary-button wide" type="button" [disabled]="!cards().length" (click)="openExam()"><app-icon name="play" [size]="18"/>Practicar todos los temas</button>
     <div class="section-title topic-title"><h2>Temas</h2><span>{{subject.themes.length}} temas</span></div>
     <div class="topic-list">
       @for(theme of subject.themes; track theme.id) {

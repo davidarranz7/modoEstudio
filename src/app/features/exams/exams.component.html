@@ -1,6 +1,10 @@
 <app-header title="Exámenes"/>
 <main class="page with-header exam-history-page">
   <section class="intro-copy"><span class="eyebrow">TU CENTRO DE EXÁMENES</span><h2>Practica y mejora</h2><p>Prepara un simulacro, retoma el que dejaste o revisa tus resultados anteriores.</p></section>
+  <section class="section"><div class="section-title"><h2>Simulacros por unidad</h2><span>Corrección al finalizar</span></div>
+    <p class="preset-explainer">Propuestas de práctica basadas en el temario y los tipos de prueba. El número de preguntas es orientativo, no un reparto oficial del examen.</p>
+    <div class="preset-list">@for(preset of presets;track preset.id){<button type="button" class="module-row" (click)="startPreset(preset.id)"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>{{preset.label}}</strong><span>{{preset.description}} · {{preset.count}} preguntas</span></div><app-icon name="chevron"/></button>}</div>
+  </section>
   <button class="primary-button wide" type="button" (click)="create()"><app-icon name="play" [size]="18"/>Crear simulacro personalizado</button>
   @if(study.hasActiveExam()){
     <section class="exam-pending-card"><div class="exam-meta-label"><span class="status-dot"></span> EXAMEN SIN TERMINAR</div>
@@ -24,6 +28,6 @@
   </section>
   <section class="section exam-shortcuts"><div class="section-title"><h2>Más opciones</h2></div>
     <button type="button" class="module-row" (click)="router.navigateByUrl('/progreso')"><div class="module-index"><app-icon name="chart" [size]="18"/></div><div><strong>Estadísticas por asignatura</strong><span>Identifica qué temas necesitas reforzar</span></div><app-icon name="chevron"/></button>
-    <button type="button" class="module-row" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>Banco de {{count}} preguntas</strong><span>Busca, guarda favoritas y practica</span></div><app-icon name="chevron"/></button>
+    <button type="button" class="module-row" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>Banco de {{count()}} preguntas</strong><span>Busca, guarda favoritas y practica</span></div><app-icon name="chevron"/></button>
   </section>
 </main>

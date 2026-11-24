@@ -46,6 +46,6 @@
     }
   </section>
   <section class="section"><div class="section-title"><h2>Banco de preguntas</h2><button type="button" (click)="router.navigateByUrl('/preguntas')">Ver todas</button></div>
-    <button class="module-row all-modules estudio-bank-link" type="button" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><small>PRÁCTICA PERSONALIZADA</small><strong>{{total}} preguntas disponibles</strong><span>Test, desarrollo, actividades, código e imágenes</span></div><app-icon name="chevron"/></button>
+    <button class="module-row all-modules estudio-bank-link" type="button" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><small>PRÁCTICA PERSONALIZADA</small><strong>{{total()}} preguntas disponibles</strong><span>Test, desarrollo, actividades, código e imágenes</span></div><app-icon name="chevron"/></button>
   </section>
 </main>

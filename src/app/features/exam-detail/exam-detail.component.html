@@ -2,7 +2,7 @@
 <main class="page with-header exam-detail-page">
   @if(result();as attempt){
     <section class="exam-score-hero"><span class="eyebrow">EXAMEN COMPLETADO</span><div class="exam-score-number">{{accuracy(attempt)}}<small>%</small></div><h2>{{subjectName(attempt.subjectId)}}</h2>
-      <p>{{names[attempt.config.mode]}} · {{attempt.total}} preguntas</p>
+      <p>{{names[attempt.config.mode]}} · {{attempt.total}} preguntas</p>@if(attempt.answers.some(a=>a.grade===null&&!a.skipped)){<p>Resultado provisional: hay respuestas escritas pendientes de autoevaluar.</p>}
       <div class="exam-score-pills"><span class="good">{{attempt.good}} bien</span><span class="regular">{{attempt.medium}} regular</span><span class="bad">{{attempt.bad}} mal</span><span>{{attempt.skipped}} omitidas</span></div>
     </section>
     @if(attempt.bad+attempt.medium+attempt.skipped>0){<button class="primary-button wide examen-retry" (click)="retryMissed(attempt)"><app-icon name="refresh" [size]="18"/>Repasar preguntas no superadas</button>}
@@ -30,8 +30,13 @@
                 }@else{
                   <p class="exam-review-label">Tu respuesta</p><pre>{{answer.draft||'Sin responder'}}</pre>
                 }
+                @if(q.kind==='match'&&q.pairs){<p class="exam-review-label">Relaciones correctas</p>@for(pair of q.pairs;track pair.left){<p>{{pair.left}} → {{pair.right}}</p>}}
+                @if(q.kind==='order'&&q.sequence){<p class="exam-review-label">Orden correcto</p>@for(step of q.sequence;track step){<p>{{$index+1}}. {{step}}</p>}}
+                @if(q.kind==='match' && q.pairs){<p class="exam-review-label">Tus relaciones</p>@for(pair of q.pairs;track pair.left){<p>{{pair.left}} → {{answer.matched?.[pair.left]||'Sin elegir'}}</p>}}
+                @if(q.kind==='order'){<p class="exam-review-label">Tu orden</p>@for(step of answer.ordered?.length?answer.ordered:[];track step){<p>{{$index+1}}. {{step}}</p>}}
                 @if(q.expectedOutput){<p class="exam-review-label">Salida o resultado de la ejecución</p><pre>{{q.expectedOutput}}</pre>}
                 <p class="exam-review-label">Explicación y solución</p><pre>{{q.solution}}</pre>
+                @if(answer.grade===null && !answer.skipped){<div class="exam-self-grade"><p>Evalúa tu respuesta usando la solución y los criterios:</p><button type="button" (click)="assess(answer.questionId,'bad')">Mal</button><button type="button" (click)="assess(answer.questionId,'medium')">Regular</button><button type="button" (click)="assess(answer.questionId,'good')">Bien</button></div>}
                 @if(q.check){<p class="exam-review-tip">Puntos clave: {{q.check}}</p>}
               </div>
             }

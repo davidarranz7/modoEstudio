@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-export type IconName = 'home'|'layers'|'chart'|'settings'|'chevron'|'arrow'|'play'|'pause'|'lock'|'check'|'code'|'git'|'moon'|'sun'|'refresh'|'trash'|'close';
+export type IconName = 'home'|'layers'|'chart'|'settings'|'chevron'|'arrow'|'play'|'pause'|'lock'|'check'|'code'|'git'|'moon'|'sun'|'refresh'|'trash'|'close'|'copy'|'download';
 @Component({selector:'app-icon',standalone:true,changeDetection:ChangeDetectionStrategy.OnPush,
   template:`<svg [attr.width]="size" [attr.height]="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   @switch(name){
@@ -19,6 +19,8 @@ export type IconName = 'home'|'layers'|'chart'|'settings'|'chevron'|'arrow'|'pla
     @case('sun'){<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>}
     @case('refresh'){<path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.1 8a7 7 0 0 1 11.7-2L20 8"/><path d="m4 16 2.2 2a7 7 0 0 0 11.7-2"/>}
     @case('trash'){<path d="M4 7h16"/><path d="M9 3h6l1 4H8l1-4Z"/><path d="m6 7 1 14h10l1-14"/><path d="M10 11v6M14 11v6"/>}
+    @case('copy'){<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>}
+    @case('download'){<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v3h16v-3"/>}
     @case('close'){<path d="m6 6 12 12"/><path d="m18 6-12 12"/>}
   }
 </svg>`})

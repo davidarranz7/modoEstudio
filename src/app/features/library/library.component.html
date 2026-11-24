@@ -1,47 +1,98 @@
-<app-header title="Banco de preguntas" back="/asignaturas"/>
-<main class="page with-header estudio-library">
-  <div class="intro-copy"><span class="eyebrow">ESTUDIO · BIBLIOTECA</span><h2>{{total}} preguntas para practicar</h2><p>Filtra por asignatura, tema y tipo de examen, o practica una pregunta concreta.</p></div>
-  <div class="search-row"><label class="library-search"><input type="search" [value]="search()" (input)="search.set($any($event.target).value)" placeholder="Buscar preguntas, conceptos o código..." aria-label="Buscar preguntas"/></label></div>
-  <div class="session-choice library-filters">
-    <label>Asignatura
-      <select [value]="subjectId()" (change)="chooseSubject($any($event.target).value)">
-        <option value="all">Todas las asignaturas</option>
-        @for(subject of subjects;track subject.id){<option [value]="subject.id">{{subject.name}}</option>}
-      </select>
-    </label>
-    <label>Tema
-      <select [value]="unit()" (change)="chooseUnit(+$any($event.target).value)">
-        <option value="0">Todos los temas</option>
-        @if(currentSubject();as subject){
-          @for(theme of subject.themes;track theme.id){<option [value]="theme.id">Tema {{theme.id}} · {{theme.name}}</option>}
-        }
-      </select>
-    </label>
-    <label>Tipo de pregunta
-      <select [value]="kind()" (change)="kind.set($any($event.target).value)">
-        <option value="all">Todos los tipos</option><option value="single">Test simple</option><option value="multi">Test múltiple</option><option value="short">Respuesta breve</option><option value="develop">Desarrollo</option><option value="code">Código · todos</option><option value="write">Escribir PHP</option><option value="interpret">Interpretar PHP</option>
-      </select>
-    </label>
+<app-header title="Banco de preguntas" back="/inicio"/>
+<main class="page with-header estudio-library simple-bank" [class.simple-bank-has-marks]="markedCount()>0">
+ @if(!activeSubject()){
+  <div class="intro-copy"><span class="eyebrow">ESTUDIO · REVISIÓN</span><h2>Banco de preguntas</h2><p>Elige una asignatura para consultar sus preguntas. Si alguna está mal, márcala y me la podrás enviar.</p></div>
+  <div class="simple-bank-stack">
+   @for(subject of subjects;track subject.id){
+    <button type="button" class="module-feature simple-bank-entry" (click)="selectSubject(subject)">
+     <div class="module-number"><app-icon name="layers" [size]="20"/></div>
+     <div class="module-info"><small>ASIGNATURA</small><strong>{{subject.name}}</strong><span>{{subject.themes.length}} temas · {{questionsFor(subject.id)}} preguntas</span>
+      @if(flagsFor(subject.id)){<span class="simple-bank-marked">⚑ {{flagsFor(subject.id)}} marcadas</span>}
+     </div><app-icon name="chevron" [size]="19"/>
+    </button>
+   }
   </div>
-  <div class="library-chips">
-    <button type="button" [class.active]="view()==='all'" (click)="chooseView('all')">Todas</button>
-    <button type="button" [class.active]="view()==='weak'" (click)="chooseView('weak')">Falladas</button>
-    <button type="button" [class.active]="view()==='new'" (click)="chooseView('new')">Nuevas</button>
-    <button type="button" [class.active]="view()==='stars'" (click)="chooseView('stars')">Favoritas</button>
-    <button type="button" [class.active]="view()==='images'" (click)="chooseView('images')">Imágenes</button>
-    <button type="button" [class.active]="view()==='activities'" (click)="chooseView('activities')">Actividades</button>
+ } @else if(!activeTheme()){
+  <button type="button" class="simple-bank-back" (click)="back()"><app-icon name="arrow" [size]="17"/> Volver a asignaturas</button>
+  <div class="intro-copy"><span class="eyebrow">{{activeSubject()!.shortName}} · TEMAS</span><h2>{{activeSubject()!.name}}</h2><p>Selecciona un tema para ver todas sus preguntas y las respuestas.</p></div>
+  <div class="simple-bank-stack">
+   @for(theme of activeSubject()!.themes;track theme.id){
+    <button type="button" class="module-row simple-bank-entry" (click)="selectTheme(theme)">
+     <div class="module-index">{{theme.id}}</div>
+     <div><small>UNIDAD DIDÁCTICA {{theme.id}}</small><strong>{{theme.name}}</strong><span>{{questionsFor(activeSubject()!.id,theme.id)}} preguntas
+       @if(flagsFor(activeSubject()!.id,theme.id)){ · ⚑ {{flagsFor(activeSubject()!.id,theme.id)}} marcadas}
+      </span></div>
+     <app-icon name="chevron" [size]="19"/>
+    </button>
+   }
   </div>
-  <div class="section-title topic-title"><h2>Preguntas</h2><span>{{filtered().length}} resultados</span></div>
+ } @else {
+  <button type="button" class="simple-bank-back" (click)="back()"><app-icon name="arrow" [size]="17"/> Volver a temas</button>
+  <div class="intro-copy simple-bank-title"><span class="eyebrow">{{activeSubject()!.shortName}} · UNIDAD {{unitId()}}</span><h2>{{activeTheme()!.name}}</h2><p>{{questionsFor(activeSubject()!.id,unitId())}} preguntas. Abre cada solución cuando quieras comprobarla.</p></div>
+  <label class="library-search"><input type="search" [value]="search()" (input)="search.set($any($event.target).value);countVisible.set(20)" placeholder="Buscar dentro del tema…" aria-label="Buscar preguntas"/></label>
+  <div class="simple-bank-toggle-row">
+   <button type="button" class="simple-bank-chip" [class.active]="!markedOnly()" (click)="markedOnly.set(false);countVisible.set(20)">Todas</button>
+   <button type="button" class="simple-bank-chip" [class.active]="markedOnly()" (click)="markedOnly.set(true);countVisible.set(20)">⚑ Marcadas ({{flagsFor(activeSubject()!.id,unitId())}})</button>
+   <span class="simple-bank-counter">{{currentQuestions().length}} resultados</span>
+  </div>
   <div class="question-list">
-    @for(q of visible();track q.id) {
-      <article class="question-list-item"><div class="question-list-top"><span>{{q.subjectId.toUpperCase()}} · TEMA {{q.unit}} · {{q.kind==='code'?(q.codeTask==='interpret'?'Interpretar PHP':'Escribir PHP'):TYPE_NAMES[q.kind]}} · {{q.level==='medio'?'MEDIA':'ALTA'}}</span>
-        <button class="question-star" type="button" [attr.aria-label]="study.record(q.id).starred?'Quitar favorita':'Marcar favorita'" (click)="study.toggleStar(q.id)">{{study.record(q.id).starred?'★':'☆'}}</button></div>
-        <h3>{{q.prompt}}</h3>
-        @if(q.activity){<p class="library-activity-tag">{{q.activity}}</p>}
-        @if(q.image){<img class="question-thumb" [src]="'/temario/'+q.image" [alt]="'Imagen de la pregunta '+q.id" loading="lazy"/>}
-        <div class="question-list-foot"><small>{{study.record(q.id).seen?'Estudiada':'Sin responder'}}</small><button class="small-link" type="button" (click)="open(q.id)">Practicar <app-icon name="chevron" [size]="15"/></button></div>
-      </article>
-    } @empty {<div class="study-empty"><h2>No hay preguntas</h2><p>Prueba con otros filtros.</p></div>}
+   @for(q of shownQuestions();track q.id){
+    <article class="question-list-item simple-bank-question">
+     <div class="question-list-top"><span>UD{{q.unit}} · {{typeName(q)}} · {{q.level}}</span><span class="simple-bank-id">{{q.id}}</span></div>
+     @if(q.activity){<p class="library-activity-tag">{{q.activity}}</p>}
+     <h3>{{q.prompt}}</h3>
+     @if(q.scenario){<div class="simple-bank-context"><strong>Contexto</strong><p>{{q.scenario}}</p></div>}
+     @if(q.code){<div class="simple-bank-code"><span>Código del enunciado</span><pre>{{q.code}}</pre></div>}
+     @for(file of starterFiles(q);track file.name){<div class="simple-bank-code"><span>Archivo inicial: {{file.name}}</span><pre>{{file.code}}</pre></div>}
+     @if(q.exampleInput){<div class="simple-bank-sample"><strong>Entrada de ejemplo:</strong> {{q.exampleInput}}</div>}
+     @if(q.exampleOutput && q.codeTask!=='interpret'){<div class="simple-bank-sample"><strong>Resultado esperado:</strong><pre>{{q.exampleOutput}}</pre></div>}
+     @if(q.image){<button class="simple-bank-zoom" type="button" (click)="imageZoom.set(q.image!)" aria-label="Ampliar imagen del ejercicio"><img class="question-thumb" [src]="'/temario/'+q.image" [alt]="q.imageCaption||'Imagen del ejercicio'" loading="lazy"/></button>}
+     @if(q.kind==='single'||q.kind==='multi'){
+      <div class="simple-bank-options"><span class="simple-bank-options-caption">{{q.kind==='single'?'Elige una respuesta':'Puede haber varias respuestas correctas'}}</span>
+       @for(option of q.options;track $index){<div class="simple-bank-option" [class.correct]="expanded()===q.id && isCorrect(q,$index)" [class.show-correct]="expanded()===q.id"><span>{{'ABCDEFGH'[$index]}}</span><p>{{option}}</p>@if(expanded()===q.id&&isCorrect(q,$index)){<strong>✓</strong>}</div>}
+      </div>
+     }
+     @if(q.kind==='match'&&q.pairs?.length){<div class="simple-bank-context"><strong>Relaciona los conceptos de ambas columnas</strong><div class="simple-bank-pair-columns"><div>@for(pair of q.pairs;track pair.left){<p>· {{pair.left}}</p>}</div><div>@for(value of pairChoices(q);track value){<p>· {{value}}</p>}</div></div></div>}
+     @if(q.kind==='order'&&q.sequence?.length){<div class="simple-bank-context"><strong>Ordena estas fases</strong>@for(step of reversedSteps(q);track step){<p>· {{step}}</p>}</div>}
+     <button type="button" class="simple-bank-answer-toggle" [attr.aria-expanded]="expanded()===q.id" (click)="toggleAnswer(q.id)">
+      <app-icon name="layers" [size]="16"/> {{expanded()===q.id?'Ocultar respuesta':'Ver respuesta y explicación'}} <span>{{expanded()===q.id?'−':'+'}}</span>
+     </button>
+     @if(expanded()===q.id){
+      <section class="bank-answer simple-bank-answer">
+       @if((q.kind==='single'||q.kind==='multi')&&q.correct.length){<p><strong>Respuesta correcta:</strong>  {{correctLabels(q)}}</p>}
+       @if(q.kind==='match'&&q.pairs?.length){<p><strong>Correspondencias:</strong></p>@for(pair of q.pairs;track pair.left){<p>{{pair.left}} → {{pair.right}}</p>}}
+       @if(q.kind==='order'&&q.sequence?.length){<p><strong>Orden correcto:</strong></p>@for(step of q.sequence;track step){<p>{{$index+1}}. {{step}}</p>}}
+       @if(q.expectedOutput){<p><strong>Salida real del código:</strong></p><pre>{{q.expectedOutput}}</pre>}
+       @if(q.exampleOutput && q.codeTask==='interpret'){<p><strong>Resultado del ejemplo:</strong></p><pre>{{q.exampleOutput}}</pre>}
+       <p><strong>{{q.kind==='code'?'Solución de referencia':'Explicación y respuesta modelo'}}:</strong></p>
+       <pre>{{q.solution}}</pre>
+       @if(q.check){<p><strong>Para corregirte:</strong> {{q.check}}</p>}
+      </section>
+     }
+     <div class="simple-bank-flag-row">
+      <button type="button" class="simple-bank-flag" [class.marked]="isMarked(q.id)" [attr.aria-pressed]="isMarked(q.id)" (click)="toggleMark(q.id)">
+       {{isMarked(q.id)?'⚑ Marcada para revisar':'⚐ Marcar para revisar'}}
+      </button>
+     </div>
+     @if(isMarked(q.id)){
+      <label class="simple-bank-note">¿Qué falla? (opcional)
+       <textarea rows="2" maxlength="2000" placeholder="Ej.: la respuesta no corresponde al enunciado" [value]="study.reports()[q.id]?.comment??''" (change)="saveNote(q.id,$any($event.target).value)"></textarea>
+       <small>La nota se guarda al salir del campo.</small>
+      </label>
+     }
+    </article>
+   } @empty {<div class="study-empty"><h2>No hay preguntas</h2><p>{{markedOnly()?'Aún no has marcado ninguna pregunta de este tema.':'Prueba otra búsqueda.'}}</p></div>}
   </div>
-  @if(visible().length<filtered().length){<button class="outline-button wide estudio-more" type="button" (click)="limit.set(limit()+24)">Mostrar más preguntas</button>}
+  @if(shownQuestions().length<currentQuestions().length){<button class="outline-button wide estudio-more" type="button" (click)="countVisible.update(n=>n+20)">Ver más preguntas · {{shownQuestions().length}} de {{currentQuestions().length}}</button>}
+ }
+ @if(markedCount()){
+  <section class="simple-bank-export" aria-label="Exportar preguntas marcadas">
+   <div><strong>⚑ {{markedCount()}} marcadas para revisar</strong></div>
+   <div class="simple-bank-export-actions"><button type="button" (click)="copyMarked()" [disabled]="busy()"><app-icon name="copy" [size]="16"/> Copiar</button><button type="button" (click)="exportMarked()"><app-icon name="download" [size]="16"/> Exportar JSON</button></div>
+  </section>
+ }
+ @if(feedback()){<p class="simple-bank-feedback" role="status">{{feedback()}}</p>}
+ @if(imageZoom()){
+  <div class="overlay question-lightbox" (click)="imageZoom.set(null)"><button type="button" class="lightbox-close" (click)="imageZoom.set(null)">Cerrar ×</button><img [src]="'/temario/'+imageZoom()" alt="Imagen ampliada" (click)="$event.stopPropagation()"/></div>
+ }
 </main>

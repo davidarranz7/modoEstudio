@@ -6,10 +6,17 @@ import { TYPE_NAMES } from '../../core/questions';
 import { themeName, findSubject } from '../../core/subjects';
 import { IconComponent } from '../../shared/icon.component';
 import { HeaderComponent } from '../../shared/header.component';
-@Component({selector:'app-exam',standalone:true,imports:[IconComponent,HeaderComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./study.component.html'})
+import { CodeWorkspaceComponent } from '../../shared/code-workspace.component';
+import { QuestionReportComponent } from '../../shared/question-report.component';
+@Component({selector:'app-exam',standalone:true,imports:[IconComponent,HeaderComponent,QuestionReportComponent,CodeWorkspaceComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./study.component.html'})
 export class ExamComponent {
   readonly router=inject(Router);readonly study=inject(StudyService);readonly launcher=inject(LauncherService);
-  readonly paused=signal(false);readonly typeNames=TYPE_NAMES;readonly themeName=themeName;readonly findSubject=findSubject;
+  readonly paused=signal(false);readonly imageOpen=signal(false);
+  readonly currentFile=signal('');
+  files(starter:Record<string,string>):string[]{return Object.keys(starter);}
+  chooseFile(name:string):void {this.currentFile.set(name);}
+  activeFile(starter:Record<string,string>):string {return Object.hasOwn(starter,this.currentFile())?this.currentFile():Object.keys(starter)[0]??'solucion.php';}
+  codeFor(name:string,starter:Record<string,string>):string {return this.study.session()?.files?.[name]??starter[name]??'';}readonly typeNames=TYPE_NAMES;readonly themeName=themeName;readonly findSubject=findSubject;
   readonly position=computed(()=>Math.min((this.study.session()?.pointer??0)+1,this.study.session()?.ids.length??0));
   readonly total=computed(()=>this.study.session()?.ids.length??0);
   readonly progressPct=computed(()=>Math.round(this.position()*100/Math.max(1,this.total())));

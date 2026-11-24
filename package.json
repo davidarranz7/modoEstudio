@@ -1,15 +1,18 @@
 {
   "name": "modo-estudio",
-  "version": "6.1.0",
+  "version": "10.0.0",
   "private": true,
-  "description": "Plataforma móvil ESTUDIO con 379 preguntas DWCS contextualizadas y soluciones razonadas",
+  "description": "ESTUDIO: banco sencillo de preguntas por asignatura y tema, simulacros y práctica PHP",
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --configuration production",
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "check:bank": "node tools/check-questions.mjs",
-    "check": "npm run check:bank && npm run build"
+    "check": "npm run check:bank && npm run check:types && npm run check:templates && npm run check:coverage",
+    "check:coverage": "node tools/audit-coverage.mjs",
+    "check:types": "node node_modules/typescript/bin/tsc --project tsconfig.app.json --noEmit",
+    "check:templates": "node node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.app.json"
   },
   "dependencies": {
     "@angular/common": "~21.2.0",
