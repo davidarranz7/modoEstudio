@@ -1,0 +1,47 @@
+<app-header title="Banco de preguntas" back="/asignaturas"/>
+<main class="page with-header estudio-library">
+  <div class="intro-copy"><span class="eyebrow">ESTUDIO · BIBLIOTECA</span><h2>{{total}} preguntas para practicar</h2><p>Filtra por asignatura, tema y tipo de examen, o practica una pregunta concreta.</p></div>
+  <div class="search-row"><label class="library-search"><input type="search" [value]="search()" (input)="search.set($any($event.target).value)" placeholder="Buscar preguntas, conceptos o código..." aria-label="Buscar preguntas"/></label></div>
+  <div class="session-choice library-filters">
+    <label>Asignatura
+      <select [value]="subjectId()" (change)="chooseSubject($any($event.target).value)">
+        <option value="all">Todas las asignaturas</option>
+        @for(subject of subjects;track subject.id){<option [value]="subject.id">{{subject.name}}</option>}
+      </select>
+    </label>
+    <label>Tema
+      <select [value]="unit()" (change)="chooseUnit(+$any($event.target).value)">
+        <option value="0">Todos los temas</option>
+        @if(currentSubject();as subject){
+          @for(theme of subject.themes;track theme.id){<option [value]="theme.id">Tema {{theme.id}} · {{theme.name}}</option>}
+        }
+      </select>
+    </label>
+    <label>Tipo de pregunta
+      <select [value]="kind()" (change)="kind.set($any($event.target).value)">
+        <option value="all">Todos los tipos</option><option value="single">Test simple</option><option value="multi">Test múltiple</option><option value="short">Respuesta breve</option><option value="develop">Desarrollo</option><option value="code">Código · todos</option><option value="write">Escribir PHP</option><option value="interpret">Interpretar PHP</option>
+      </select>
+    </label>
+  </div>
+  <div class="library-chips">
+    <button type="button" [class.active]="view()==='all'" (click)="chooseView('all')">Todas</button>
+    <button type="button" [class.active]="view()==='weak'" (click)="chooseView('weak')">Falladas</button>
+    <button type="button" [class.active]="view()==='new'" (click)="chooseView('new')">Nuevas</button>
+    <button type="button" [class.active]="view()==='stars'" (click)="chooseView('stars')">Favoritas</button>
+    <button type="button" [class.active]="view()==='images'" (click)="chooseView('images')">Imágenes</button>
+    <button type="button" [class.active]="view()==='activities'" (click)="chooseView('activities')">Actividades</button>
+  </div>
+  <div class="section-title topic-title"><h2>Preguntas</h2><span>{{filtered().length}} resultados</span></div>
+  <div class="question-list">
+    @for(q of visible();track q.id) {
+      <article class="question-list-item"><div class="question-list-top"><span>{{q.subjectId.toUpperCase()}} · TEMA {{q.unit}} · {{q.kind==='code'?(q.codeTask==='interpret'?'Interpretar PHP':'Escribir PHP'):TYPE_NAMES[q.kind]}} · {{q.level==='medio'?'MEDIA':'ALTA'}}</span>
+        <button class="question-star" type="button" [attr.aria-label]="study.record(q.id).starred?'Quitar favorita':'Marcar favorita'" (click)="study.toggleStar(q.id)">{{study.record(q.id).starred?'★':'☆'}}</button></div>
+        <h3>{{q.prompt}}</h3>
+        @if(q.activity){<p class="library-activity-tag">{{q.activity}}</p>}
+        @if(q.image){<img class="question-thumb" [src]="'/temario/'+q.image" [alt]="'Imagen de la pregunta '+q.id" loading="lazy"/>}
+        <div class="question-list-foot"><small>{{study.record(q.id).seen?'Estudiada':'Sin responder'}}</small><button class="small-link" type="button" (click)="open(q.id)">Practicar <app-icon name="chevron" [size]="15"/></button></div>
+      </article>
+    } @empty {<div class="study-empty"><h2>No hay preguntas</h2><p>Prueba con otros filtros.</p></div>}
+  </div>
+  @if(visible().length<filtered().length){<button class="outline-button wide estudio-more" type="button" (click)="limit.set(limit()+24)">Mostrar más preguntas</button>}
+</main>

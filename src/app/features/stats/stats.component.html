@@ -1,0 +1,27 @@
+<app-header title="Tu progreso"/>
+<main class="page with-header">
+  <div class="stats-filter"><span class="small-muted">Progreso por asignatura</span>
+    <select aria-label="Filtrar por asignatura" [value]="selectedSubject()" (change)="selectedSubject.set($any($event.target).value)">
+      @for(subject of subjects;track subject.id){<option [value]="subject.id">{{subject.name}}</option>}
+    </select>
+  </div>
+  <section class="accuracy-card"><div class="accuracy-ring" [style.--progress]="(accuracy()*3.6)+'deg'"><div><strong>{{accuracy()}}%</strong><span>precisión</span></div></div>
+    <div><span>RENDIMIENTO GENERAL</span><h2>{{accuracy()>=70?'Buen trabajo':'Sigue practicando'}}</h2><p>Has realizado {{totals().reviewed}} respuestas en esta asignatura.</p></div></section>
+  <div class="stats-grid">
+    <div class="stat-box good"><span>✓</span><div><strong>{{totals().good}}</strong><small>Bien</small></div></div>
+    <div class="stat-box regular"><span>—</span><div><strong>{{totals().medium}}</strong><small>Regular</small></div></div>
+    <div class="stat-box bad"><span>×</span><div><strong>{{totals().bad}}</strong><small>Mal</small></div></div>
+    <div class="stat-box total"><span><app-icon name="layers" [size]="18"/></span><div><strong>{{totals().reviewed}}</strong><small>Respuestas</small></div></div>
+  </div>
+  <section class="section"><div class="section-title"><h2>Progreso por tema</h2></div>
+    <div class="topic-list">
+      @for(t of byUnit();track t.unit){
+        <button type="button" (click)="router.navigate(['/asignaturas',selectedSubject(),'temas',t.unit])">
+          <div class="topic-icon"><app-icon name="layers" [size]="20"/></div><div><strong>Tema {{t.unit}} · {{t.name}}</strong><span>{{t.seen}} de {{t.total}} · {{t.pct}}% · {{t.weak}} por reforzar</span></div><app-icon name="chevron"/>
+        </button>
+      }
+    </div>
+  </section>
+  <section class="streak"><div class="streak-icon"><app-icon name="refresh" [size]="18"/></div><div><small>PARA REPASAR</small><strong>{{subjectWeak()}} preguntas necesitan refuerzo</strong><span>Se priorizan si has respondido Mal o Regular</span></div></section>
+  <button type="button" class="outline-button wide estudio-more" [disabled]="!subjectWeak()" (click)="reviewWeak()"><app-icon name="refresh" [size]="18"/>Repasar falladas de esta asignatura</button>
+</main>

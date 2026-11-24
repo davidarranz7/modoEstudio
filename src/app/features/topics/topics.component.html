@@ -1,0 +1,22 @@
+<app-header title="Temas" back="/asignaturas"/>
+<main class="page with-header topics-page">
+  @if(subject; as subject) {
+    <section class="module-hero"><span class="eyebrow">{{subject.shortName}} · ASIGNATURA</span><h2>{{subject.name}}</h2>
+      <p>{{subject.description}}</p>
+      <div class="hero-progress"><div><strong>{{percent()}}%</strong><span>exploradas</span></div>
+        <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards.length}}</small></div>
+    </section>
+    <button class="primary-button wide" type="button" [disabled]="!cards.length" (click)="openExam()"><app-icon name="play" [size]="18"/>Practicar todos los temas</button>
+    <div class="section-title topic-title"><h2>Temas</h2><span>{{subject.themes.length}} temas</span></div>
+    <div class="topic-list">
+      @for(theme of subject.themes; track theme.id) {
+        <button type="button" (click)="openTheme(theme)">
+          <div class="topic-icon"><strong>{{('0'+theme.id).slice(-2)}}</strong></div>
+          <div><strong>Tema {{theme.id}} · {{theme.name}}</strong><span>{{count(theme.id)}} preguntas · {{seenTheme(theme.id)}} revisadas</span></div>
+          <div class="topic-end"><app-icon name="chevron" [size]="18"/></div>
+        </button>
+      }
+    </div>
+    <button class="outline-button wide estudio-more" type="button" (click)="router.navigate(['/preguntas'],{queryParams:{asignatura:subjectId}})"><app-icon name="layers" [size]="18"/>Ver preguntas de esta asignatura</button>
+  } @else {<div class="study-empty"><h2>Asignatura no encontrada</h2><p>Elige una asignatura disponible.</p><button class="primary-button wide" type="button" (click)="router.navigateByUrl('/asignaturas')">Ver asignaturas</button></div>}
+</main>

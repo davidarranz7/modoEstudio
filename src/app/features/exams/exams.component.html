@@ -1,0 +1,29 @@
+<app-header title="Exámenes"/>
+<main class="page with-header exam-history-page">
+  <section class="intro-copy"><span class="eyebrow">TU CENTRO DE EXÁMENES</span><h2>Practica y mejora</h2><p>Prepara un simulacro, retoma el que dejaste o revisa tus resultados anteriores.</p></section>
+  <button class="primary-button wide" type="button" (click)="create()"><app-icon name="play" [size]="18"/>Crear simulacro personalizado</button>
+  @if(study.hasActiveExam()){
+    <section class="exam-pending-card"><div class="exam-meta-label"><span class="status-dot"></span> EXAMEN SIN TERMINAR</div>
+      <h3>{{subjectName(study.session()!.config.subjectId)}}</h3>
+      <p>{{modes[study.session()!.config.mode]}} · {{study.session()!.pointer+1}} de {{study.session()!.ids.length}} preguntas</p>
+      <div class="progress-track"><span [style.width.%]="study.percent()"></span></div>
+      <button type="button" class="primary-button wide" (click)="resume()">Continuar examen</button>
+      <button class="exam-discard-link" type="button" (click)="discard()"><app-icon name="trash" [size]="16"/>Descartar este intento</button>
+    </section>
+  }
+  <section class="section"><div class="section-title"><h2>Historial de exámenes</h2><span>{{study.results().length}} terminados</span></div>
+    @for(result of recent();track result.id){
+      <button class="exam-result-row" type="button" (click)="details(result.id)">
+        <span class="exam-result-score" [class.score-low]="accuracy(result.good,result.total)<50"><strong>{{accuracy(result.good,result.total)}}%</strong><small>aciertos</small></span>
+        <span class="exam-result-copy"><strong>{{subjectName(result.subjectId)}}</strong><small>{{modes[result.config.mode]}} · {{formatDate(result.completedAt)}}</small><span>{{result.good}} correctas · {{result.bad}} incorrectas · {{result.skipped}} omitidas</span></span>
+        <app-icon name="chevron" [size]="18"/>
+      </button>
+    } @empty {
+      <div class="exam-empty"><div class="exam-empty-icon"><app-icon name="chart" [size]="26"/></div><h3>Aún no tienes exámenes terminados</h3><p>Cuando completes el primero, aquí podrás consultar sus respuestas y resultados.</p></div>
+    }
+  </section>
+  <section class="section exam-shortcuts"><div class="section-title"><h2>Más opciones</h2></div>
+    <button type="button" class="module-row" (click)="router.navigateByUrl('/progreso')"><div class="module-index"><app-icon name="chart" [size]="18"/></div><div><strong>Estadísticas por asignatura</strong><span>Identifica qué temas necesitas reforzar</span></div><app-icon name="chevron"/></button>
+    <button type="button" class="module-row" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>Banco de {{count}} preguntas</strong><span>Busca, guarda favoritas y practica</span></div><app-icon name="chevron"/></button>
+  </section>
+</main>

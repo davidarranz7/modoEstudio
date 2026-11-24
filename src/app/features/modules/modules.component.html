@@ -1,0 +1,20 @@
+<app-header title="Asignaturas"/>
+<main class="page with-header">
+  <div class="intro-copy"><span class="eyebrow">ESTUDIO · TUS ASIGNATURAS</span>
+    <h2>¿Qué vas a estudiar hoy?</h2>
+    <p>Entra en una asignatura, selecciona sus temas y elige cómo quieres que sea tu examen.</p>
+  </div>
+  <div class="section-title"><h2>Asignaturas disponibles</h2><span>{{subjects.length}}</span></div>
+  <div class="module-list">
+    @for (subject of subjects; track subject.id) {
+      <button class="module-row" type="button" (click)="open(subject.id)">
+        <div class="module-index"><app-icon name="code" [size]="19"/></div>
+        <div><small>{{subject.shortName}} · {{subject.themes.length}} TEMAS</small>
+          <strong>{{subject.name}}</strong>
+          <span>{{count(subject)}} preguntas · Test, breves, desarrollo y código</span></div>
+        <app-icon name="chevron" [size]="19"/>
+      </button>
+    }
+  </div>
+  <p class="estudio-hint">Podrás añadir otras asignaturas aquí manteniendo los temas y preguntas separados.</p>
+</main>

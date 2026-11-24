@@ -1,0 +1,70 @@
+@if(study.session();as session){
+  @if(session.completed){
+    <main class="study-complete"><div class="complete-symbol">✓</div><h1>¡Examen completado!</h1><p>Has terminado este simulacro. Revisa tus respuestas y refuerza los temas que más te cuestan.</p>
+      <div class="complete-accuracy">{{finalAccuracy()}}% <span>de aciertos</span></div>
+      <div class="review-counters"><span><strong>{{session.good}}</strong>Bien</span><span><strong>{{session.medium}}</strong>Regular</span><span><strong>{{session.bad}}</strong>Mal</span></div>
+      <button type="button" class="primary-button wide" (click)="viewResult()"><app-icon name="check" [size]="18"/>Ver respuestas y soluciones</button>
+      <button type="button" class="outline-button wide" (click)="restart()"><app-icon name="refresh" [size]="18"/>Nuevo simulacro</button>
+      <button type="button" class="outline-button wide" (click)="study.abandon();router.navigateByUrl('/progreso')">Ver progreso</button>
+    </main>
+  }@else if(study.current();as card){
+    <div class="study-shell">
+      <header class="study-header"><button class="icon-button" type="button" (click)="goHome()" aria-label="Salir y guardar"><app-icon name="close"/></button>
+        <div><strong>{{position()}} <span>/ {{total()}}</span></strong><div class="study-track"><i [style.width.%]="progressPct()"></i></div></div>
+        <button class="icon-button" type="button" (click)="togglePause()" aria-label="Pausar"><app-icon name="pause"/></button>
+      </header>
+      <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.kind==='code'?(card.codeTask==='interpret'?'Interpretar PHP':'Escribir PHP'):typeNames[card.kind]}}</small></div>
+        <article class="flashcard">
+          <div class="question-context-head"><p class="context">{{card.origin==='audio'?'Contenido relacionado con las indicaciones de la profesora':'Pregunta basada en el temario y sus actividades'}}</p><button class="question-favorite" type="button" (click)="study.toggleStar(card.id)" [attr.aria-label]="study.record(card.id).starred?'Quitar favorita':'Guardar favorita'">{{study.record(card.id).starred?'★':'☆'}}</button></div>
+          @if(card.activity){<p class="question-activity"><app-icon name="code" [size]="14"/> {{card.activity}}</p>}
+          <h1>{{card.prompt}}</h1>
+          @if(card.image){<figure class="question-image"><img [src]="'/temario/'+card.image" [alt]="'Imagen del temario para la pregunta '+card.id" loading="lazy"/><figcaption>Imagen del temario proporcionado</figcaption></figure>}
+          @if(card.code){<pre class="question-code"><code>{{card.code}}</code></pre>}
+          @if(card.kind==='single'||card.kind==='multi'){
+            <p class="question-instruction">{{card.kind==='single'?'Selecciona una respuesta correcta.':'Marca todas las respuestas correctas.'}}</p>
+            <div class="answer-options">
+              @for(option of card.options;track $index){
+                <button type="button" class="answer-option" [class.chosen]="session.selected.includes($index)" [class.correct]="session.revealed&&isCorrect($index)" [class.incorrect]="session.revealed&&session.selected.includes($index)&&!isCorrect($index)" [disabled]="session.revealed" (click)="study.select($index)"><span class="option-marker">{{'ABCDEFGH'[$index]||$index+1}}</span><span>{{option}}</span></button>
+              }
+            </div>
+          }@else if(!session.revealed){
+            <label class="study-draft-label" for="self-answer">Escribe tu respuesta</label>
+            <textarea id="self-answer" class="study-draft" [class.code-input]="card.kind==='code' && card.codeTask!=='interpret'" [rows]="card.kind==='short'?5:9" [value]="session.draft" (input)="study.write($any($event.target).value)" [placeholder]="card.kind==='code'?(card.codeTask==='interpret'?'Indica la salida exacta y explica el razonamiento...':'Escribe aquí tu solución PHP...'):'Explica tu respuesta con tus palabras...'"></textarea>
+          }
+          @if(session.revealed){
+            <section class="answer"><span class="answer-label">{{session.lastGrade==='good'?'RESPUESTA CORRECTA':session.lastGrade==='bad'?'REVISA ESTA RESPUESTA':'SOLUCIÓN DEL TEMARIO'}}</span>
+              @if(card.kind==='code' && card.codeTask!=='interpret'){<pre class="solution-code">{{card.solution}}</pre>}@else{<p class="answer-text">{{card.solution}}</p>}
+              @if(card.check){<p class="small-muted">Criterios para corregir tu respuesta: {{card.check}}</p>}
+              @if(session.draft){<div class="own-draft"><strong>Tu respuesta</strong><pre>{{session.draft}}</pre></div>}
+            </section>
+          }
+        </article>
+      </main>
+      <footer class="study-actions">
+        @if(!session.revealed){
+          <p>Responde con calma. Puedes guardar y continuar más tarde.</p>
+          <button class="primary-button wide" type="button" [disabled]="(card.kind==='single'||card.kind==='multi')&&!session.selected.length" (click)="study.reveal()">{{card.kind==='single'||card.kind==='multi'?'Comprobar respuesta':'Ver solución'}}</button>
+          <button class="study-skip" type="button" (click)="skip()">Omitir esta pregunta</button>
+        }@else if(!session.graded){
+          <p>¿Qué tal has respondido?</p><div class="rating-row">
+            <button type="button" class="bad" (click)="grade('bad')"><span>×</span><strong>Mal</strong><small>Repetir pronto</small></button>
+            <button type="button" class="regular" (click)="grade('medium')"><span>—</span><strong>Regular</strong><small>Seguir practicando</small></button>
+            <button type="button" class="good" (click)="grade('good')"><span>✓</span><strong>Bien</strong><small>Lo tengo</small></button>
+          </div>
+        }@else{
+          <p>{{session.lastGrade==='good'?'¡Buen trabajo!':'Repasa la explicación para mejorar'}}</p>
+          <button class="primary-button wide" type="button" (click)="next()">{{position()===total()?'Ver resultados':'Siguiente pregunta'}}</button>
+        }
+      </footer>
+    </div>
+    @if(paused()){
+      <div class="overlay"><div class="pause-modal"><div class="pause-icon"><app-icon name="pause" [size]="28"/></div><h2>Sesión en pausa</h2><p>Tu progreso está guardado. Puedes retomarla cuando quieras.</p>
+        <button class="primary-button wide" type="button" (click)="togglePause()"><app-icon name="play" [size]="18"/>Continuar</button>
+        <button class="text-button" type="button" (click)="goHome()">Guardar y salir</button>
+        <button class="text-button estudio-danger-text" type="button" (click)="discardExam()"><app-icon name="trash" [size]="16"/>Descartar examen</button></div></div>
+    }
+  }
+}@else{
+  <app-header title="Estudiar"/>
+  <main class="page with-header study-empty"><h2>Prepara tu simulacro</h2><p>Desde Inicio puedes configurar asignatura, temas, dificultad y modalidades.</p><button class="primary-button wide" type="button" (click)="router.navigateByUrl('/inicio')">Ir a Inicio</button></main>
+}

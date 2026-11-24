@@ -1,0 +1,40 @@
+<app-header title="Resultado del examen" back="/examenes"/>
+<main class="page with-header exam-detail-page">
+  @if(result();as attempt){
+    <section class="exam-score-hero"><span class="eyebrow">EXAMEN COMPLETADO</span><div class="exam-score-number">{{accuracy(attempt)}}<small>%</small></div><h2>{{subjectName(attempt.subjectId)}}</h2>
+      <p>{{names[attempt.config.mode]}} · {{attempt.total}} preguntas</p>
+      <div class="exam-score-pills"><span class="good">{{attempt.good}} bien</span><span class="regular">{{attempt.medium}} regular</span><span class="bad">{{attempt.bad}} mal</span><span>{{attempt.skipped}} omitidas</span></div>
+    </section>
+    @if(attempt.bad+attempt.medium+attempt.skipped>0){<button class="primary-button wide examen-retry" (click)="retryMissed(attempt)"><app-icon name="refresh" [size]="18"/>Repasar preguntas no superadas</button>}
+    <div class="section-title topic-title"><h2>Revisión pregunta a pregunta</h2><span>{{attempt.answers.length}} de {{attempt.total}}</span></div>
+    <div class="exam-answer-list">
+      @for(answer of attempt.answers;track $index){
+        @if(question(answer.questionId);as q){
+          <div class="exam-review-item">
+            <button type="button" class="exam-review-trigger" (click)="toggle(answer.questionId)" [attr.aria-expanded]="isExpanded(answer.questionId)">
+              <span class="review-grade" [class.good]="answer.grade==='good'" [class.bad]="answer.grade==='bad'||answer.skipped" [class.regular]="answer.grade==='medium'">{{answer.grade==='good'?'✓':answer.grade==='medium'?'–':'×'}}</span>
+              <span><strong>{{q.prompt}}</strong><small>Tema {{q.unit}} · {{gradeLabel(answer)}}</small></span><app-icon name="chevron" [size]="18"/>
+            </button>
+            @if(isExpanded(answer.questionId)){
+              <div class="exam-review-body">
+                @if(q.image){<img [src]="'/temario/'+q.image" [alt]="'Imagen del temario para '+q.id" loading="lazy"/>}
+                @if(q.code){<pre>{{q.code}}</pre>}
+                @if(q.kind==='single'||q.kind==='multi'){
+                  <p class="exam-review-label">Tu respuesta</p><p>{{answer.selected.length?selectedOptions(q, answer):'Sin responder'}}</p>
+                  <p class="exam-review-label">Respuesta correcta</p><p>{{correctOptions(q)}}</p>
+                }@else{
+                  <p class="exam-review-label">Tu respuesta</p><pre>{{answer.draft||'Sin responder'}}</pre>
+                }
+                <p class="exam-review-label">Explicación y solución</p><pre>{{q.solution}}</pre>
+                @if(q.check){<p class="exam-review-tip">Puntos clave: {{q.check}}</p>}
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+    <button class="outline-button wide estudio-more" (click)="router.navigateByUrl('/examenes')">Volver a Exámenes</button>
+  }@else{
+    <section class="exam-empty"><h2>Resultado no encontrado</h2><p>Puede que este examen pertenezca a otra copia de tus datos.</p><button class="primary-button wide" (click)="router.navigateByUrl('/examenes')">Ver exámenes</button></section>
+  }
+</main>

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    runtime: static
+    name: modo-estudio-php
+    buildCommand: npm ci --no-audit --no-fund && npm run build
+    staticPublishPath: dist/modo-estudio/browser
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
