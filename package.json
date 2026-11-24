@@ -1,8 +1,8 @@
 {
   "name": "modo-estudio",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "private": true,
-  "description": "ESTUDIO: banco sencillo de preguntas por asignatura y tema, simulacros y práctica PHP",
+  "description": "ESTUDIO: banco por asignaturas y unidades, DWCS y Despregamento de Apps. Web, simulacros móviles",
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --configuration production",

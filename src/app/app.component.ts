@@ -33,8 +33,8 @@ export class AppComponent {
     {id:'short',label:'Respuestas breves'},
     {id:'develop',label:'Desarrollo'},
     {id:'code',label:'Código · todos'},
-    {id:'write',label:'Escribir código PHP'},
-    {id:'interpret',label:'Interpretar código PHP'},
+    {id:'write',label:'Escribir código o configuración'},
+    {id:'interpret',label:'Interpretar código o configuración'},
     {id:'match',label:'Relacionar conceptos'}, {id:'order',label:'Ordenar pasos'}
   ];
   includedCount():number {return this.study.filters().count===0?this.study.filtered().length:Math.min(this.study.filters().count,this.study.filtered().length);}

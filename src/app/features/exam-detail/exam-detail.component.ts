@@ -5,7 +5,7 @@ import { StudyService, ExamAnswer, ExamResult, ExamMode } from '../../core/study
 import { SUBJECTS, themeName } from '../../core/subjects';
 import { HeaderComponent } from '../../shared/header.component';
 import { IconComponent } from '../../shared/icon.component';
-const names:Record<ExamMode,string>={mixed:'Mixto',test:'Test',single:'Test único',multi:'Test múltiple',written:'Escrito',short:'Breves',develop:'Desarrollo',code:'Código',write:'Escribir PHP',interpret:'Interpretar PHP',match:'Relacionar',order:'Ordenar'};
+const names:Record<ExamMode,string>={mixed:'Mixto',test:'Test',single:'Test único',multi:'Test múltiple',written:'Escrito',short:'Breves',develop:'Desarrollo',code:'Código',write:'Escribir código',interpret:'Interpretar código',match:'Relacionar',order:'Ordenar'};
 @Component({selector:'app-exam-detail',standalone:true,imports:[HeaderComponent,IconComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./exam-detail.component.html'})
 export class ExamDetailComponent {
   readonly router=inject(Router);

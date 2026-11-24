@@ -24,6 +24,16 @@ export const SUBJECTS: Subject[] = [
       { id: 3, name: 'HTTP, sesiones y autenticación', description: 'Cookies, sesiones, contraseñas, autenticación y permisos' }
     ]
   }
+  ,{
+    id: 'despregamento',
+    shortName: 'DAW',
+    name: 'Despregamento de Apps. Web',
+    description: 'Arquitecturas web, virtualización, Apache, HTTPS, seguridad y administración de servidores.',
+    themes: [
+      { id: 1, name: 'Implantación de arquitecturas web', description: 'Cliente-servidor, SPA, SSR, PWA, microservicios, nube y contenedores' },
+      { id: 2, name: 'Configuración e administración de servidores Web', description: 'Apache, VirtualHosts, directivas, HTTPS, autenticación, logs, monitorización y LDAP' }
+    ]
+  }
 ];
 export const DEFAULT_SUBJECT_ID = 'dwcs';
 export function findSubject(id: string): Subject | undefined {

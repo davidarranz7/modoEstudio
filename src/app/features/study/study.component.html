@@ -13,7 +13,7 @@
         <div><strong>{{position()}} <span>/ {{total()}}</span></strong><div class="study-track"><i [style.width.%]="progressPct()"></i></div></div>
         <button class="icon-button" type="button" (click)="togglePause()" aria-label="Pausar"><app-icon name="pause"/></button>
       </header>
-      <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.kind==='code'?(card.codeTask==='interpret'?'Interpretar PHP':'Escribir PHP'):typeNames[card.kind]}}</small></div>
+      <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.kind==='code'?(card.codeTask==='interpret'?'Interpretar código':'Escribir código'):typeNames[card.kind]}}</small></div>
         <article class="flashcard">
           <div class="question-context-head"><p class="context">{{card.origin==='audio'?'Práctica relacionada con temas destacados en los audios':'Pregunta basada en el temario y las actividades'}}</p><button class="question-favorite" type="button" (click)="study.toggleStar(card.id)" [attr.aria-label]="study.record(card.id).starred?'Quitar favorita':'Guardar favorita'">{{study.record(card.id).starred?'★':'☆'}}</button></div>
           <app-question-report [questionId]="card.id"/>
@@ -74,7 +74,7 @@
               @if(card.kind==='match'&&card.pairs){<p class="answer-subhead">Relaciones correctas</p>@for(pair of card.pairs;track pair.left){<p>{{pair.left}} → {{pair.right}}</p>}}
               @if(card.kind==='order'&&card.sequence){<p class="answer-subhead">Orden correcto</p>@for(step of card.sequence;track step){<p>{{$index+1}}. {{step}}</p>}}
               @if(card.expectedOutput){<div class="expected-output-answer"><strong>Salida o resultado de la ejecución</strong><pre>{{card.expectedOutput}}</pre></div>}
-              @if(card.kind==='code' && card.codeTask==='write'){<p class="answer-subhead">Solución de referencia en PHP</p>}
+              @if(card.kind==='code' && card.codeTask==='write'){<p class="answer-subhead">Solución de referencia</p>}
               @if(card.kind==='code' && card.codeTask==='interpret'){<p class="answer-subhead">Por qué se obtiene este resultado</p>}
               @if(card.kind==='code' && card.codeTask!=='interpret'){<pre class="solution-code">{{card.solution}}</pre>}@else{<p class="answer-text">{{card.solution}}</p>}
               @if(card.check){<p class="small-muted">Criterios para corregir tu respuesta: {{card.check}}</p>}

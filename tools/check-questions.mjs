@@ -19,7 +19,7 @@ for (const name of names) {
   for (const q of bank) {
     if (ids.has(q.id)) throw Error(`ID duplicado: ${q.id}`);
     ids.add(q.id);
-    if (!subjectIds.has(q.subjectId) || ![1, 2, 3].includes(q.unit) || !kinds.has(q.kind)) throw Error(`Asignatura, unidad o modalidad no válida: ${q.id}`);
+    if (!subjectIds.has(q.subjectId) || (q.subjectId === 'despregamento' ? ![1, 2].includes(q.unit) : ![1, 2, 3].includes(q.unit)) || !kinds.has(q.kind)) throw Error(`Asignatura, unidad o modalidad no válida: ${q.id}`);
     if (!['medio', 'alto'].includes(q.level) || !['audio', 'temario'].includes(q.origin)) throw Error(`Dificultad o origen inválido: ${q.id}`);
     if (typeof q.prompt !== 'string' || q.prompt.trim().length < 18 || typeof q.solution !== 'string' || q.solution.trim().length < 3) throw Error(`Enunciado o solución insuficiente: ${q.id}`);
     if (!Array.isArray(q.options) || !Array.isArray(q.correct) || typeof q.code !== 'string') throw Error(`Campos mal formados: ${q.id}`);
@@ -27,7 +27,7 @@ for (const name of names) {
     if (q.kind === 'order' && (!Array.isArray(q.sequence)||q.sequence.length<3)) throw Error(`Ordenación incompleta: ${q.id}`);
     if (q.kind === 'code') {
       if (!codeTasks.has(q.codeTask)) throw Error(`Falta clasificar código como interpretar/escribir: ${q.id}`);
-      if (q.subjectId === 'dwcs' && q.codeTask === 'write') {
+      if (['dwcs','despregamento'].includes(q.subjectId) && q.codeTask === 'write') {
         if (!q.scenario?.trim() || !q.exampleInput?.trim() || !q.exampleOutput?.trim()) throw Error(`Ejercicio de escribir PHP sin contexto y ejemplo de entrada/salida: ${q.id}`);
       }
       if (q.subjectId === 'dwcs' && q.codeTask === 'interpret') {
@@ -39,7 +39,7 @@ for (const name of names) {
       if (q.options.some(o => typeof o !== 'string' || !o.trim()) || new Set(q.options.map(o => o.trim())).size !== q.options.length) throw Error(`Opción vacía o duplicada: ${q.id}`);
       if (q.correct.some(i => !Number.isInteger(i) || i < 0 || i >= q.options.length) || new Set(q.correct).size !== q.correct.length) throw Error(`Índices de respuestas no válidos: ${q.id}`);
     } else if (q.options.length || q.correct.length) throw Error(`Las respuestas abiertas no deben tener opciones: ${q.id}`);
-    if (q.subjectId === 'dwcs' && q.kind === 'develop' && !q.scenario?.trim()) throw Error(`Desarrollo sin contexto suficiente: ${q.id}`);
+    if (['dwcs','despregamento'].includes(q.subjectId) && q.kind === 'develop' && !q.scenario?.trim()) throw Error(`Desarrollo sin contexto suficiente: ${q.id}`);
     if (q.image && new Set(['arrays-diagrama.png','cliente-web.png']).has(q.image)) throw Error(`Imagen de tema incorrecto asignada a ${q.id}: ${q.image}`);
     if (q.image) {
       const imagePath = join('public/temario', q.image);

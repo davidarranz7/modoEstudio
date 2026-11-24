@@ -1,6 +1,15 @@
-# ESTUDIO 10.0 — Banco de preguntas sencillo
+# ESTUDIO 11.0 — Dos asignaturas y banco sencillo
 
-Proyecto Angular 21 para estudiar en móvil. Conserva el diseño original azul y las funcionalidades de simulacros de ESTUDIO 9.0; **solo se ha simplificado el banco de preguntas**.
+Proyecto Angular 21 para estudiar en móvil. Conserva el diseño azul original, el banco sencillo y los simulacros, y añade una segunda asignatura independiente: **Despregamento de Apps. Web**.
+
+## Cómo queda el contenido
+
+- Desenvolvemento Web Contorno Servidor: **408 preguntas** en 3 unidades, conservadas sin cambios.
+- Despregamento de Apps. Web: **181 preguntas nuevas** en 2 unidades, con las cinco imágenes aportadas.
+- Banco total: **589 preguntas**.
+- Acceso: **Banco de preguntas → Asignatura → Tema → Ver todas las preguntas → Marcar para revisar → Copiar/Exportar**.
+- Exámenes: los simulacros personalizados permiten escoger ambas asignaturas. También se han añadido simulacros específicos de Despregamento.
+- Los ejercicios prácticos de Despregamento incluyen contexto, configuración y comportamiento esperado. El editor no ejecuta comandos Apache; permite escribir la respuesta y compararla con el modelo.
 
 ## Qué ha cambiado
 
@@ -15,7 +24,7 @@ Proyecto Angular 21 para estudiar en móvil. Conserva el diseño original azul y
 
 ## Instalación en Windows
 
-Extrae `ModoEstudio` en `C:\Users\arran\Documents` y ejecuta dentro de la carpeta:
+Extrae la carpeta `ModoEstudio` en la ubicación que utilices en Windows y ejecuta desde dentro de esa carpeta:
 
 ```powershell
 npm ci
@@ -37,7 +46,7 @@ El archivo `render.yaml` ya contiene estos datos. **Localhost y Render no compar
 
 ## Contenido conservado
 
-408 preguntas: UD1 (51), UD2 (254), UD3 (103). El contenido académico no se ha alterado en esta versión. Se mantienen los simulacros, ejercicios, imágenes, historial y materiales de consulta existentes.
+Las 408 preguntas originales de PHP siguen intactas: UD1 (51), UD2 (254), UD3 (103). Se añaden 53 de Despregamento UD1 y 128 de Despregamento UD2. Se mantienen los simulacros, ejercicios, imágenes, historial y materiales de consulta anteriores.
 
 ## Comprobaciones
 
@@ -47,3 +56,7 @@ El archivo `render.yaml` ya contiene estos datos. **Localhost y Render no compar
 - Build completo: **no verificado en este entorno Linux** porque las dependencias montadas incluyen el ejecutable de esbuild para Windows. `npm ci` instalará el correspondiente a tu equipo o a Render.
 
 No hay backend ni sincronización entre dispositivos y la aplicación no ejecuta realmente código PHP.
+
+## Procedencia de Despregamento
+
+Todas las preguntas de esta asignatura se han creado a partir del temario UD1/UD2 y las cinco imágenes que has aportado, sin atribuirlas a audios ni afirmar que son preguntas confirmadas por la profesora. Consulta `GUIA_DESPREGAMENTO.md` para el desglose.

@@ -21,7 +21,7 @@
     <button class="setting-row" type="button" (click)="exportReview()"><div><strong>Exportar preguntas para revisar</strong><span>Descarga un JSON con avisos, favoritas, preguntas y soluciones para enviarlo</span></div><app-icon name="chevron" [size]="18"/></button>
   </div>
   <h3 class="settings-label">MATERIAL LOCAL DE REPASO</h3>
-  <div class="settings-group"><a class="setting-row" href="/descargas/material-php-estudio.zip" download="material-php-estudio.zip"><div><strong>Descargar ejemplos PHP para estudiar sin conexión</strong><span>UD1 · UD2 · UD3; formularios, arrays, talleres, cookies y sesiones</span></div><app-icon name="chevron" [size]="18"/></a></div>
+  <div class="settings-group"><a class="setting-row" href="/descargas/material-php-estudio.zip" download="material-php-estudio.zip"><div><strong>Descargar material de PHP (asignatura DWCS)</strong><span>UD1 · UD2 · UD3; formularios, arrays, talleres, cookies y sesiones</span></div><app-icon name="chevron" [size]="18"/></a></div>
   <h3 class="settings-label">APARIENCIA</h3><div class="settings-group"><div class="setting-row"><div class="setting-with-icon"><span class="setting-icon"><app-icon [name]="study.theme()==='dark'?'moon':'sun'" [size]="19"/></span><div><strong>Modo oscuro</strong><span>Más cómodo con poca luz</span></div></div>
     <button type="button" class="toggle" [class.on]="study.theme()==='dark'" [attr.aria-pressed]="study.theme()==='dark'" aria-label="Modo oscuro" (click)="study.toggleTheme()"><i></i></button></div></div>
   <h3 class="settings-label">PROGRESO</h3><div class="settings-group">

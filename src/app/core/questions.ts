@@ -4,6 +4,7 @@ import { DWCS_EXAMEN } from '../data/dwcs-examen.questions';
 import { DWCS_TEST_CODIGO } from '../data/dwcs-test-codigo.questions';
 import { DWCS_SEGURIDAD } from '../data/dwcs-seguridad.questions';
 import { DWCS_CURATED } from '../data/dwcs-curated.questions';
+import { DESPREGAMENTO_QUESTIONS } from '../data/despregamento.questions';
 
 export type QuestionKind = 'single' | 'multi' | 'short' | 'develop' | 'code' | 'match' | 'order';
 export type Level = 'medio' | 'alto';
@@ -36,7 +37,7 @@ export interface Question {
   sequence?: string[];
 }
 
-export const QUESTIONS: Question[] = [...DWCS_QUESTIONS, ...DWCS_ACTIVITIES, ...DWCS_EXAMEN, ...DWCS_TEST_CODIGO, ...DWCS_SEGURIDAD, ...DWCS_CURATED];
+export const QUESTIONS: Question[] = [...DWCS_QUESTIONS, ...DWCS_ACTIVITIES, ...DWCS_EXAMEN, ...DWCS_TEST_CODIGO, ...DWCS_SEGURIDAD, ...DWCS_CURATED, ...DESPREGAMENTO_QUESTIONS];
 export const TYPE_NAMES: Record<QuestionKind,string> = {
   single: 'Test · una respuesta', multi: 'Test · varias respuestas',
   short: 'Respuesta breve', develop: 'Desarrollo', code: 'Código e interpretación', match: 'Relacionar conceptos', order: 'Ordenar pasos'

@@ -20,9 +20,9 @@ export class ThemeDetailComponent {
     {mode:'test',label:'Modo test',description:'Preguntas de una o varias respuestas correctas',icon:'check',kinds:['single','multi']},
     {mode:'short',label:'Respuestas breves',description:'Define o explica conceptos en pocas líneas',icon:'layers',kinds:['short']},
     {mode:'develop',label:'Preguntas de desarrollo',description:'Razona y desarrolla respuestas completas',icon:'layers',kinds:['develop']},
-    {mode:'code',label:'Código · mixto',description:'Interpreta y escribe fragmentos de PHP',icon:'code',kinds:['code']},
-    {mode:'write',label:'Escribir código PHP',description:'Resuelve ejercicios escribiendo funciones y programas',icon:'code',kinds:['code']},
-    {mode:'interpret',label:'Interpretar código PHP',description:'Calcula salidas y explica fragmentos de código',icon:'code',kinds:['code']},
+    {mode:'code',label:'Código · mixto',description:'Interpreta y escribe código o configuraciones del servidor',icon:'code',kinds:['code']},
+    {mode:'write',label:'Escribir código o configuración',description:'Resuelve ejercicios escribiendo código, comandos y configuraciones',icon:'code',kinds:['code']},
+    {mode:'interpret',label:'Interpretar código o configuración',description:'Analiza fragmentos, configuraciones y sus efectos',icon:'code',kinds:['code']},
     {mode:'match',label:'Relacionar conceptos',description:'Asocia términos y definiciones',icon:'layers',kinds:['match']},
     {mode:'order',label:'Ordenar pasos',description:'Ordena las fases de un proceso',icon:'layers',kinds:['order']},
     {mode:'mixed',label:'Examen mixto',description:'Combina test, preguntas breves, desarrollo y código',icon:'refresh',kinds:['single','multi','short','develop','code','match','order']}
