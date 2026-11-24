@@ -81,6 +81,7 @@ export const DWCS_SEGURIDAD: Question[] = [
     "activity": "Actividad 4 · Estudio del aviso de seguridad",
     "subjectId": "dwcs",
     "unit": 2,
-    "image": ""
+    "image": "",
+    "scenario": "Actividad sobre un aviso público de seguridad de PHP: se analizan directivas de configuración como medida temporal de mitigación y la actualización del intérprete como solución principal. Se pide razonar por qué una mitigación de configuración no equivale a corregir una vulnerabilidad."
   }
 ];

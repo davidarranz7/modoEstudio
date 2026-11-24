@@ -680,14 +680,15 @@ export const DWCS_TEST_CODIGO: Question[] = [
     "kind": "short",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Observa la imagen del cliente web. ¿Qué parte procesa HTML/CSS y cuál inicia habitualmente la solicitud al servidor?",
+    "prompt": "Un navegador solicita una página y recibe HTML, CSS y JavaScript. Explica qué componente inicia la petición HTTP, interpreta HTML/CSS y ejecuta JavaScript del lado cliente.",
     "solution": "El navegador web del cliente interpreta HTML y CSS y normalmente inicia la petición HTTP al servidor.",
     "options": [],
     "correct": [],
     "code": "",
     "check": "Navegador en cliente, HTML/CSS y petición HTTP.",
-    "image": "cliente-web.png",
-    "activity": "Tema 1 · Esquema lado cliente"
+    "image": "",
+    "activity": "Tema 1 · Esquema lado cliente",
+    "scenario": "Situación: una persona introduce una dirección en Chrome. El navegador solicita una página al servidor y recibe HTML con estilos CSS y scripts JavaScript."
   },
   {
     "id": "EXAM-U2-118",
@@ -696,14 +697,15 @@ export const DWCS_TEST_CODIGO: Question[] = [
     "kind": "short",
     "level": "medio",
     "origin": "temario",
-    "prompt": "En la figura de arrays, indica cómo se relacionan las claves y los valores y por qué foreach no necesita conocer los índices de antemano.",
+    "prompt": "Dado el siguiente array con claves no consecutivas, explica cómo se relacionan claves y valores y por qué foreach puede recorrerlo correctamente sin conocer sus índices.",
     "solution": "Cada elemento tiene una clave asociada al valor. foreach recorre los elementos existentes en su orden de inserción y puede recuperar tanto clave como valor.",
     "options": [],
     "correct": [],
-    "code": "",
+    "code": "$ciclos = [0 => \"DAM\", 2 => \"ASIR\", 5 => \"DAW\"];",
     "check": "Clave, valor y recorrido real, sin suponer índices consecutivos.",
-    "image": "arrays-diagrama.png",
-    "activity": "Teoría 1.11 · Arrays"
+    "image": "",
+    "activity": "Teoría 1.11 · Arrays",
+    "scenario": "El array representa los ciclos formativos disponibles. Hay claves 0, 2 y 5, pero las claves 1, 3 y 4 no existen. La pregunta utiliza el código que aparece a continuación, no una imagen externa."
   },
   {
     "id": "EXAM-U2-119",
@@ -719,7 +721,8 @@ export const DWCS_TEST_CODIGO: Question[] = [
     "code": "",
     "check": "Fila, columna y base cero.",
     "image": "arrays-multidimensionales.png",
-    "activity": "Teoría 1.14 · Matrices"
+    "activity": "Teoría 1.14 · Matrices",
+    "imageCaption": "Ejemplo del manual de PHP de arrays anidados"
   },
   {
     "id": "EXAM-U3-035",
@@ -743,7 +746,8 @@ export const DWCS_TEST_CODIGO: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "cookies-ciclo.jpg"
+    "image": "cookies-ciclo.jpg",
+    "imageCaption": "Diagrama del ciclo de vida de las cookies"
   },
   {
     "id": "EXAM-U3-036",
@@ -765,7 +769,8 @@ export const DWCS_TEST_CODIGO: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "http-response.png"
+    "image": "http-response.png",
+    "imageCaption": "Estructura de una respuesta HTTP"
   },
   {
     "id": "EXAM-U3-037",
@@ -781,6 +786,7 @@ export const DWCS_TEST_CODIGO: Question[] = [
     "code": "",
     "check": "Código 3xx, Location, nueva petición y exit.",
     "image": "http-redireccion.png",
-    "activity": "Teoría 2.2 · Redirección"
+    "activity": "Teoría 2.2 · Redirección",
+    "imageCaption": "Flujo de una redirección HTTP"
   }
 ];

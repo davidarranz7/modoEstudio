@@ -23,6 +23,11 @@ export interface Question {
   image?: string;
   activity?: string;
   codeTask?: 'write' | 'interpret';
+  scenario?: string;
+  exampleInput?: string;
+  exampleOutput?: string;
+  expectedOutput?: string;
+  imageCaption?: string;
 }
 
 export const QUESTIONS: Question[] = [...DWCS_QUESTIONS, ...DWCS_ACTIVITIES, ...DWCS_EXAMEN, ...DWCS_TEST_CODIGO, ...DWCS_SEGURIDAD];

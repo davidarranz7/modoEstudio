@@ -21,7 +21,8 @@ export const DWCS_QUESTIONS: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "web-estatica-dinamica.png"
+    "image": "web-estatica-dinamica.png",
+    "imageCaption": "Esquema comparativo de petición estática y dinámica"
   },
   {
     "id": "U1-02",
@@ -77,7 +78,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Incluye cliente, servidor web, lógica/aplicación, base de datos opcional, respuesta HTTP y navegador.",
-    "image": ""
+    "image": "",
+    "scenario": "Supuesto: una tienda muestra productos obtenidos de una base de datos. Un usuario escribe una URL y espera recibir el HTML correspondiente a los productos disponibles."
   },
   {
     "id": "U1-05",
@@ -216,7 +218,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Define Tomcat, Servlet, JSP y diferencia vista/controlador.",
-    "image": ""
+    "image": "",
+    "scenario": "Supuesto: una empresa despliega una aplicación web Java que necesita recibir peticiones HTTP, procesarlas y generar páginas dinámicas."
   },
   {
     "id": "U1-12",
@@ -331,7 +334,10 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "",
     "check": "Declara tipos int y bool, utiliza % 2 y devuelve bool mediante return.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicio sugerido por la profesora: una función recibe un número entero cualquiera y debe contestar verdadero si es divisible entre dos y falso en caso contrario.",
+    "exampleInput": "esPar(8), esPar(9)",
+    "exampleOutput": "true, false."
   },
   {
     "id": "U2-05",
@@ -347,7 +353,10 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "",
     "check": "Usa acumulador inicial 0, foreach, condición > 10 y return; se asumen números enteros.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicio sugerido por la profesora: la función recibe un array de números enteros y solo debe sumar aquellos estrictamente superiores a 10. No uses array_sum().",
+    "exampleInput": "numeros=[4,10,11,15]",
+    "exampleOutput": "26; no se suman 4 ni 10."
   },
   {
     "id": "U2-06",
@@ -385,7 +394,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$x = null;\nvar_dump(isset($x));\n$x = 0;\nvar_dump(isset($x));",
     "check": "Salida booleana false, true; distingue null de 0.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(false)\nbool(true)"
   },
   {
     "id": "U2-08",
@@ -423,7 +433,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$ciclos = [0 => \"DAM\", 2 => \"ASIR\", 5 => \"DAW\"];\nforeach ($ciclos as $ciclo) {\n    echo $ciclo . \" \";\n}",
     "check": "Identifica salida DAM ASIR DAW y que foreach no necesita índices consecutivos.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "DAM ASIR DAW "
   },
   {
     "id": "U2-10",
@@ -439,7 +450,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$tabla = [\n    [10, 20, 30],\n    [40, 90, 60]\n];\necho $tabla[1][1];",
     "check": "Indica 90 y la interpretación fila 1, columna 1.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "90"
   },
   {
     "id": "U2-11",
@@ -454,7 +466,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Separación de responsabilidades, bucles anidados, rand(0,10), retorno array y salida HTML sin recalcular.",
-    "image": ""
+    "image": "",
+    "scenario": "Actividad de tablas HTML: un formulario recibe filas=3 y columnas=4. Los valores entre 0 y 10 son aleatorios; para mostrar la tabla se deben reutilizar los valores generados, no inventarlos cada vez."
   },
   {
     "id": "U2-12",
@@ -532,7 +545,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "function calcularImporte(float $precio, int $sesiones): float {\n    return $precio * $sesiones;\n}\necho calcularImporte(12.5, 2);",
     "check": "Resultado visible: 25; el valor retornado es float 25.0.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "25"
   },
   {
     "id": "U2-16",
@@ -548,7 +562,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "for ($i = 1; $i <= 5; $i++) {\n    if ($i === 3) {\n        continue;\n    }\n    echo $i . \" \";\n}",
     "check": "Salida 1 2 4 5 y significado de continue.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1 2 4 5 "
   },
   {
     "id": "U2-17",
@@ -607,7 +622,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Manipulación del cliente, validación servidor, reglas de sesión y taller, acumulación de errores.",
-    "image": ""
+    "image": "",
+    "scenario": "Tarea02.1: el formulario de talleres permite contratar entre 1 y 10 sesiones. El atributo min/max/required limita la interfaz del navegador, pero alguien puede enviar manualmente una petición POST."
   },
   {
     "id": "U2-20",
@@ -623,7 +639,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$edad = $_POST[\"edad\"];",
     "check": "Distingue string de int, recomienda validar antes del cast.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "No imprime nada por sí solo. Con edad=25, $_POST[\"edad\"] contiene el string \"25\"; hay que validar antes de convertirlo a int."
   },
   {
     "id": "U2-21",
@@ -686,7 +703,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Error, tamaño, tipo real, nombre seguro, tmp_name, destino y control del resultado.",
-    "image": ""
+    "image": "",
+    "scenario": "Actividad 2.6: una página acepta varios ficheros por POST con enctype=\"multipart/form-data\". El navegador envía el archivo y metadatos en $_FILES; el servidor los conservará en la carpeta uploads."
   },
   {
     "id": "U2-24",
@@ -717,7 +735,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$mensaje = \"PHP es fácil. PHP es útil.\";\necho str_replace(\"PHP\", \"Java\", $mensaje);",
     "check": "Salida completa y ausencia de mutación de $mensaje.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Java es fácil. Java es útil."
   },
   {
     "id": "U2-26",
@@ -762,14 +781,15 @@ export const DWCS_QUESTIONS: Question[] = [
     "unit": 2,
     "kind": "develop",
     "level": "alto",
-    "origin": "audio",
-    "prompt": "Plantea la organización de los cuatro archivos de la tarea de inscripción en talleres y cómo evitar duplicar datos.",
+    "origin": "temario",
+    "prompt": "Para la aplicación de inscripción en talleres descrita en el caso, explica qué responsabilidad debe tener cada uno de estos cuatro archivos: index.php, procesar.php, funciones.php y tarifas.php. Indica cómo evitarías duplicar los precios y qué validaciones harías en el servidor.",
     "solution": "tarifas.php define el único array asociativo de precios; index.php lo requiere y genera el select con foreach; funciones.php implementa calcularImporte, calcularDescuento y calcularTotal con tipos y return; procesar.php valida $_POST, recopila errores y calcula/muestra solo si los datos son válidos. Se utiliza require_once y htmlspecialchars al presentar texto.",
     "options": [],
     "correct": [],
     "code": "",
-    "check": "Responsabilidades de index.php/procesar.php/funciones.php/tarifas.php, validación y un solo origen para precios.",
-    "image": ""
+    "check": "Incluye: función de los cuatro archivos; require_once; una sola fuente de tarifas; POST; nombre no vacío; sesiones enteras 1–10; taller válido; acumulación de errores; descuento desde 5 sesiones; htmlspecialchars al presentar datos.",
+    "image": "",
+    "scenario": "Caso completo: una academia organiza talleres de PHP (15,00 €/sesión), JavaScript (18,00 €/sesión) y Python (12,00 €/sesión). El alumno introduce nombre, taller y de 1 a 10 sesiones. Si contrata 5 o más, recibe un 10 % de descuento. La aplicación debe mantener una única fuente de precios y separar presentación, cálculos y validación."
   },
   {
     "id": "U2-29",
@@ -822,7 +842,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$i = 0;\nfor (; $i < 3; $i++) {}\n$datos = [2, 4, 6];\nforeach ($datos as $key => $value) {}\necho $i . \" / \" . $key . \"-\" . $value;",
     "check": "Salida 3 / 2-6 y explicación del ámbito.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "3 / 2-6"
   },
   {
     "id": "U3-01",
@@ -837,7 +858,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Independencia de peticiones y ausencia de memoria automática.",
-    "image": "http-request.png"
+    "image": "http-request.png",
+    "imageCaption": "Estructura de una petición HTTP"
   },
   {
     "id": "U3-02",
@@ -852,7 +874,9 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Ambos mecanismos, ubicación de datos, SID y ventajas/inconvenientes de cada uno.",
-    "image": "http-response.png"
+    "image": "http-response.png",
+    "imageCaption": "Estructura de una respuesta HTTP",
+    "scenario": "Caso práctico: una persona añade productos a un carrito en varias páginas de una tienda. HTTP no conserva por sí solo esos productos entre peticiones, por lo que el sistema necesita un mecanismo de estado."
   },
   {
     "id": "U3-03",
@@ -874,7 +898,8 @@ export const DWCS_QUESTIONS: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "cookies-ciclo.jpg"
+    "image": "cookies-ciclo.jpg",
+    "imageCaption": "Diagrama del ciclo de vida de las cookies"
   },
   {
     "id": "U3-04",
@@ -976,7 +1001,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "session_start, vaciar, cookie caducada, session_destroy, redirección/exit y distinción SID/datos.",
-    "image": ""
+    "image": "",
+    "scenario": "Caso práctico: una persona inicia sesión en un sitio PHP y después pulsa «Cerrar sesión». Su navegador conserva una cookie de identificador y el servidor conserva sus datos de sesión."
   },
   {
     "id": "U3-09",
@@ -1014,7 +1040,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "session_start();\nif (!isset($_SESSION[\"id_usuario\"])) {\n    header(\"Location: login.php\");\n    exit;\n}",
     "check": "Reconoce sesión, comprobación, redirección y salida inmediata.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Con una sesión sin id_usuario: respuesta de redirección HTTP a login.php; el script termina en exit y no muestra el contenido protegido."
   },
   {
     "id": "U3-11",
@@ -1094,7 +1121,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Archivos, POST, validación, lectura JSON, password_verify, $_SESSION, redirecciones y protección.",
-    "image": ""
+    "image": "",
+    "scenario": "Aplicación del temario con cinco archivos: login.php (formulario), usuarios.php (busca en JSON), validar.php (verifica), privada.php (zona protegida) y logout.php (cierre). El alumno introduce unas credenciales en login.php."
   },
   {
     "id": "U3-15",
@@ -1131,7 +1159,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Usuarios/roles/permisos, comprobación del lado servidor y acceso directo a rutas.",
-    "image": ""
+    "image": "",
+    "scenario": "Una web tiene tres roles: usuario, editor y administrador. Los administradores pueden eliminar registros, los editores modificarlos y los usuarios solo consultarlos."
   },
   {
     "id": "U3-17",
@@ -1146,7 +1175,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Cabeceras antes de salida, redirección y detención con exit.",
-    "image": "http-redireccion.png"
+    "image": "http-redireccion.png",
+    "imageCaption": "Flujo de una redirección HTTP"
   },
   {
     "id": "U3-18",
@@ -1199,7 +1229,9 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Distinguir recurso preexistente frente a generación dinámica y describir cliente, HTTP, servidor y navegador.",
-    "image": "web-estatica-dinamica.png"
+    "image": "web-estatica-dinamica.png",
+    "imageCaption": "Esquema comparativo de petición estática y dinámica",
+    "scenario": "Tienes un diagrama de dos arquitecturas. En una los archivos HTML se sirven tal como están; en otra el servidor crea una respuesta que puede depender de la base de datos."
   },
   {
     "id": "IMG-02",
@@ -1221,7 +1253,8 @@ export const DWCS_QUESTIONS: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "cookies-ciclo.jpg"
+    "image": "cookies-ciclo.jpg",
+    "imageCaption": "Diagrama del ciclo de vida de las cookies"
   },
   {
     "id": "IMG-03",
@@ -1236,7 +1269,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Debe identificar línea de petición, método, URL/recurso, versión y cabeceras.",
-    "image": "http-request.png"
+    "image": "http-request.png",
+    "imageCaption": "Estructura de una petición HTTP"
   },
   {
     "id": "IMG-04",
@@ -1261,7 +1295,8 @@ export const DWCS_QUESTIONS: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "http-response.png"
+    "image": "http-response.png",
+    "imageCaption": "Estructura de una respuesta HTTP"
   },
   {
     "id": "IMG-05",
@@ -1276,7 +1311,9 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Explica dos peticiones, respuesta con Location, actuación del navegador y papel de exit().",
-    "image": "http-redireccion.png"
+    "image": "http-redireccion.png",
+    "imageCaption": "Flujo de una redirección HTTP",
+    "scenario": "Una aplicación necesita dirigir a un usuario autenticado a privada.php. El servidor no transfiere mágicamente el navegador; envía una respuesta HTTP de redirección."
   },
   {
     "id": "EX-U1-01",
@@ -1496,7 +1533,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Menciona petición, programa externo, respuesta y limitación de rendimiento.",
-    "image": ""
+    "image": "",
+    "scenario": "Caso: un servidor web recibe una petición de una URL cuyo resultado se genera llamando a un programa externo, en vez de entregar un HTML que ya existía en disco."
   },
   {
     "id": "EX-U1-12",
@@ -1656,7 +1694,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$foo = 10;\n$bar = (bool) $foo;\nvar_dump($bar);",
     "check": "Distingue conversión explícita y valor booleano.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)"
   },
   {
     "id": "EX-U2-06",
@@ -1720,7 +1759,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "<?php $nombre = \"Ana\"; ?>\n<p>Hola, <?= $nombre ?>.</p>",
     "check": "Relacionar la expansión de $nombre con la salida HTML.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Hola, Ana."
   },
   {
     "id": "EX-U2-09",
@@ -1758,7 +1798,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$nombre = \"Juan\";\necho 'Hola $nombre';\necho \"Hola $nombre\";",
     "check": "Distingue interpolación en comillas dobles de cadenas literales con comillas simples.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Hola $nombreHola Juan"
   },
   {
     "id": "EX-U2-11",
@@ -1857,14 +1898,15 @@ export const DWCS_QUESTIONS: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "¿Qué cadena contiene $mensaje después de ejecutar este código?",
+    "prompt": "¿Qué cadena contiene $mensaje después de ejecutar este código? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "Menor de edad, porque 17 >= 18 es falso.",
     "options": [],
     "correct": [],
     "code": "$edad = 17;\n$mensaje = $edad >= 18 ? \"Mayor de edad\" : \"Menor de edad\";",
     "check": "Identifica condición, rama verdadera y rama falsa.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "No se imprime nada. La variable $mensaje contiene \"Menor de edad\"."
   },
   {
     "id": "EX-U2-16",
@@ -1895,7 +1937,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$i = 1;\nwhile ($i <= 3) {\n  echo $i;\n  $i++;\n}",
     "check": "Salida 123 y evaluación previa de la condición.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "123"
   },
   {
     "id": "EX-U2-18",
@@ -1911,7 +1954,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$i = 5;\ndo {\n  echo $i;\n  $i++;\n} while ($i < 3);",
     "check": "Salida 5 y una ejecución mínima.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "5"
   },
   {
     "id": "EX-U2-19",
@@ -1949,7 +1993,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "for ($i = 1; $i <= 5; $i++) {\n  if ($i === 3) continue;\n  echo $i . \" \";\n}",
     "check": "No debe incluirse el 3.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1 2 4 5 "
   },
   {
     "id": "EX-U2-21",
@@ -2011,7 +2056,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$ciclos = [\"DAM\", \"DAW\", \"ASIR\"];\nunset($ciclos[1]);\nprint_r($ciclos);",
     "check": "Mantiene índices 0 y 2.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Array ( [0] => DAM [2] => ASIR ). El índice 1 desaparece y el 2 se conserva."
   },
   {
     "id": "EX-U2-24",
@@ -2064,7 +2110,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$numeros = range(5, 1);\nprint_r($numeros);",
     "check": "Se incluyen ambos extremos.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Array ( [0] => 5 [1] => 4 [2] => 3 [3] => 2 [4] => 1 )."
   },
   {
     "id": "EX-U2-27",
@@ -2095,7 +2142,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "$datos = [[\"DAM\", \"DAW\"], [\"ASIR\", \"SMR\"]];\necho $datos[1][0];",
     "check": "Fila 1, elemento 0.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "ASIR"
   },
   {
     "id": "EX-U2-29",
@@ -2170,7 +2218,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Dos niveles de control: directivas de PHP y validación del programa.",
-    "image": ""
+    "image": "",
+    "scenario": "Actividad 2.6: el servidor admite archivos de hasta 2 MB mediante upload_max_filesize, pero tu aplicación solo debe aceptar archivos de hasta 1 MB. La subida puede contener varios archivos."
   },
   {
     "id": "EX-U2-33",
@@ -2223,7 +2272,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "<?php\ndeclare(strict_types=1);\nfunction duplicar(int $n): int { return $n * 2; }\nduplicar(\"5\");",
     "check": "Menciona TypeError y tipado estricto del archivo que realiza la llamada.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "TypeError"
   },
   {
     "id": "EX-U2-36",
@@ -2276,7 +2326,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "for ($i = 0; $i < 3; $i++) {}\necho $i;",
     "check": "Salida 3 y ausencia de ámbito de bloque separado.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "3"
   },
   {
     "id": "EX-U2-39",
@@ -2328,7 +2379,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Nombre, sesiones, taller, errores y salida segura.",
-    "image": ""
+    "image": "",
+    "scenario": "Tarea02.1: nombre, taller (PHP 15, JavaScript 18, Python 12 euros) y sesiones (1–10) llegan por POST. Un atacante puede saltarse las restricciones HTML; el sistema debe procesar únicamente entradas válidas."
   },
   {
     "id": "EX-U2-42",
@@ -2337,14 +2389,15 @@ export const DWCS_QUESTIONS: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "Calcula el importe inicial, el descuento y el total de un taller JavaScript de 5 sesiones a 18 € por sesión.",
+    "prompt": "Calcula el importe inicial, el descuento y el total de un taller JavaScript de 5 sesiones a 18 € por sesión. Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "Importe 90 €, descuento 9 € (10 % por cinco o más sesiones), total 81 €.",
     "options": [],
     "correct": [],
     "code": "$tarifas = [\"PHP\" => 15.0, \"JavaScript\" => 18.0, \"Python\" => 12.0];\n$taller = \"JavaScript\";\n$sesiones = 5;",
     "check": "90,00 €, 9,00 € y 81,00 €.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "No se imprime nada. Las variables calculadas representan importe=90, descuento=9 y total=81."
   },
   {
     "id": "EX-U3-01",
@@ -2446,7 +2499,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Relacionar cada atributo con su riesgo específico.",
-    "image": ""
+    "image": "",
+    "scenario": "Se quiere mantener una cookie de sesión en un sitio HTTPS, minimizando su exposición a JavaScript y a peticiones originadas desde páginas externas."
   },
   {
     "id": "EX-U3-06",
@@ -2525,7 +2579,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "code": "session_start();\nif (!isset($_SESSION[\"visitas\"])) $_SESSION[\"visitas\"] = 0;\n$_SESSION[\"visitas\"]++;\necho $_SESSION[\"visitas\"];",
     "check": "Explica persistencia entre peticiones.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1, 2, 3 en las tres visitas; la tercera muestra 3."
   },
   {
     "id": "EX-U3-10",
@@ -2610,14 +2665,15 @@ export const DWCS_QUESTIONS: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "¿Por qué no debe recalcularse el hash para compararlo con == en vez de utilizar password_verify()?",
+    "prompt": "¿Por qué no debe recalcularse el hash para compararlo con == en vez de utilizar password_verify()? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "password_hash() usa salt aleatorio y puede producir hashes distintos para la misma contraseña. password_verify() interpreta el hash guardado y verifica la contraseña correctamente.",
     "options": [],
     "correct": [],
     "code": "$a = password_hash(\"clave\", PASSWORD_BCRYPT);\n$b = password_hash(\"clave\", PASSWORD_BCRYPT);\nvar_dump($a === $b);",
     "check": "Normalmente false en la comparación; password_verify() es la comprobación correcta.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Normalmente bool(false): los dos hashes de la misma contraseña son distintos por sus salts aleatorias."
   },
   {
     "id": "EX-U3-15",
@@ -2632,7 +2688,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Describe los cinco componentes y flujo coherente de credenciales.",
-    "image": ""
+    "image": "",
+    "scenario": "Una aplicación de ejemplo utiliza usuarios.json para guardar el hash de contraseñas y separa el formulario, la validación, la consulta de usuarios, la página privada y el cierre de sesión."
   },
   {
     "id": "EX-U3-16",
@@ -2730,7 +2787,8 @@ export const DWCS_QUESTIONS: Question[] = [
     "correct": [],
     "code": "",
     "check": "Identificador en cookie del navegador y datos en fichero del servidor.",
-    "image": ""
+    "image": "",
+    "scenario": "Tienes XAMPP en Windows y PHP utiliza el gestor de sesiones por archivos. Después de llamar a session_start(), el navegador guarda la cookie PHPSESSID."
   },
   {
     "id": "EX-U3-21",

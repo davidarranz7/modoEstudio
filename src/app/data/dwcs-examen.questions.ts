@@ -21,7 +21,8 @@ export const DWCS_EXAMEN: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "web-estatica-dinamica.png"
+    "image": "web-estatica-dinamica.png",
+    "imageCaption": "Esquema comparativo de petición estática y dinámica"
   },
   {
     "id": "EXAM-U1-002",
@@ -76,7 +77,9 @@ export const DWCS_EXAMEN: Question[] = [
     "correct": [],
     "code": "",
     "check": "Peticiones; separación de responsabilidades; carácter opcional de la consulta; respuesta HTML.",
-    "image": "web-estatica-dinamica.png"
+    "image": "web-estatica-dinamica.png",
+    "imageCaption": "Esquema comparativo de petición estática y dinámica",
+    "scenario": "Un navegador solicita /productos; la respuesta depende de información almacenada en una base de datos. El servidor web y la lógica de aplicación pueden ser piezas separadas o funciones del mismo software."
   },
   {
     "id": "EXAM-U1-005",
@@ -184,7 +187,8 @@ export const DWCS_EXAMEN: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "http-request.png"
+    "image": "http-request.png",
+    "imageCaption": "Estructura de una petición HTTP"
   },
   {
     "id": "EXAM-U2-001",
@@ -201,7 +205,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Firma tipada, operador %, comparación estricta y retorno bool.",
     "image": "",
     "activity": "Pista del audio 2 · Función par/impar",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicio tipo examen mencionado por la profesora: programa una función reutilizable que determine si un número es par. No imprimas desde la función; devuelve un booleano.",
+    "exampleInput": "esPar(13), esPar(24)",
+    "exampleOutput": "false, true."
   },
   {
     "id": "EXAM-U2-002",
@@ -218,7 +225,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Explicar el módulo y qué rama se ejecuta.",
     "image": "",
     "activity": "Pista del audio 2 · Operadores e if",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "IMPAR"
   },
   {
     "id": "EXAM-U2-003",
@@ -235,7 +243,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Inicializar 0, foreach, condición > 10, += y return; 10 no se incluye.",
     "image": "",
     "activity": "Pista del audio 2 · Acumuladores",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicio tipo examen mencionado por la profesora: se necesita sumar los valores de un array mayores que 10, recorriéndolo con foreach y acumulando el resultado.",
+    "exampleInput": "numeros=[10,11,7,15,20]",
+    "exampleOutput": "46."
   },
   {
     "id": "EXAM-U2-004",
@@ -252,7 +263,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Resultado 46 y explicación de la desigualdad estricta.",
     "image": "",
     "activity": "Pista del audio 2 · Interpretar foreach",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "46"
   },
   {
     "id": "EXAM-U2-005",
@@ -269,7 +281,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Acumulador inicializado, bucle foreach y retorno.",
     "image": "",
     "activity": "Pista del audio 2 · Suma manual",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicio tipo examen: suma todos los enteros recibidos en un array sin recurrir a funciones predefinidas como array_sum().",
+    "exampleInput": "numeros=[3,4,5]",
+    "exampleOutput": "12."
   },
   {
     "id": "EXAM-U2-006",
@@ -286,7 +301,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "15, recorrido por valores y claves no consecutivas.",
     "image": "",
     "activity": "Pista del audio 2 · Arrays",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "15"
   },
   {
     "id": "EXAM-U2-007",
@@ -303,7 +319,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Comprobar REQUEST_METHOD y existencia; $_POST[\"edad\"] coincide con name.",
     "image": "",
     "activity": "Pista del audio 2 · Formularios",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Formulario HTML: <form method=\"post\"><input name=\"edad\" type=\"number\"></form>. El mismo script PHP recibe la petición inicial y después el envío del formulario.",
+    "exampleInput": "POST edad=25",
+    "exampleOutput": "Se recupera el texto \"25\" si la clave existe."
   },
   {
     "id": "EXAM-U2-008",
@@ -368,7 +387,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$a = 4;\n$b = '6';\necho $a + $b;\necho '-';\necho $a . $b;",
     "check": "Resultado y diferencia entre + y .",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "10-46"
   },
   {
     "id": "EXAM-U2-011",
@@ -384,7 +404,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "var_dump(5 == '5');\nvar_dump(5 === '5');",
     "check": "Dos booleanos en orden y explicación.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)\nbool(false)"
   },
   {
     "id": "EXAM-U2-012",
@@ -401,7 +422,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "bool(true), distinguir and frente a &&.",
     "image": "",
     "activity": "Teoría 1.8 · Precedencia",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)"
   },
   {
     "id": "EXAM-U2-013",
@@ -417,7 +439,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$i = 8;\ndo {\n    echo $i;\n    $i++;\n} while ($i < 3);",
     "check": "8 y explicación del mínimo de una iteración.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "8"
   },
   {
     "id": "EXAM-U2-014",
@@ -433,7 +456,10 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "Firma tipada, return y llamada que muestra 12.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Una empresa calcula el área de carteles rectangulares. La función recibe base y altura expresadas en unidades numéricas y devuelve el producto.",
+    "exampleInput": "base=3, altura=4",
+    "exampleOutput": "12 (área)."
   },
   {
     "id": "EXAM-U2-015",
@@ -450,7 +476,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Debe aparecer require_once __DIR__, la declaración tipada y la llamada; salida 25.",
     "image": "",
     "activity": "Pista del audio 2 · Include/require",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Una web PHP separa funciones reutilizables del archivo principal. En index.php se necesita llamar a cuadrado(5) definida en funciones.php, situado en el mismo directorio.",
+    "exampleInput": "cuadrado(5)",
+    "exampleOutput": "25."
   },
   {
     "id": "EXAM-U2-016",
@@ -482,7 +511,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "DocBlock inmediatamente antes, resumen, etiquetas correctas y tipos.",
     "image": "",
     "activity": "Actividad 2.8 · PHPDoc",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Una biblioteca PHP tiene una función duplicar(int $numero): int. Se requiere documentarla para que IDE y compañeros entiendan el propósito, parámetro y retorno.",
+    "exampleInput": "duplicar(4)",
+    "exampleOutput": "8. El DocBlock no altera la ejecución."
   },
   {
     "id": "EXAM-U2-018",
@@ -498,7 +530,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$matriz = [[2, 4, 6], [8, 10, 12]];\necho $matriz[0][2];\necho '-';\necho $matriz[1][1];",
     "check": "Resultado 6-10 y explicación de índices.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "6-10"
   },
   {
     "id": "EXAM-U2-019",
@@ -515,7 +548,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Dos for anidados, dos índices, matriz y return array.",
     "image": "",
     "activity": "Pista del audio 2 · Matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Se necesita construir una matriz rectangular de enteros inicializados a 0 para usarla posteriormente en cálculos. La función no debe mostrar HTML.",
+    "exampleInput": "filas=2, columnas=3",
+    "exampleOutput": "[[0,0,0],[0,0,0]]."
   },
   {
     "id": "EXAM-U2-020",
@@ -531,7 +567,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "for ($i = 1; $i <= 5; $i++) {\n    if ($i === 3) {\n        continue;\n    }\n    echo $i;\n}",
     "check": "Salida 1245.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1245"
   },
   {
     "id": "EXAM-U2-021",
@@ -548,7 +585,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "No confundir conversión a nueva variable con mutación de original.",
     "image": "",
     "activity": "Teoría 1.3 · Type juggling",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)\nstring(7) \"integer\""
   },
   {
     "id": "EXAM-U2-022",
@@ -586,7 +624,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$dato = null;\nvar_dump(isset($dato));\nvar_dump(is_null($dato));",
     "check": "Ambos booleanos explicados.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(false)\nbool(true)"
   },
   {
     "id": "EXAM-U2-024",
@@ -627,7 +666,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$nombre = 'Ana';\necho 'Hola $nombre';\necho '|';\necho \"Hola $nombre\";",
     "check": "La cadena literal con $nombre y la expansión real.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Hola $nombre|Hola Ana"
   },
   {
     "id": "EXAM-U2-026",
@@ -644,7 +684,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Claves textuales y valores numéricos float, sin símbolo €. ",
     "image": "",
     "activity": "Tarea02.1 · tarifas.php",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: un único archivo tarifas.php debe contener los precios PHP 15,00 €, JavaScript 18,00 € y Python 12,00 € por sesión, guardados como números y no como cadenas.",
+    "exampleInput": "tarifas[\"PHP\"]",
+    "exampleOutput": "15.0, tipo float."
   },
   {
     "id": "EXAM-U2-027",
@@ -660,7 +703,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$nombre = '';\n$resultado = $nombre ?: 'Anónimo';\necho $resultado;",
     "check": "Salida y condición falsy.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Anónimo"
   },
   {
     "id": "EXAM-U2-028",
@@ -676,7 +720,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$cantidad = 0;\necho $cantidad ?? 99;\necho '|';\necho $cantidad ?: 99;",
     "check": "Diferenciar Null coalescing y Elvis.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "0|99"
   },
   {
     "id": "EXAM-U2-029",
@@ -692,7 +737,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "echo (2 <=> 8);\necho ',';\necho (8 <=> 8);\necho ',';\necho (10 <=> 8);",
     "check": "Orden y valores exactos.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "-1,0,1"
   },
   {
     "id": "EXAM-U2-030",
@@ -708,7 +754,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$dia = 1;\nswitch ($dia) {\n    case 1: echo 'L';\n    case 2: echo 'M'; break;\n    default: echo 'X';\n}",
     "check": "Salida LM y ausencia de break.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "LM"
   },
   {
     "id": "EXAM-U2-031",
@@ -724,7 +771,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "for ($i = 0; $i < 5; $i += 2) {\n    echo $i;\n}",
     "check": "Salida 024.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "024"
   },
   {
     "id": "EXAM-U2-032",
@@ -740,7 +788,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "for ($i = 1; $i <= 3; $i++) {\n    for ($j = 1; $j <= 3; $j++) {\n        if ($i === 2 && $j === 2) {\n            break 2;\n        }\n        echo \"$i$j \";\n    }\n}",
     "check": "No imprimir 22; respetar espacio final opcional.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "11 12 13 21 "
   },
   {
     "id": "EXAM-U2-033",
@@ -756,7 +805,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$valores = [0 => 'A', 2 => 'B', 8 => 'C'];\nforeach ($valores as $clave => $valor) {\n    echo $clave . ':' . $valor . ';';\n}",
     "check": "Valores y claves exactas.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "0:A;2:B;8:C;"
   },
   {
     "id": "EXAM-U2-034",
@@ -765,14 +815,15 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Después de unset, ¿cuáles son las claves conservadas?",
+    "prompt": "Después de unset, ¿cuáles son las claves conservadas? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "0 2 . unset no renumera las claves existentes.",
     "options": [],
     "correct": [],
     "code": "$lista = ['PHP', 'HTML', 'CSS'];\nunset($lista[1]);\nforeach ($lista as $clave => $valor) {\n    echo $clave . ' ';\n}",
     "check": "Salida 0 y 2.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "0 2 "
   },
   {
     "id": "EXAM-U2-035",
@@ -788,7 +839,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$datos = ['nombre' => null];\nvar_dump(array_key_exists('nombre', $datos));\nvar_dump(isset($datos['nombre']));",
     "check": "Booleanos y causa.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)\nbool(false)"
   },
   {
     "id": "EXAM-U2-036",
@@ -797,14 +849,15 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "¿Qué elementos y claves recorre foreach después de añadir con []?",
+    "prompt": "¿Qué elementos y claves recorre foreach después de añadir con []? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "x=1;0=3;. La primera clave numérica automática es 0 porque solo había una clave de texto.",
     "options": [],
     "correct": [],
     "code": "$datos = ['x' => 1];\n$datos[] = 3;\nforeach ($datos as $k => $v) {\n    echo \"$k=$v;\";\n}",
     "check": "Salida con clave de texto y clave 0.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "x=1;0=3;"
   },
   {
     "id": "EXAM-U2-037",
@@ -813,14 +866,15 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "¿Qué elemento selecciona cada acceso de esta estructura irregular?",
+    "prompt": "¿Qué elemento selecciona cada acceso de esta estructura irregular? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "HTML-JPA. Cada par de corchetes profundiza un nivel dentro de arrays anidados.",
     "options": [],
     "correct": [],
     "code": "$datos = ['PHP', ['HTML', 'CSS'], ['Java', ['Spring', 'JPA']]];\necho $datos[1][0];\necho '-';\necho $datos[2][1][1];",
     "check": "Resultado HTML-JPA.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "HTML-JPA"
   },
   {
     "id": "EXAM-U2-038",
@@ -837,7 +891,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Bucle externo por filas, interno por valores, HTML y separación.",
     "image": "",
     "activity": "Teoría 1.15 · Matriz",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Se recibe $tabla, una matriz de arrays de enteros. Se deben mostrar los valores fila por fila manteniendo el orden, con cada fila dentro de un párrafo HTML.",
+    "exampleInput": "tabla=[[1,2],[3,4]]",
+    "exampleOutput": "Dos párrafos: 1 2 y 3 4."
   },
   {
     "id": "EXAM-U2-039",
@@ -846,15 +903,18 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Genera el array de enteros [-3,-2,-1,0] con range() y recórrelo mostrando cada valor.",
+    "prompt": "Para un intervalo de -3 a 0, crea el array con range() y escribe un foreach que muestre todos sus valores en orden. Indica también la salida que debe observarse.",
     "solution": "$numeros = range(-3, 0);\nforeach ($numeros as $numero) {\n    echo $numero . ' ';\n}",
     "options": [],
     "correct": [],
     "code": "",
-    "check": "range(-3,0) y foreach.",
+    "check": "Usa range(-3, 0), foreach y muestra los valores -3 -2 -1 0; no se admite escribir a mano el array como sustituto de range().",
     "image": "",
     "activity": "Actividad 2.3 · Secuencias",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3, secuencias: crea y recorre el array [-3,-2,-1,0] con range() y foreach, sin escribir a mano los cuatro valores.",
+    "exampleInput": "intervalo de -3 a 0",
+    "exampleOutput": "-3 -2 -1 0"
   },
   {
     "id": "EXAM-U2-040",
@@ -870,7 +930,10 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "explode e implode. Resultado: Ana - Pedro - Lucía.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad sobre cadenas: una lista de alumnos llega en formato CSV sencillo con comas entre nombres. Debes convertirla en array y generar otra cadena con guiones.",
+    "exampleInput": "\"Ana,Pedro,Lucía\"",
+    "exampleOutput": "\"Ana - Pedro - Lucía\"."
   },
   {
     "id": "EXAM-U2-041",
@@ -886,7 +949,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$texto = 'PHP y HTML';\nvar_dump(strpos($texto, 'PHP'));\nvar_dump(strpos($texto, 'CSS'));",
     "check": "Valores y tipos precisos.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "int(0)\nbool(false)"
   },
   {
     "id": "EXAM-U2-042",
@@ -924,7 +988,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$nombre = 'María';\necho strlen($nombre);\necho '-';\necho mb_strlen($nombre, 'UTF-8');",
     "check": "6 bytes, 5 caracteres; requiere extensión mbstring.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "6-5"
   },
   {
     "id": "EXAM-U2-044",
@@ -940,7 +1005,10 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "Devolver string con return y escapar al imprimir en HTML.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "En una vista PHP debe mostrarse un saludo construido por una función, sin introducir sin escapar en el HTML el texto que escribió un usuario.",
+    "exampleInput": "nombre=\"Ana\"",
+    "exampleOutput": "<p>Hola, Ana</p> escapando el nombre al mostrarlo."
   },
   {
     "id": "EXAM-U2-045",
@@ -957,7 +1025,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "method get, action vacío, name, $_GET, isset, htmlspecialchars.",
     "image": "",
     "activity": "Actividad 2.5 · Formularios",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Se crea una página PHP que muestra un formulario de búsqueda por nombre y procesa su propio envío GET. El usuario puede introducir caracteres especiales.",
+    "exampleInput": "URL ?nombre=Ana",
+    "exampleOutput": "La página muestra Nombre: Ana."
   },
   {
     "id": "EXAM-U2-046",
@@ -974,7 +1045,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "$_SERVER REQUEST_METHOD, $_POST, conversión validada y suma.",
     "image": "",
     "activity": "Pista del audio 2 · Datos de formularios",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Una calculadora web recibe dos números enviados por POST en un formulario. Debe evitar calcular antes del envío y validar los datos recibidos.",
+    "exampleInput": "numero1=3, numero2=5",
+    "exampleOutput": "8."
   },
   {
     "id": "EXAM-U2-047",
@@ -991,7 +1065,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Dos prendas y un color como string.",
     "image": "",
     "activity": "Actividad 2.5 · Prendas y color",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "prendas: [\"camiseta\", \"chaqueta\"]; color: \"#ff0000\""
   },
   {
     "id": "EXAM-U2-048",
@@ -1057,7 +1132,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "isset, is_array, foreach, is_string y escape HTML.",
     "image": "",
     "activity": "Actividad 2.5 · XSS",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Un formulario POST puede enviar cero, una o varias prendas con name=\"prendas[]\"; la página debe mostrarlas como texto seguro, no como HTML.",
+    "exampleInput": "prendas=[\"camiseta\",\"falda\"]",
+    "exampleOutput": "Camiseta y falda (texto seguro)."
   },
   {
     "id": "EXAM-U2-051",
@@ -1066,7 +1144,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "¿Qué efecto tendrá mostrar directamente el dato de usuario en HTML sin escapar?",
+    "prompt": "¿Qué efecto tendrá mostrar directamente el dato de usuario en HTML sin escapar? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "El navegador interpretará las etiquetas <strong> y mostrará Ana en negrita. Con datos no confiables esto puede abrir una vulnerabilidad XSS; htmlspecialchars() permite mostrarlos como texto.",
     "options": [],
     "correct": [],
@@ -1074,7 +1152,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "HTML interpretado frente a texto escapado.",
     "image": "",
     "activity": "Teoría 1.19 · XSS",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Respuesta HTML: <strong>Ana</strong>. En el navegador se visualiza Ana en negrita."
   },
   {
     "id": "EXAM-U2-052",
@@ -1091,7 +1170,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Uso de htmlspecialchars con ENT_QUOTES y UTF-8.",
     "image": "",
     "activity": "Teoría 1.19 · XSS",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "En una aplicación PHP, $nombre procede de un formulario y se va a insertar como texto visible dentro de una etiqueta <p>.",
+    "exampleInput": "nombre=\"<b>Ana</b>\"",
+    "exampleOutput": "Se ve literalmente <b>Ana</b>, sin crear negrita."
   },
   {
     "id": "EXAM-U2-053",
@@ -1133,7 +1215,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Identificar string, no int.",
     "image": "",
     "activity": "Teoría 1.17 · Formularios",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "string(2) \"25\""
   },
   {
     "id": "EXAM-U2-055",
@@ -1150,7 +1233,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Valida tipo entero, rango y ausencia; no basta con cast a int.",
     "image": "",
     "activity": "Tarea02.1 · Validación de sesiones",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: el usuario indica cuántas sesiones quiere contratar. El formulario impone min=1 max=10, pero la validación definitiva debe hacerse también en PHP.",
+    "exampleInput": "sesiones=\"11\"",
+    "exampleOutput": "Se registra un error: deben ser entre 1 y 10."
   },
   {
     "id": "EXAM-U2-056",
@@ -1167,7 +1253,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Distinguir parámetro visible, cadena y validación.",
     "image": "",
     "activity": "Teoría 1.17 · GET",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "nombre = \"Luis\"; edad = \"99\" (cadenas)."
   },
   {
     "id": "EXAM-U2-057",
@@ -1234,7 +1321,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "isset, UPLOAD_ERR_OK, tamaño máximo de 1 MB.",
     "image": "",
     "activity": "Actividad 3 · Límites de subida",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de archivos: solo deben admitirse ficheros cuyo tamaño no supere 1 MiB. El archivo llega mediante POST y puede tener errores de subida.",
+    "exampleInput": "archivo de 1,5 MiB",
+    "exampleOutput": "Se rechaza porque supera 1 MiB."
   },
   {
     "id": "EXAM-U2-060",
@@ -1251,7 +1341,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "La estructura agrupa por campo (name[i], size[i]); índices correlativos y escape.",
     "image": "",
     "activity": "Actividad 2.6 · Múltiples ficheros",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.6: un campo <input type=\"file\" name=\"ficheros[]\" multiple> permite elegir varios archivos y PHP los agrupa por nombre/tamaño/temporal/error.",
+    "exampleInput": "archivos a.pdf y foto.png",
+    "exampleOutput": "Se muestran los dos nombres y tamaños, cada uno en su registro."
   },
   {
     "id": "EXAM-U2-061",
@@ -1268,7 +1361,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Asume validación previa del tipo real y extensión; move_uploaded_file, origen temporal y ruta segura.",
     "image": "",
     "activity": "Actividad 2.6 · Guardado seguro",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Subida de archivos: la aplicación ya ha validado que el archivo recibido es un PDF aceptado. El servidor debe elegir un nombre nuevo para evitar utilizar rutas proporcionadas por el usuario.",
+    "exampleInput": "archivo validado como PDF",
+    "exampleOutput": "Se almacena con nombre generado por el servidor, sin usar el nombre original."
   },
   {
     "id": "EXAM-U2-062",
@@ -1285,7 +1381,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Distinción configuración del intérprete y validación de negocio.",
     "image": "",
     "activity": "Actividad 3 · Límites",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "PHP puede recibir el fichero de 1,5 MB, pero la aplicación debe rechazarlo por superar su propio máximo de 1 MB."
   },
   {
     "id": "EXAM-U2-063",
@@ -1343,7 +1440,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "¿Qué categoría de comportamiento se observa al ejecutar un script con error_reporting que oculta warnings pero luego provoca una división por cero en PHP 8?",
+    "prompt": "¿Qué categoría de comportamiento se observa al ejecutar un script con error_reporting que oculta warnings pero luego provoca una división por cero en PHP 8? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "La cadena numérica con caracteres finales puede producir un aviso E_WARNING (que se ocultaría); la división por cero provoca DivisionByZeroError y no se resuelve ocultando warnings.",
     "options": [],
     "correct": [],
@@ -1351,7 +1448,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Distinguir aviso de excepción/error fatal; el script se interrumpe.",
     "image": "",
     "activity": "Actividad 1 · Errores",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "El E_WARNING por cadena numérica inválida puede quedar oculto; la división por cero provoca DivisionByZeroError y detiene la ejecución si no se captura."
   },
   {
     "id": "EXAM-U2-066",
@@ -1384,7 +1482,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "CLI con fscanf; 1 pulgada=2,54 cm y 1 pie=12 pulgadas.",
     "image": "",
     "activity": "Actividad 2.2 · Altura",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.2: un script se ejecuta en consola; la persona introduce la altura en centímetros y debe recibir las equivalencias en pulgadas y pies.",
+    "exampleInput": "altura=152.4 cm",
+    "exampleOutput": "60.00 pulgadas y 5.00 pies."
   },
   {
     "id": "EXAM-U2-068",
@@ -1393,7 +1494,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "En PHP CLI, ¿qué contiene $nombre al escribir «María José» como entrada?",
+    "prompt": "En PHP CLI, ¿qué contiene $nombre al escribir «María José» como entrada? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "María. %s deja de leer en el separador de espacio; para una línea completa se puede usar trim(fgets(STDIN)).",
     "options": [],
     "correct": [],
@@ -1401,7 +1502,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Solo la primera palabra.",
     "image": "",
     "activity": "Actividad 2.2 · fscanf",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "María"
   },
   {
     "id": "EXAM-U2-069",
@@ -1418,7 +1520,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "do-while, rand(1,6), contador incrementado incluso en última tirada.",
     "image": "",
     "activity": "Actividad 2.2 · Dado",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.2: el programa simula tiradas de un dado hasta que sale el primer 5. Debe mostrar las tiradas y cuántas fueron necesarias.",
+    "exampleInput": "tiradas posibles: 1, 3, 5",
+    "exampleOutput": "Tres tiradas; termina al obtener 5."
   },
   {
     "id": "EXAM-U2-070",
@@ -1435,7 +1540,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Suma 8 horas y 100,00 €; el alumno puede usar otras horas, pero debe respetar cálculo.",
     "image": "",
     "activity": "Actividad 2.3 · Horas extra",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: una empleada ha trabajado horas extra de lunes a viernes: 1, 2, 0, 3 y 2 horas. Cada hora extra se paga a 12,50 €.",
+    "exampleInput": "horas=[1,2,0,3,2]",
+    "exampleOutput": "8 horas extra; 100,00 €."
   },
   {
     "id": "EXAM-U2-071",
@@ -1452,7 +1560,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Sumar correctamente 0+2+1+3+2 y multiplicar.",
     "image": "",
     "activity": "Actividad 2.3 · Horas extra",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "100"
   },
   {
     "id": "EXAM-U2-072",
@@ -1469,7 +1578,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Array asociativo, empresa y variación, media 1,102 %.",
     "image": "",
     "activity": "Actividad 2.3 · IBEX",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: utiliza los cinco valores del IBEX del enunciado (Iberdrola 1,85; Inditex 1,42; Santander 0,97; BBVA 0,76; Repsol 0,51) y calcula su variación media.",
+    "exampleInput": "cinco variaciones de la actividad",
+    "exampleOutput": "Media: 1,102 %."
   },
   {
     "id": "EXAM-U2-073",
@@ -1478,7 +1590,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Calcula la media exacta de las cinco variaciones del IBEX dadas en la práctica.",
+    "prompt": "Calcula la media exacta de las cinco variaciones del IBEX dadas en la práctica. Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "1.102. Suma 5.51 y divide entre 5. En la presentación final se puede formatear con number_format si se piden decimales.",
     "options": [],
     "correct": [],
@@ -1486,7 +1598,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Valor 1,102; la salida por defecto es 1.102.",
     "image": "",
     "activity": "Actividad 2.3 · IBEX",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1.102"
   },
   {
     "id": "EXAM-U2-074",
@@ -1503,7 +1616,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "11 elementos; claves de texto, resultados correctos.",
     "image": "",
     "activity": "Actividad 2.3 · Multiplicaciones",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: se quiere construir la tabla de multiplicar del número 2 con claves de texto \"2x0\" hasta \"2x10\".",
+    "exampleInput": "tabla del 2",
+    "exampleOutput": "2x0=0 … 2x10=20."
   },
   {
     "id": "EXAM-U2-075",
@@ -1520,7 +1636,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Validación, dos bucles for y rand(1,10).",
     "image": "",
     "activity": "Actividad 2.4 · Matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.4: el usuario introduce por consola el número de filas y columnas; ambas dimensiones deben ser enteros positivos y cada celda contiene rand(1,10).",
+    "exampleInput": "filas=2, columnas=3",
+    "exampleOutput": "Matriz 2×3 con seis valores entre 1 y 10."
   },
   {
     "id": "EXAM-U2-076",
@@ -1537,7 +1656,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "foreach exterior por filas, interior por celdas; salto al final de cada fila.",
     "image": "",
     "activity": "Actividad 2.4 · Matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.4: un programa ha generado $matriz; ahora solo hay que imprimirla respetando el número de filas y columnas.",
+    "exampleInput": "matriz=[[1,2,3],[4,5,6]]",
+    "exampleOutput": "Dos filas: 1 2 3 / 4 5 6."
   },
   {
     "id": "EXAM-U2-077",
@@ -1577,7 +1699,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Firmas tipadas, cálculo y return; las funciones no deben hacer echo.",
     "image": "",
     "activity": "Tarea02.1 · Funciones tipadas",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: la academia aplica precios por sesión y descuentos. Una función calcula importe inicial y otra calcula el total después de restar un descuento conocido.",
+    "exampleInput": "precio=18, sesiones=5, descuento=9",
+    "exampleOutput": "Importe inicial 90; total 81."
   },
   {
     "id": "EXAM-U2-079",
@@ -1594,7 +1719,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Constante, >= 5, devolución float y 0 cuando no corresponde.",
     "image": "",
     "activity": "Tarea02.1 · Descuento",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: la academia concede un 10 % de descuento cuando se contratan cinco o más sesiones; con cuatro o menos, no hay descuento.",
+    "exampleInput": "importe=90, sesiones=5",
+    "exampleOutput": "9,00 € de descuento."
   },
   {
     "id": "EXAM-U2-080",
@@ -1603,7 +1731,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Con los talleres del enunciado, calcula cuánto paga quien contrata cuatro sesiones de PHP.",
+    "prompt": "Con los talleres del enunciado, calcula cuánto paga quien contrata cuatro sesiones de PHP. Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "60. Con cuatro sesiones no se aplica el descuento del 10 %.",
     "options": [],
     "correct": [],
@@ -1611,7 +1739,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "60 € y explicación del umbral.",
     "image": "",
     "activity": "Tarea02.1 · Casos límite",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "60"
   },
   {
     "id": "EXAM-U2-081",
@@ -1620,7 +1749,7 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Calcula importe inicial, descuento y total de 10 sesiones de Python a 12 €.",
+    "prompt": "Calcula importe inicial, descuento y total de 10 sesiones de Python a 12 €. Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "Importe inicial: 120,00 €; descuento: 12,00 €; total: 108,00 €.",
     "options": [],
     "correct": [],
@@ -1628,7 +1757,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Los tres importes y aplicación del 10 %.",
     "image": "",
     "activity": "Tarea02.1 · Prueba 3",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "No hay echo: $importe = 120, $descuento = 12 y $total = 108."
   },
   {
     "id": "EXAM-U2-082",
@@ -1645,7 +1775,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "foreach, clave como value, precio solo visible, escape y number_format.",
     "image": "",
     "activity": "Tarea02.1 · Generar select",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: el archivo tarifas.php ya ha definido $tarifas como array asociativo, que incluye nombre del taller y precio por sesión.",
+    "exampleInput": "tarifas=[\"PHP\"=>15, \"Python\"=>12]",
+    "exampleOutput": "Dos opciones <option> con nombre, precio y value del nombre."
   },
   {
     "id": "EXAM-U2-083",
@@ -1662,7 +1795,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Todos los datos validados en servidor; errores acumulados; precio no recibido del cliente.",
     "image": "",
     "activity": "Tarea02.1 · Validación completa",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: procesar.php recibe por POST nombre, taller y sesiones; $tarifas existe como array asociativo cargado desde tarifas.php. Hay que recoger todos los errores de una sola vez.",
+    "exampleInput": "nombre en blanco, sesiones=11, taller=\"Desconocido\"",
+    "exampleOutput": "Tres mensajes de error, sin calcular importe."
   },
   {
     "id": "EXAM-U2-084",
@@ -1678,7 +1814,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "Responsabilidades de los cuatro archivos; validación; no duplicación; 10 % ≥5; htmlspecialchars.",
     "image": "",
-    "activity": "Tarea02.1 · Arquitectura"
+    "activity": "Tarea02.1 · Arquitectura",
+    "scenario": "Tarea02.1: una academia ofrece PHP a 15 €, JavaScript a 18 € y Python a 12 € por sesión. El usuario elige nombre, taller y entre 1 y 10 sesiones; desde cinco se aplica un 10 % de descuento. Hay cuatro archivos obligatorios y una única fuente de precios."
   },
   {
     "id": "EXAM-U2-085",
@@ -1695,7 +1832,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Función en archivo independiente, parámetros y retorno tipados, return, operaciones correctas.",
     "image": "",
     "activity": "Actividad 2.8 · Calculadora",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de calculadora: el formulario envía la operación elegida (suma o producto) y dos números. La función debe devolver el resultado y rechazar operaciones desconocidas.",
+    "exampleInput": "calcular(\"producto\",3,4)",
+    "exampleOutput": "12."
   },
   {
     "id": "EXAM-U2-086",
@@ -1712,7 +1852,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Retorno void, salida HTML, for anidados, rand(0,10), sin array.",
     "image": "",
     "activity": "Actividad 2.8 · mostrarTabla",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de tablas: el usuario ha seleccionado filas y columnas entre 1 y 20. La función genera directamente una tabla HTML de números aleatorios entre 0 y 10.",
+    "exampleInput": "filas=2, columnas=2",
+    "exampleOutput": "Tabla HTML de dos filas y dos columnas con enteros aleatorios."
   },
   {
     "id": "EXAM-U2-087",
@@ -1729,7 +1872,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Generar una sola vez; reutilizar valores; firmas int/array/void; tabla HTML.",
     "image": "",
     "activity": "Actividad 2.8 · Responsabilidades",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de tablas: separa el proceso en dos funciones, una que genera una matriz de números aleatorios y otra que únicamente la representa en HTML.",
+    "exampleInput": "filas=2, columnas=3",
+    "exampleOutput": "La misma matriz de seis enteros se genera una sola vez y se muestra sin cambiarla."
   },
   {
     "id": "EXAM-U2-088",
@@ -1746,7 +1892,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Salida 2-1 y paso por valor.",
     "image": "",
     "activity": "Teoría 1.25 · Ámbito",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "2-1"
   },
   {
     "id": "EXAM-U2-089",
@@ -1762,7 +1909,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "$contador = 0;\nfunction incrementar(): void {\n    global $contador;\n    $contador++;\n}\nincrementar();\nincrementar();\necho $contador;",
     "check": "Salida 2 y papel de global.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "2"
   },
   {
     "id": "EXAM-U2-090",
@@ -1778,7 +1926,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "for ($i = 0; $i < 3; $i++) {\n    echo $i;\n}\necho '-' . $i;",
     "check": "Salida 012-3.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "012-3"
   },
   {
     "id": "EXAM-U2-091",
@@ -1794,7 +1943,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "function evaluar(int $numero): string {\n    if ($numero > 10) {\n        return 'alto';\n    }\n    return 'bajo';\n}\necho evaluar(10);",
     "check": "Salida bajo y condición estricta.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bajo"
   },
   {
     "id": "EXAM-U3-001",
@@ -1846,7 +1996,8 @@ export const DWCS_EXAMEN: Question[] = [
     "correct": [],
     "code": "",
     "check": "Explicación de ambos mecanismos, ubicación, al menos una ventaja e inconveniente por mecanismo, SID.",
-    "image": ""
+    "image": "",
+    "scenario": "Caso: el alumno inicia sesión, navega entre varias páginas y quiere conservar su identidad. El navegador acepta cookies y el servidor usa PHP con sesiones activadas."
   },
   {
     "id": "EXAM-U3-004",
@@ -1871,7 +2022,8 @@ export const DWCS_EXAMEN: Question[] = [
     ],
     "code": "",
     "check": "",
-    "image": "cookies-ciclo.jpg"
+    "image": "cookies-ciclo.jpg",
+    "imageCaption": "Diagrama del ciclo de vida de las cookies"
   },
   {
     "id": "EXAM-U3-005",
@@ -1887,7 +2039,9 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "setcookie('idioma', 'gl');\necho $_COOKIE['idioma'] ?? 'sin cookie';",
     "check": "Indicar la condición de primera petición y nueva petición.",
     "image": "cookies-ciclo.jpg",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "sin cookie (si no había una cookie idioma previa)",
+    "imageCaption": "Diagrama del ciclo de vida de las cookies"
   },
   {
     "id": "EXAM-U3-006",
@@ -1902,7 +2056,8 @@ export const DWCS_EXAMEN: Question[] = [
     "correct": [],
     "code": "",
     "check": "Diferenciar cookie y redirección.",
-    "image": "http-response.png"
+    "image": "http-response.png",
+    "imageCaption": "Estructura de una respuesta HTTP"
   },
   {
     "id": "EXAM-U3-007",
@@ -1959,14 +2114,15 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "¿Cuándo caduca esta cookie persistente?",
+    "prompt": "¿Cuándo caduca esta cookie persistente? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "Aproximadamente una hora después de ejecutarse; 3600 son segundos. La opción path=/ aplica a rutas del sitio.",
     "options": [],
     "correct": [],
     "code": "setcookie('tema', 'oscuro', [\n    'expires' => time() + 3600,\n    'path' => '/'\n]);",
     "check": "Una hora, no 3600 días.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "No hay salida visible; se prepara una cookie con caducidad time()+3600 (una hora)."
   },
   {
     "id": "EXAM-U3-010",
@@ -1982,7 +2138,10 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "expires un día, path, secure, httponly y samesite.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, cookies: una web desea recordar el idioma elegido durante 24 horas, en todas sus páginas. La conexión usa HTTPS y la cookie no necesita ser accesible desde JavaScript.",
+    "exampleInput": "idioma=es, caduca en 24 horas",
+    "exampleOutput": "Cookie válida para todo el sitio y enviada solo por HTTPS."
   },
   {
     "id": "EXAM-U3-011",
@@ -1998,7 +2157,10 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "Mismo nombre y path; fecha pasada; llamar antes de generar HTML.",
     "image": "",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, cookies: en una página anterior se creó tema=\"oscuro\" con path=\"/\". Ahora la aplicación debe solicitar su eliminación al navegador.",
+    "exampleInput": "tema=oscuro con ruta /",
+    "exampleOutput": "El navegador recibe Set-Cookie con caducidad pasada y deja de enviarla."
   },
   {
     "id": "EXAM-U3-012",
@@ -2037,7 +2199,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "session_start antes de HTML; lectura del valor previo; incremento; impresión.",
     "image": "",
     "activity": "Ejemplo del temario · Contador por sesión",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, sesiones: una página PHP debe recordar el número de veces que se ha visitado durante una misma sesión del navegador.",
+    "exampleInput": "Tres visitas en la misma sesión",
+    "exampleOutput": "Contador 1, 2, 3."
   },
   {
     "id": "EXAM-U3-014",
@@ -2054,7 +2219,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Tres salidas en orden; supuesto de cookie conservada.",
     "image": "",
     "activity": "Ejemplo del temario · Sesiones",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "1; 2; 3 en visitas sucesivas."
   },
   {
     "id": "EXAM-U3-015",
@@ -2089,14 +2255,15 @@ export const DWCS_EXAMEN: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "¿Qué datos quedan en la misma ejecución tras eliminar solo una variable de sesión?",
+    "prompt": "¿Qué datos quedan en la misma ejecución tras eliminar solo una variable de sesión? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "Ana. unset($_SESSION[\"cesta\"]) elimina solo la cesta, no el resto de la sesión.",
     "options": [],
     "correct": [],
     "code": "session_start();\n$_SESSION['usuario'] = 'Ana';\n$_SESSION['cesta'] = ['libro'];\nunset($_SESSION['cesta']);\necho $_SESSION['usuario'];",
     "check": "Salida Ana y ámbito de la eliminación.",
     "image": "",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Ana"
   },
   {
     "id": "EXAM-U3-017",
@@ -2113,7 +2280,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "session_start, vaciado, misma configuración de cookie, session_destroy, Location y exit.",
     "image": "",
     "activity": "Ejemplo del temario · logout.php",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, cierre de sesión: la aplicación usa cookies para el SID; se necesita cerrar sesión vaciando variables, caducando la cookie y destruyendo los datos del servidor.",
+    "exampleInput": "usuario autenticado que pulsa «Cerrar sesión»",
+    "exampleOutput": "El SID se caduca en el navegador y los datos de sesión se destruyen en el servidor."
   },
   {
     "id": "EXAM-U3-018",
@@ -2164,13 +2334,13 @@ export const DWCS_EXAMEN: Question[] = [
     "unit": 3,
     "kind": "short",
     "level": "medio",
-    "origin": "audio",
-    "prompt": "La profesora menciona «cuatro categorías de autenticación» en el audio. ¿Podemos asumir que coinciden con las cinco técnicas listadas en el temario?",
-    "solution": "No. La grabación menciona cuatro categorías sin enumerarlas, mientras que el temario presenta cinco mecanismos habituales y también clasifica los factores MFA como conocimiento, posesión y biometría. Se deben conocer los mecanismos del texto, pero no atribuir al audio una lista concreta sin verificar.",
+    "origin": "temario",
+    "prompt": "En el temario se comparan OAuth 2.0 y OpenID Connect (OIDC). Explica qué problema resuelve cada uno y por qué no son equivalentes.",
+    "solution": "OAuth 2.0 se utiliza para conceder acceso autorizado a recursos; no proporciona por sí mismo un mecanismo estándar de inicio de sesión. OpenID Connect es una capa de autenticación construida sobre OAuth 2.0 que permite verificar la identidad del usuario.",
     "options": [],
     "correct": [],
     "code": "",
-    "check": "Distinguir evidencia del audio y listado del material.",
+    "check": "Distinguir autorización (OAuth 2.0) y autenticación (OIDC); no identificar ambos como protocolos exclusivamente de login.",
     "image": ""
   },
   {
@@ -2235,7 +2405,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Distinguir hash aleatorio y verificación correcta.",
     "image": "",
     "activity": "Actividad · Hash bcrypt",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "bool(true)\nbool(true)"
   },
   {
     "id": "EXAM-U3-024",
@@ -2277,7 +2448,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "password_verify, session_start, ID y usuario; no guardar password; regenerar SID como mejora.",
     "image": "",
     "activity": "Ejemplo · validar.php",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, login: tras recibir credenciales por POST y recuperar $usuario, queremos comprobar el hash, identificar a la persona mediante la sesión y conservar solo su ID y nombre.",
+    "exampleInput": "usuario encontrado, contraseña correcta",
+    "exampleOutput": "Se guarda en $_SESSION el ID y el nombre, no la contraseña."
   },
   {
     "id": "EXAM-U3-026",
@@ -2294,7 +2468,8 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Papel de sesión, Location y exit.",
     "image": "",
     "activity": "Ejemplo · privada.php",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "HTTP 302 hacia login.php; no se muestra contenido privado."
   },
   {
     "id": "EXAM-U3-027",
@@ -2310,7 +2485,8 @@ export const DWCS_EXAMEN: Question[] = [
     "code": "",
     "check": "Funciones de los seis elementos, password_verify, sesión, control de acceso y cierre.",
     "image": "",
-    "activity": "Ejemplo · Aplicación de autenticación"
+    "activity": "Ejemplo · Aplicación de autenticación",
+    "scenario": "Aplicación de ejemplo del temario: login.php recoge credenciales, usuarios.json guarda usuarios y hashes, usuarios.php busca por nombre, validar.php autentica, privada.php solo permite acceso autenticado y logout.php cierra sesión. Supón que la persona intenta entrar con datos correctos y luego cerrar sesión."
   },
   {
     "id": "EXAM-U3-028",
@@ -2327,7 +2503,10 @@ export const DWCS_EXAMEN: Question[] = [
     "check": "Comprobación en servidor, identidad y rol; respuesta 403; exit.",
     "image": "",
     "activity": "Teoría 5 · RBAC",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, autorización: un endpoint privado solo puede utilizarse por administradores autenticados; en caso contrario debe responder HTTP 403 y terminar.",
+    "exampleInput": "usuario autenticado con rol editor",
+    "exampleOutput": "HTTP 403; operación denegada."
   },
   {
     "id": "EXAM-U3-029",
@@ -2364,6 +2543,7 @@ export const DWCS_EXAMEN: Question[] = [
     "correct": [],
     "code": "",
     "check": "Flujo de login completo, SID, cookie, almacenamiento servidor, protección y logout.",
-    "image": ""
+    "image": "",
+    "scenario": "Una web PHP tiene que saber si quien solicita /privada.php ya ha iniciado sesión. Como HTTP es independiente entre peticiones, se usa un identificador de sesión asociado a datos del servidor."
   }
 ];

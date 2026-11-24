@@ -25,12 +25,20 @@ for (const name of names) {
     if (!Array.isArray(q.options) || !Array.isArray(q.correct) || typeof q.code !== 'string') throw Error(`Campos mal formados: ${q.id}`);
     if (q.kind === 'code') {
       if (!codeTasks.has(q.codeTask)) throw Error(`Falta clasificar código como interpretar/escribir: ${q.id}`);
+      if (q.subjectId === 'dwcs' && q.codeTask === 'write') {
+        if (!q.scenario?.trim() || !q.exampleInput?.trim() || !q.exampleOutput?.trim()) throw Error(`Ejercicio de escribir PHP sin contexto y ejemplo de entrada/salida: ${q.id}`);
+      }
+      if (q.subjectId === 'dwcs' && q.codeTask === 'interpret') {
+        if (!q.code.trim() || !q.expectedOutput?.trim()) throw Error(`Ejercicio de interpretar PHP sin código o resultado: ${q.id}`);
+      }
     } else if (q.codeTask) throw Error(`Subtipo de código en otra modalidad: ${q.id}`);
     if (q.kind === 'single' || q.kind === 'multi') {
       if (q.options.length < 3 || q.options.length > 8 || q.correct.length < 1 || (q.kind === 'single' && q.correct.length !== 1) || (q.kind === 'multi' && q.correct.length < 2)) throw Error(`Número incorrecto de opciones/respuestas: ${q.id}`);
       if (q.options.some(o => typeof o !== 'string' || !o.trim()) || new Set(q.options.map(o => o.trim())).size !== q.options.length) throw Error(`Opción vacía o duplicada: ${q.id}`);
       if (q.correct.some(i => !Number.isInteger(i) || i < 0 || i >= q.options.length) || new Set(q.correct).size !== q.correct.length) throw Error(`Índices de respuestas no válidos: ${q.id}`);
     } else if (q.options.length || q.correct.length) throw Error(`Las respuestas abiertas no deben tener opciones: ${q.id}`);
+    if (q.subjectId === 'dwcs' && q.kind === 'develop' && !q.scenario?.trim()) throw Error(`Desarrollo sin contexto suficiente: ${q.id}`);
+    if (q.image && new Set(['arrays-diagrama.png','cliente-web.png']).has(q.image)) throw Error(`Imagen de tema incorrecto asignada a ${q.id}: ${q.image}`);
     if (q.image) {
       const imagePath = join('public/temario', q.image);
       if (!existsSync(imagePath) || statSync(imagePath).size === 0) throw Error(`Imagen no disponible: ${q.id}, ${q.image}`);

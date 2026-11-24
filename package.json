@@ -1,8 +1,8 @@
 {
   "name": "modo-estudio",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "private": true,
-  "description": "Plataforma móvil ESTUDIO con banco DWCS de 379 preguntas y modos de escribir e interpretar PHP",
+  "description": "Plataforma móvil ESTUDIO con 379 preguntas DWCS contextualizadas y soluciones razonadas",
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --configuration production",

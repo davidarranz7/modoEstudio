@@ -1,10 +1,10 @@
-# ESTUDIO — Banco de exámenes revisado (DWCS)
+# ESTUDIO — Banco DWCS contextualizado y corregido (v6.1)
 
 Aplicación Angular 21 mobile-first para preparar exámenes de **Desenvolvemento Web Contorno Servidor**. Usa la identidad visual que el usuario aprobó de Tarjeteros (mismos CSS, colores, composición, modo oscuro y navegación) y conserva su estructura preparada para **añadir otras asignaturas**.
 
 ## Banco de preguntas
 
-La revisión incorpora **379 preguntas** basadas en el temario, las actividades y los contenidos de PHP destacados por la profesora en las grabaciones con transcripción verificable.
+La revisión conserva **379 preguntas** basadas en el temario, las actividades y los contenidos de PHP destacados por la profesora en las grabaciones con transcripción verificable.
 
 | Tema | Preguntas | Materia |
 | --- | ---: | --- |
@@ -26,6 +26,18 @@ La revisión incorpora **379 preguntas** basadas en el temario, las actividades 
 Las preguntas tienen dos niveles (media y alta), soluciones y —en las abiertas— puntos concretos para corregir la respuesta. Las modalidades de código se pueden practicar por separado o juntas.
 
 Para ver qué indicó realmente la profesora, consulta **[GUIA_EXAMEN.md](GUIA_EXAMEN.md)**. Las 71 preguntas señaladas como relacionadas con el audio **no son necesariamente preguntas literales de examen**, sino contenidos priorizados usando las indicaciones de las grabaciones 2 y 3. Se excluyó la grabación de Despliegue; la grabación larga 7 sigue sin transcripción fiable.
+
+## Correcciones de calidad incluidas
+
+- Los **66 ejercicios de escribir PHP** incluyen contexto, datos de ejemplo y salida esperada.
+- Los **71 ejercicios de interpretar PHP** incluyen código y resultado o efecto de ejecución; se diferencia claramente un resultado calculado de una salida impresa con `echo`.
+- Las **29 preguntas de desarrollo** disponen de contexto independiente del enunciado original.
+- Los **152 test** muestran explícitamente las opciones correctas después de responder.
+- Se han eliminado las asociaciones de dos capturas que no correspondían con su pregunta.
+- Se ha corregido el ejercicio IBEX para incluir las cinco empresas que aparecen en la actividad 2.3.
+- Se conserva la identidad visual móvil original y los IDs de las preguntas, para mantener la compatibilidad con el progreso guardado.
+
+Consulta `CALIDAD_PREGUNTAS.md` para revisar los criterios de elaboración.
 
 ## Cómo estudiar desde el móvil
 

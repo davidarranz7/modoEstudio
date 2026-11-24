@@ -17,6 +17,10 @@ export class ExamComponent {
   isCorrect(index:number){return this.study.current()?.correct.includes(index)??false;}
   goHome(){this.paused.set(false);void this.router.navigateByUrl('/inicio');}
   grade(g:Grade){this.study.grade(g);}
+  revealAnswer(){
+    this.study.reveal();
+    setTimeout(() => document.querySelector('.answer')?.scrollIntoView({behavior:'smooth',block:'nearest'}), 60);
+  }
   next(){this.study.next();window.scrollTo({top:0,behavior:'instant'});}
   skip(){this.study.skip();window.scrollTo({top:0,behavior:'instant'});}
   togglePause(){this.paused.update(v=>!v);}

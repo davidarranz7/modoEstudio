@@ -17,7 +17,12 @@
             </button>
             @if(isExpanded(answer.questionId)){
               <div class="exam-review-body">
-                @if(q.image){<img [src]="'/temario/'+q.image" [alt]="'Imagen del temario para '+q.id" loading="lazy"/>}
+                @if(q.scenario){<p class="exam-review-label">Contexto</p><p>{{q.scenario}}</p>}
+                @if(q.image){<img [src]="'/temario/'+q.image" [alt]="q.imageCaption||'Imagen del temario'" loading="lazy"/>}
+                @if(q.exampleInput || q.exampleOutput){
+                  <p class="exam-review-label">Ejemplo de entrada</p><p>{{q.exampleInput||'No especificado'}}</p>
+                  <p class="exam-review-label">Resultado esperado para el ejemplo</p><pre>{{q.exampleOutput||'No especificado'}}</pre>
+                }
                 @if(q.code){<pre>{{q.code}}</pre>}
                 @if(q.kind==='single'||q.kind==='multi'){
                   <p class="exam-review-label">Tu respuesta</p><p>{{answer.selected.length?selectedOptions(q, answer):'Sin responder'}}</p>
@@ -25,6 +30,7 @@
                 }@else{
                   <p class="exam-review-label">Tu respuesta</p><pre>{{answer.draft||'Sin responder'}}</pre>
                 }
+                @if(q.expectedOutput){<p class="exam-review-label">Salida o resultado de la ejecución</p><pre>{{q.expectedOutput}}</pre>}
                 <p class="exam-review-label">Explicación y solución</p><pre>{{q.solution}}</pre>
                 @if(q.check){<p class="exam-review-tip">Puntos clave: {{q.check}}</p>}
               </div>

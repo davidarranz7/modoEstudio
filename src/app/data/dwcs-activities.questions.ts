@@ -88,7 +88,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "",
     "image": "xdebug-wizard.png",
-    "activity": "Actividad 1.2 · Xdebug"
+    "activity": "Actividad 1.2 · Xdebug",
+    "imageCaption": "Captura del asistente de instalación de Xdebug"
   },
   {
     "id": "ACT-005",
@@ -104,7 +105,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "Wizard, extensión correcta, php.ini, reinicio, verificación, breakpoint y nueva petición.",
     "image": "",
-    "activity": "Actividad 1.2 · Xdebug"
+    "activity": "Actividad 1.2 · Xdebug",
+    "scenario": "Actividad 1.2: se trabaja en Windows con XAMPP y PHP 8.2.12 y el editor Visual Studio Code. Se desea depurar una página PHP que se sirve por HTTP, detener la ejecución en un punto de ruptura y observar el estado del programa. El entorno aún no tiene Xdebug instalado."
   },
   {
     "id": "ACT-006",
@@ -183,7 +185,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "STDIN, especificadores %d y %f, variables de salida.",
     "image": "",
     "activity": "Actividad 2.2 · Algoritmos",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Ejercicios de algoritmia por consola: se deben leer una edad entera y una altura decimal, ambas introducidas en una sola línea del terminal.",
+    "exampleInput": "25 1.75",
+    "exampleOutput": "En $edad queda 25 (int) y en $altura, 1.75 (float)."
   },
   {
     "id": "ACT-010",
@@ -216,7 +221,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Lectura con fscanf desde CLI; conversión; documento HTML5; resultados de pulgadas y pies.",
     "image": "",
     "activity": "Actividad 2.2 · Algoritmos",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.2: la entrada procede de un terminal (PHP CLI), no de un formulario web. Debes generar un documento HTML5 válido como salida. Conversiones: 1 pulgada = 2,54 cm; 1 pie = 12 pulgadas.",
+    "exampleInput": "Altura: 152.4 cm",
+    "exampleOutput": "Pulgadas: 60.00; pies: 5.00 (se muestra en HTML5)."
   },
   {
     "id": "ACT-012",
@@ -233,7 +241,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "do-while, rand(1,6), acumulador de intentos, HTML5, tiradas y total.",
     "image": "",
     "activity": "Actividad 2.2 · Algoritmos",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.2: simula un dado justo con valores enteros de 1 a 6. En cada tirada debes informar de su valor y detenerte cuando aparezca el primer 5.",
+    "exampleInput": "Una secuencia posible de tiradas: 2, 6, 5",
+    "exampleOutput": "Tiradas: 2, 6, 5. Total de tiradas: 3."
   },
   {
     "id": "ACT-013",
@@ -258,7 +269,7 @@ export const DWCS_ACTIVITIES: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "Actividad 2.2: escribe PHP que clasifique una nota decimal usando switch, de acuerdo con la tabla adjunta. Considera la nota validada dentro del rango 0..10.",
+    "prompt": "Una nota decimal (entre 0 y 10) debe convertirse a calificación textual usando switch. Usa las bandas de la tabla proporcionada y entrega un código que maneje notas con decimales.",
     "solution": "<?php\nswitch (true) {\n    case $nota >= 10: $calificacion = \"Matrícula de honor\"; break;\n    case $nota >= 9: $calificacion = \"Sobresaliente\"; break;\n    case $nota >= 7: $calificacion = \"Notable\"; break;\n    case $nota >= 5: $calificacion = \"Aprobado\"; break;\n    default: $calificacion = \"Suspenso\";\n}\necho $calificacion;",
     "options": [],
     "correct": [],
@@ -266,7 +277,11 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "switch(true) o equivalente; tramos correctos 10, 9, 7, 5, <5; controlar que la nota sea válida.",
     "image": "notas-tabla.png",
     "activity": "Actividad 2.2 · Calificaciones",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tabla de calificaciones: 10 = Matrícula de honor; 9–9,99 = Sobresaliente; 7–8,99 = Notable; 5–6,99 = Aprobado; por debajo de 5 = Suspenso. Recibirás una nota decimal válida entre 0 y 10. Usa switch para clasificarla.",
+    "exampleInput": "nota = 8.5",
+    "exampleOutput": "Notable",
+    "imageCaption": "Tabla de conversión de notas a calificaciones"
   },
   {
     "id": "ACT-015",
@@ -283,7 +298,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Cinco valores, recorrido, acumulador y multiplicación por 12,50.",
     "image": "",
     "activity": "Actividad 2.3 · Horas extra",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: registro de las horas extra de lunes a viernes. Usa un array de cinco valores y una tarifa fija de 12,50 euros por hora.",
+    "exampleInput": "horas = [1, 0, 2, 3, 1]",
+    "exampleOutput": "Total: 7 horas; importe: 87,50 €."
   },
   {
     "id": "ACT-016",
@@ -315,15 +333,18 @@ export const DWCS_ACTIVITIES: Question[] = [
     "kind": "code",
     "level": "medio",
     "origin": "temario",
-    "prompt": "Crea un array asociativo para tres empresas y su variación porcentual. Recorre el array mostrando empresa y porcentaje.",
-    "solution": "<?php\n$valores = [\"Iberdrola\" => 1.85, \"Inditex\" => 1.42, \"Santander\" => 0.97];\nforeach ($valores as $empresa => $variacion) {\n    echo \"$empresa: $variacion %<br>\";\n}",
+    "prompt": "Crea el array asociativo con las cinco variaciones de empresas del IBEX indicadas en el caso; recórrelo mostrando nombre y variación de cada empresa y calcula la variación media.",
+    "solution": "$ibex = [\n    \"Iberdrola\" => 1.85,\n    \"Inditex\" => 1.42,\n    \"Santander\" => 0.97,\n    \"BBVA\" => 0.76,\n    \"Repsol\" => 0.51\n];\n$suma = 0;\nforeach ($ibex as $empresa => $variacion) {\n    echo \"$empresa: $variacion%<br>\";\n    $suma += $variacion;\n}\necho \"Variación media: \" . ($suma / count($ibex)) . \"%\";",
     "options": [],
     "correct": [],
     "code": "",
-    "check": "Claves de texto, valores numéricos y foreach clave => valor.",
+    "check": "Incluye las cinco empresas originales, foreach con clave y valor, suma acumulada y media 5,51/5=1,102 %.",
     "image": "",
     "activity": "Actividad 2.3 · IBEX",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3, IBEX: considera las variaciones porcentuales Iberdrola 1,85; Inditex 1,42; Santander 0,97; BBVA 0,76; Repsol 0,51. El array debe incluir las cinco empresas y recorrerlas.",
+    "exampleInput": "Iberdrola 1,85; Inditex 1,42; Santander 0,97; BBVA 0,76; Repsol 0,51",
+    "exampleOutput": "Media de variación: 1,102 %."
   },
   {
     "id": "ACT-018",
@@ -363,7 +384,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Ascendente de 0 a 3; de -3 a 0 para negativos.",
     "image": "",
     "activity": "Actividad 2.3 · Secuencias",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: un programa recibe un entero n. Para n positivo la secuencia va de 0 a n; si n es negativo va desde n hasta 0.",
+    "exampleInput": "n = -3",
+    "exampleOutput": "-3 -2 -1 0"
   },
   {
     "id": "ACT-020",
@@ -380,7 +404,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Claves con concatenación o interpolación, 0..10, multiplicación y salida.",
     "image": "",
     "activity": "Actividad 2.3 · Multiplicar",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.3: una tabla de multiplicar debe almacenar cada resultado como valor y la operación como clave de texto, desde multiplicar por 0 hasta 10.",
+    "exampleInput": "número = 2",
+    "exampleOutput": "2x0=0, 2x1=2, …, 2x10=20."
   },
   {
     "id": "ACT-021",
@@ -397,7 +424,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Dos bucles anidados, índices $i/$j y rand(1,10).",
     "image": "",
     "activity": "Actividad 2.4 · Matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.4: el usuario indica el número de filas y columnas. Cada celda se rellena con un entero aleatorio del 1 al 10. Se pretende crear una matriz en memoria.",
+    "exampleInput": "filas = 2, columnas = 3",
+    "exampleOutput": "Por ejemplo: [3, 8, 2] / [4, 1, 7]. Los valores serán aleatorios."
   },
   {
     "id": "ACT-022",
@@ -480,7 +510,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "GET, action vacío, prendas[] compartido, color con name propio.",
     "image": "",
     "activity": "Actividad 2.5 · Formulario prendas",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.5: formulario de búsqueda de ropa. Se pueden marcar varias prendas (casillas de verificación), pero un solo color, y todo se envía por GET a la misma página.",
+    "exampleInput": "Prendas: camiseta y chaqueta; color: #ff0000",
+    "exampleOutput": "$_GET[\"prendas\"] contiene [\"camiseta\",\"chaqueta\"] y $_GET[\"color\"] contiene \"#ff0000\"."
   },
   {
     "id": "ACT-026",
@@ -520,7 +553,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Comprobar existencia y tipo array, recorrer y escapar salida HTML.",
     "image": "",
     "activity": "Actividad 2.5 · Formulario prendas",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.5: un formulario GET envía varias prendas en un campo llamado prendas[]. La selección puede estar vacía y el cliente podría manipular el tipo recibido.",
+    "exampleInput": "$_GET[\"prendas\"] = [\"camiseta\", \"chaqueta\"]",
+    "exampleOutput": "Se muestran camiseta y chaqueta sin interpretar HTML."
   },
   {
     "id": "ACT-028",
@@ -537,7 +573,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "POST, fecha/hora, ambos radio con mismo name, alergenos[] y multiple.",
     "image": "",
     "activity": "Actividad 2.5 · Reserva de brunch",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.5: una persona reserva un brunch indicando fecha, hora, interior o terraza y varios alérgenos. El formulario se envía por POST al mismo script.",
+    "exampleInput": "fecha=2026-11-25, hora=13:30, ubicacion=terraza, alergenos=[\"gluten\",\"huevo\"]",
+    "exampleOutput": "$_POST contendrá los datos de reserva y un array de alérgenos."
   },
   {
     "id": "ACT-029",
@@ -595,7 +634,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Escapar el valor al enviarlo al HTML.",
     "image": "",
     "activity": "Actividad 2.5 · XSS",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.5: un formulario recibe texto arbitrario, incluidos caracteres < y >. Debes presentarlo en una respuesta HTML sin interpretarlo como marcado o script.",
+    "exampleInput": "entrada = <script>alert(1)</script>",
+    "exampleOutput": "Se ve literalmente <script>alert(1)</script> como texto, sin ejecutarse."
   },
   {
     "id": "ACT-032",
@@ -651,7 +693,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Recorrer índices de name y acceder a size[$i], escapar nombre al mostrar.",
     "image": "",
     "activity": "Actividad 2.6 · Varios ficheros",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad 2.6: el formulario tiene method=\"post\", enctype=\"multipart/form-data\" y un input name=\"ficheros[]\" multiple. Los metadatos llegan agrupados por propiedades en $_FILES.",
+    "exampleInput": "Dos archivos: a.pdf (12000 bytes), b.png (22000 bytes)",
+    "exampleOutput": "Una línea informativa por archivo, con su nombre y tamaño."
   },
   {
     "id": "ACT-035",
@@ -692,7 +737,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "$_FILES arrays, error, tamaño, tipo, nombre seguro, move_uploaded_file, directorio.",
     "image": "",
-    "activity": "Actividad 2.6 · Seguridad"
+    "activity": "Actividad 2.6 · Seguridad",
+    "scenario": "Actividad 2.6: una página recibe varios ficheros mediante un formulario POST multipart/form-data con name=\"ficheros[]\" y multiple. Los archivos pueden contener nombres manipulados, tipos MIME no fiables o superar el tamaño permitido. El objetivo es guardarlos en uploads de manera controlada."
   },
   {
     "id": "ACT-037",
@@ -756,7 +802,7 @@ export const DWCS_ACTIVITIES: Question[] = [
     "kind": "code",
     "level": "alto",
     "origin": "temario",
-    "prompt": "En errors.php, ¿qué tipos de problema se investigan al ejecutar $b = $a + \"1.3€\" y luego $c = $b / CERO?",
+    "prompt": "En errors.php, ¿qué tipos de problema se investigan al ejecutar $b = $a + \"1.3€\" y luego $c = $b / CERO? Indica qué resultado se observa al ejecutar el fragmento y razona por qué.",
     "solution": "La conversión de una cadena numérica con caracteres adicionales puede generar un aviso o warning, y la división entre cero puede lanzar DivisionByZeroError. Los niveles dependen de la versión de PHP.",
     "options": [],
     "correct": [],
@@ -764,7 +810,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Avisa sobre conversión de string, división por cero, error_reporting/display_errors.",
     "image": "",
     "activity": "Actividad · Directivas de errores",
-    "codeTask": "interpret"
+    "codeTask": "interpret",
+    "expectedOutput": "Primero puede producirse un E_WARNING por la cadena \"1.3€\". Después, la división entre cero lanza DivisionByZeroError y detiene el script si no se controla; no hay un valor numérico normal para $c."
   },
   {
     "id": "ACT-041",
@@ -822,7 +869,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Función y retorno float, constante 0.10, condición sesiones >= 5.",
     "image": "",
     "activity": "Tarea02.1 · Inscripción en talleres",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: una academia aplica un descuento del 10 % a partir de cinco sesiones. El descuento depende del importe inicial y del número de sesiones.",
+    "exampleInput": "importe=90, sesiones=5",
+    "exampleOutput": "Descuento: 9,00 €."
   },
   {
     "id": "ACT-044",
@@ -862,7 +912,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Recorrido foreach, value = clave, precio visible, escapado de nombre.",
     "image": "",
     "activity": "Tarea02.1 · Inscripción en talleres",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: los precios de todos los talleres están centralizados en un array asociativo $tarifas cargado con require_once. Las opciones HTML deben actualizarse automáticamente si aparece un nuevo taller.",
+    "exampleInput": "tarifas=[\"PHP\"=>15.0, \"Python\"=>12.0]",
+    "exampleOutput": "Dos opciones: PHP — 15,00 €/sesión y Python — 12,00 €/sesión."
   },
   {
     "id": "ACT-046",
@@ -878,7 +931,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "Nombre, entero 1..10, taller del catálogo, $errores[], salida segura, cálculo solo si válido.",
     "image": "",
-    "activity": "Tarea02.1 · Inscripción en talleres"
+    "activity": "Tarea02.1 · Inscripción en talleres",
+    "scenario": "Tarea02.1: se recibe mediante POST el nombre del alumno, un taller y las sesiones. Los talleres válidos proceden de tarifas.php: PHP 15 €, JavaScript 18 € y Python 12 € por sesión. Las sesiones deben ser enteras de 1 a 10 y el nombre no puede estar vacío o compuesto solo por espacios. Hay que mostrar todos los errores antes de calcular nada."
   },
   {
     "id": "ACT-047",
@@ -895,7 +949,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Parámetros y retornos tipados, return y cálculo sin echo.",
     "image": "",
     "activity": "Tarea02.1 · Inscripción en talleres",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Tarea02.1: necesitas separar el cálculo de la cantidad inicial (precio por sesiones) del cálculo del importe final (importe menos descuento).",
+    "exampleInput": "precio=18, sesiones=5, descuento=9",
+    "exampleOutput": "Importe inicial: 90; total: 81."
   },
   {
     "id": "ACT-048",
@@ -953,7 +1010,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Dos bucles, rand(0,10), return array y tipos.",
     "image": "",
     "activity": "Actividad · Funciones y matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de matrices: el usuario elige filas y columnas entre 1 y 20. La matriz debe quedar rellena con enteros aleatorios del 0 al 10 y devolverse sin generar HTML.",
+    "exampleInput": "filas=2, columnas=2",
+    "exampleOutput": "Ejemplo de retorno: [[3,8],[1,5]]; los valores varían."
   },
   {
     "id": "ACT-051",
@@ -970,7 +1030,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Recorrido anidado, table/tr/td y no invocar rand.",
     "image": "",
     "activity": "Actividad · Funciones y matrices",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "Actividad de matrices: otro procedimiento ya ha creado $matriz con sus números. Tu función se limita a representarlos en HTML sin sustituir ni recalcular ningún dato.",
+    "exampleInput": "matriz=[[3,8],[1,5]]",
+    "exampleOutput": "Tabla HTML de 2 filas y 2 columnas: 3 8 / 1 5."
   },
   {
     "id": "ACT-052",
@@ -1003,7 +1066,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "session_start antes de HTML, valor inicial y aumento.",
     "image": "",
     "activity": "Ejemplo · Contador de sesiones",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, sesiones: cada petición HTTP corresponde a una visita a una misma página. El servidor debe conservar el total durante la sesión del navegador.",
+    "exampleInput": "Tres visitas sucesivas con la misma cookie de sesión",
+    "exampleOutput": "El contador muestra 1, después 2 y después 3."
   },
   {
     "id": "ACT-054",
@@ -1086,7 +1152,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Comprobar usuario no nulo, password_verify, session_start y guardar el identificador, nunca la contraseña.",
     "image": "",
     "activity": "Ejemplo · Login con JSON",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, autenticación: el sistema ya ha recuperado del archivo JSON el array $usuario (o null), y $password contiene el texto introducido en el formulario.",
+    "exampleInput": "usuario id=7 y contraseña introducida correcta",
+    "exampleOutput": "Se guarda el ID 7 en $_SESSION y se reconoce al usuario."
   },
   {
     "id": "ACT-058",
@@ -1103,7 +1172,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "session_start, isset, header Location, exit antes de HTML.",
     "image": "",
     "activity": "Ejemplo · Página privada",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, página privada: al recibir una nueva petición HTTP, el servidor debe recuperar la sesión y permitir acceso únicamente si existe el identificador de usuario autenticado.",
+    "exampleInput": "$_SESSION no contiene id_usuario",
+    "exampleOutput": "Se envía Location: login.php y se detiene la página privada."
   },
   {
     "id": "ACT-059",
@@ -1119,7 +1191,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "POST, verificación, mensaje en sesión, redirección, mostrar + unset.",
     "image": "",
-    "activity": "Ejemplo · Login con JSON"
+    "activity": "Ejemplo · Login con JSON",
+    "scenario": "Aplicación de autenticación con datos en usuarios.json: login.php recoge el usuario y la contraseña, validar.php comprueba las credenciales mediante usuarios.php y password_verify. Se introduce un usuario inexistente o una contraseña incorrecta y se vuelve a login.php."
   },
   {
     "id": "ACT-060",
@@ -1135,7 +1208,8 @@ export const DWCS_ACTIVITIES: Question[] = [
     "code": "",
     "check": "Limpiar datos del script, cookie de sesión, destruir en servidor, redireccionar.",
     "image": "",
-    "activity": "Ejemplo · Logout"
+    "activity": "Ejemplo · Logout",
+    "scenario": "Ejemplo de la UD3: una persona había iniciado sesión y navega con la cookie PHPSESSID. Al pulsar «Cerrar sesión», el servidor debe invalidar los datos de autenticación y evitar que el navegador siga reutilizando el identificador anterior."
   },
   {
     "id": "ACT-061",
@@ -1168,7 +1242,10 @@ export const DWCS_ACTIVITIES: Question[] = [
     "check": "Comprobar rol en servidor, denegar con 403, no confiar en ocultar botones.",
     "image": "",
     "activity": "Ejemplo · Roles RBAC",
-    "codeTask": "write"
+    "codeTask": "write",
+    "scenario": "UD3, autorización: la operación modificar usuarios está reservada al rol administrador. El identificador y el rol de usuario se guardan en la sesión del servidor.",
+    "exampleInput": "rol actual=\"usuario\"",
+    "exampleOutput": "La operación de administrador se deniega."
   },
   {
     "id": "ACT-063",

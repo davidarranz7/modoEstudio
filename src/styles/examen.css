@@ -156,3 +156,19 @@
 .complete-accuracy{font-size:36px;font-weight:700;color:var(--blue);margin-top:16px}.complete-accuracy span{font-size:14px;color:var(--muted);font-weight:500}
 .library-activity-tag{font-size:10px;color:var(--blue);background:var(--blue-soft);padding:7px;border-radius:6px;margin-bottom:10px}
 @media(max-width:360px){.session-sheet .session-options{gap:3px}.session-sheet .session-options button{padding:8px 0}.session-sheet .session-options strong{font-size:15px}.exam-result-row{grid-template-columns:50px 1fr 18px}.exam-result-score{width:49px;height:53px}}
+
+.case-context{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:15px 14px;margin:16px 0 6px}
+.case-kicker{font-size:10px;letter-spacing:.09em;color:var(--blue);font-weight:700;display:block;margin-bottom:8px}
+.case-context p{font-size:13px;line-height:1.64;color:var(--text);white-space:pre-line}
+.practice-example{border:1px solid var(--line);border-radius:12px;padding:14px;margin:16px 0 21px;background:color-mix(in srgb,var(--blue-soft) 40%,var(--surface))}
+.practice-example>div+div{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.practice-example strong,.answer-correct-options strong,.expected-output-answer strong{font-size:11px;font-weight:700;color:var(--blue);display:block;margin-bottom:7px}
+.practice-example p,.practice-example pre{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
+.practice-example pre{background:transparent!important;padding:0!important;border:0!important;font-family:'JetBrains Mono',monospace}
+.answer-subhead{font-size:12px!important;font-weight:700;color:var(--muted)!important;margin:14px 0 6px!important}
+.answer-correct-options{padding:12px 14px;background:color-mix(in srgb,var(--green) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--green) 25%,var(--line));border-radius:11px;margin:15px 0}
+.answer-correct-options strong{color:var(--green)}
+.answer-correct-options p{font-size:13px;margin:5px 0!important;line-height:1.5!important}
+.expected-output-answer{padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;margin:14px 0}
+.expected-output-answer pre{margin:7px 0 0!important;background:transparent!important;color:var(--text)!important;border:0!important;padding:0!important;font:12px/1.6 'JetBrains Mono',monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.flashcard .answer{padding-bottom:40px}
