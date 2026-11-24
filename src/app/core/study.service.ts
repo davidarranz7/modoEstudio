@@ -77,12 +77,13 @@ export interface ExamSession {
 }
 const storageKey = 'estudio-php-v1';
 const sessionKey = 'estudio-php-session-v1';
+const filterPreferencesKey = 'estudio-simulacro-preferencias-v1';
 const defaultRecord = (): AnswerRecord => ({ seen: 0, good: 0, medium: 0, bad: 0, lastGrade: null, starred: false, note: '', lastDate: '', lastDraft: '' });
 const defaultFilters: Filters = { subjectId: DEFAULT_SUBJECT_ID, units: [1, 2, 3], mode: 'mixed', level: 'all', count: 10, source: 'all', content: 'all', withImages: false, weakOnly: false, strict:false };
 const modeKinds: Record<ExamMode, QuestionKind[]> = {
   mixed: ['single', 'multi', 'short', 'develop', 'code', 'match', 'order'],
   test: ['single', 'multi'], single: ['single'], multi: ['multi'],
-  written: ['short', 'develop', 'code'], short: ['short'], develop: ['develop'], code: ['code'],
+  written: ['short', 'develop'], short: ['short'], develop: ['develop'], code: ['code'],
   write: ['code'], interpret: ['code'],match:['match'],order:['order']
 };
 const cleanAnswer = (q: Question, session: ExamSession, grade: Grade | null, skipped = grade === null): ExamAnswer => ({
@@ -120,6 +121,26 @@ export class StudyService {
   readonly filtered = computed(() => this.questions().filter(q => this.matches(q, this.filters())));
   constructor() {
     try {
+      const storedFilters = localStorage.getItem(filterPreferencesKey);
+      if (storedFilters) {
+        const previous = JSON.parse(storedFilters) as Partial<Filters>;
+        const subject = findSubject(previous.subjectId ?? '') ?? findSubject(DEFAULT_SUBJECT_ID)!;
+        const available = subject.themes.map(theme => theme.id);
+        const units = Array.isArray(previous.units) ? previous.units.filter(id => available.includes(id)) : [];
+        this.filters.set({
+          ...defaultFilters,
+          subjectId: subject.id,
+          units: units.length ? [...new Set(units)] : available,
+          mode: previous.mode && Object.hasOwn(modeKinds, previous.mode) ? previous.mode : defaultFilters.mode,
+          level: ['all','medio','alto'].includes(previous.level ?? '') ? previous.level! : 'all',
+          count: typeof previous.count === 'number' && [0,10,20,30].includes(previous.count) ? previous.count : 10,
+          source: ['all','audio','temario'].includes(previous.source ?? '') ? previous.source! : 'all',
+          content: ['all','activities','theory'].includes(previous.content ?? '') ? previous.content! : 'all',
+          weakOnly: previous.weakOnly === true,
+          strict: previous.strict === true,
+          withImages: previous.withImages === true
+        });
+      }
       const saved = localStorage.getItem(storageKey);
       if (saved) {
         const state = JSON.parse(saved);
@@ -214,13 +235,23 @@ export class StudyService {
     return true;
   }
   saveNote(id: string, note: string): void { this.updateRecord(id, { note }); }
-  updateFilters(change: Partial<Filters>): void { this.filters.update(f => ({ ...f, ...change })); }
+  private persistFilters(): void {
+    try { localStorage.setItem(filterPreferencesKey, JSON.stringify(this.filters())); } catch {}
+  }
+  updateFilters(change: Partial<Filters>): void {
+    this.filters.update(f => ({ ...f, ...change }));
+    this.persistFilters();
+  }
   selectSubject(id: string): void {
     const subject = findSubject(id);
-    if (subject) this.filters.update(f => ({ ...f, subjectId: id, units: subject.themes.map(t => t.id), weakOnly: false }));
+    if (subject) {
+      this.filters.update(f => ({ ...f, subjectId: id, units: subject.themes.map(t => t.id), source: 'all', content: 'all', weakOnly: false, withImages: false }));
+      this.persistFilters();
+    }
   }
   toggleUnit(unit: number): void {
     this.filters.update(f => ({ ...f, units: f.units.includes(unit) ? f.units.filter(n => n !== unit) : [...f.units, unit].sort() }));
+    this.persistFilters();
   }
   matches(q: Question, f: Filters): boolean {
     if (q.subjectId !== f.subjectId || !f.units.includes(q.unit)) return false;
@@ -246,12 +277,12 @@ export class StudyService {
     this.persistSession();
     return true;
   }
-  startQuick(subjectId: string, units: number[], mode: ExamMode, weakOnly = false): boolean {
+  startQuick(subjectId: string, units: number[], mode: ExamMode, weakOnly = false, content: ContentFilter = 'all'): boolean {
     const subject = findSubject(subjectId);
     if (!subject) return false;
     const chosenUnits = units.filter(unit => subject.themes.some(t => t.id === unit));
     if (!chosenUnits.length) return false;
-    return this.start(undefined, { ...defaultFilters, subjectId, units: chosenUnits, mode, count: 10, weakOnly });
+    return this.start(undefined, { ...defaultFilters, subjectId, units: chosenUnits, mode, content, count: 10, weakOnly });
   }
   private updateSession(patch: Partial<ExamSession>): void {
     this.session.update(s => s ? { ...s, ...patch } : null);

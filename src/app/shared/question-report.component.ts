@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
-import { ReportReason, StudyService } from '../core/study.service';
+import { QuestionReport, ReportReason, StudyService } from '../core/study.service';
 
 @Component({
  selector:'app-question-report',standalone:true,changeDetection:ChangeDetectionStrategy.OnPush,
  template:`<div class="question-report">
    <div class="feedback-line">
-     <button type="button" class="question-report-trigger" [class.has-report]="existing()?.reasons?.length" (click)="openEditor()">{{existing()?.reasons?.length?'⚑ Problema reportado · editar':'⚑ Reportar problema'}}</button>
-     <button class="question-report-trigger" type="button" (click)="study.toggleUseful(questionId)" [attr.aria-pressed]="!!existing()?.useful">{{existing()?.useful?'♥ Útil':'♡ Útil'}}</button>
+     <button type="button" class="question-report-trigger" [class.has-report]="hasReport()" (click)="openEditor()">{{hasReport()?'⚑ Problema reportado · editar':'⚑ Reportar problema'}}</button>
+     <button class="question-report-trigger" type="button" (click)="study.toggleUseful(questionId)" [attr.aria-pressed]="!!isUseful()">{{isUseful()?'♥ Útil':'♡ Útil'}}</button>
    </div>
    @if(open()){
     <section class="question-report-editor"><strong>¿Qué falla? Puedes marcar varios motivos</strong>
@@ -16,7 +16,7 @@ import { ReportReason, StudyService } from '../core/study.service';
       }
      </div>
      <label>Observación (opcional)<textarea rows="3" maxlength="2000" [value]="comment()" (input)="comment.set($any($event.target).value)" placeholder="Explica en qué parte está el error..."></textarea></label>
-     <div class="question-report-actions"><button type="button" class="question-report-save" [disabled]="!selected().length" (click)="save()">Guardar aviso</button><button type="button" (click)="open.set(false)">Cancelar</button>@if(existing()?.reasons?.length){<button type="button" class="question-report-remove" (click)="remove()">Quitar aviso</button>}</div>
+     <div class="question-report-actions"><button type="button" class="question-report-save" [disabled]="!selected().length" (click)="save()">Guardar aviso</button><button type="button" (click)="open.set(false)">Cancelar</button>@if(hasReport()){<button type="button" class="question-report-remove" (click)="remove()">Quitar aviso</button>}</div>
      <p>Tu reporte queda guardado en este dispositivo. Exporte los reportes desde el banco para revisarlos o corregirlos.</p>
     </section>
    }
@@ -28,7 +28,9 @@ export class QuestionReportComponent {
  readonly open=signal(false);
  readonly selected=signal<ReportReason[]>([]);
  readonly comment=signal('');
- readonly existing=computed(()=>this.study.reports()[this.questionId]);
+ readonly existing=computed<QuestionReport | undefined>(()=>this.study.reports()[this.questionId]);
+ readonly hasReport=computed(()=>!!this.existing()?.reasons.length);
+ readonly isUseful=computed(()=>!!this.existing()?.useful);
  readonly reasons:{id:ReportReason;label:string}[]=[
  {id:'enunciado',label:'Enunciado ambiguo'}, {id:'contexto',label:'Falta contexto'},
  {id:'respuesta',label:'Solución incorrecta'}, {id:'respuesta-incompleta',label:'Respuesta incompleta'},

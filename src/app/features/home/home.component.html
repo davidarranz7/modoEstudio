@@ -2,21 +2,19 @@
   <div class="home-head"><div><span class="eyebrow">ESTUDIO</span><h1>{{greeting()}}</h1><p>Aprende, practica y llega preparado.</p></div>
     <button class="avatar" type="button" aria-label="Ir a ajustes" (click)="router.navigateByUrl('/perfil')">ES</button></div>
   @if(study.hasActiveExam()) {
-    <section class="continue-card">
-      <div class="continue-top"><span class="status-dot"></span><span>EXAMEN EN CURSO</span><small>{{study.session()!.pointer+1}} de {{study.session()!.ids.length}}</small></div>
-      <h2>Tu examen sin terminar</h2><p>Retoma tus preguntas desde donde las dejaste.</p>
+    <section class="estudio-pending-home">
+      <div class="estudio-pending-top"><span>EXAMEN PENDIENTE</span><small>{{study.session()!.pointer+1}} de {{study.session()!.ids.length}}</small></div>
+      <h2>Continúa donde lo dejaste</h2>
       <div class="progress-track"><span [style.width.%]="study.percent()"></span></div>
-      <button class="primary-button white" type="button" (click)="continueExam()"><app-icon name="play" [size]="18"/>Continuar examen</button>
-      <button class="estudio-discard-hero" type="button" (click)="discardExam()"><app-icon name="trash" [size]="16"/>Descartar este examen</button>
-    </section>
-    <button class="outline-button wide estudio-create-cta" type="button" (click)="createSimulation()"><app-icon name="play" [size]="18"/>Crear otro simulacro</button>
-  } @else {
-    <section class="continue-card estudio-simulator-hero">
-      <div class="continue-top"><span class="status-dot"></span><span>SIMULACROS PERSONALIZADOS</span></div>
-      <h2>Prepara tu próximo examen</h2><p>Elige asignatura, temas, tipo de preguntas y dificultad.</p>
-      <button class="primary-button white" type="button" (click)="createSimulation()"><app-icon name="play" [size]="18"/>Crear simulacro</button>
+      <div class="estudio-pending-actions"><button class="primary-button" type="button" (click)="continueExam()"><app-icon name="play" [size]="17"/>Continuar</button><button type="button" (click)="discardExam()">Descartar</button></div>
     </section>
   }
+  <section class="continue-card estudio-simulator-hero">
+    <div class="continue-top"><span class="status-dot"></span><span>PRÁCTICA RÁPIDA</span></div>
+    <h2>¿Qué estudiamos hoy?</h2><p>Elige asignatura, tema y tipo de preguntas. Sin configurar nada más.</p>
+    <button class="primary-button white" type="button" (click)="router.navigateByUrl('/asignaturas')"><app-icon name="play" [size]="18"/>Empezar a estudiar</button>
+  </section>
+  <button class="outline-button wide estudio-create-cta" type="button" (click)="createSimulation()"><app-icon name="layers" [size]="18"/>Crear simulacro personalizado</button>
   <section class="section"><div class="section-title"><h2>Hoy</h2><span>Objetivo: 10 preguntas</span></div>
     <div class="daily-grid">
       <div class="goal-ring" [style.--progress]="ring()"><div><strong>{{today()}}</strong><span>de 10</span></div></div>
@@ -24,10 +22,6 @@
       <div class="metric"><strong>{{accuracy()}}%</strong><span>Precisión</span><small>General</small></div>
     </div>
   </section>
-  <div class="home-quick-actions">
-    <button type="button" (click)="router.navigateByUrl('/asignaturas')"><span><app-icon name="layers" [size]="18"/></span><strong>Practicar por temas</strong><small>Elige qué estudiar</small></button>
-    <button type="button" (click)="router.navigateByUrl('/examenes')"><span><app-icon name="chart" [size]="18"/></span><strong>Mis exámenes</strong><small>Resultados y revisión</small></button>
-  </div>
   @if(latestExam();as last){
     <section class="section"><div class="section-title"><h2>Tu último examen</h2><button (click)="router.navigate(['/examenes',last.id])">Ver revisión</button></div>
       <button class="exam-last-home" type="button" (click)="router.navigate(['/examenes',last.id])">
@@ -45,7 +39,8 @@
       </button>
     }
   </section>
-  <section class="section"><div class="section-title"><h2>Banco de preguntas</h2><button type="button" (click)="router.navigateByUrl('/preguntas')">Ver todas</button></div>
-    <button class="module-row all-modules estudio-bank-link" type="button" (click)="router.navigateByUrl('/preguntas')"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><small>PRÁCTICA PERSONALIZADA</small><strong>{{total()}} preguntas disponibles</strong><span>Test, desarrollo, actividades, código e imágenes</span></div><app-icon name="chevron"/></button>
-  </section>
+  <div class="home-quick-actions estudio-secondary-actions">
+    <button type="button" (click)="router.navigateByUrl('/preguntas')"><span><app-icon name="layers" [size]="18"/></span><strong>Banco de preguntas</strong><small>Ver y marcar preguntas</small></button>
+    <button type="button" (click)="router.navigateByUrl('/examenes')"><span><app-icon name="chart" [size]="18"/></span><strong>Mis exámenes</strong><small>Pendientes y resultados</small></button>
+  </div>
 </main>

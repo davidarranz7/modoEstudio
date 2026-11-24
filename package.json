@@ -1,8 +1,8 @@
 {
   "name": "modo-estudio",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "private": true,
-  "description": "ESTUDIO: banco por asignaturas y unidades, DWCS y Despregamento de Apps. Web, simulacros móviles",
+  "description": "ESTUDIO: banco por asignaturas y unidades, DWCS y Despregamento de Apps. Web, práctica rápida y simulacros simplificados",
   "scripts": {
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --configuration production",

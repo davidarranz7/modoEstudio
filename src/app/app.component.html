@@ -7,59 +7,78 @@
       }
     </nav>
   }
-  @if(opened()) {
+  @if (opened()) {
     <div class="overlay sheet-overlay" (click)="closeLauncher()">
-      <section class="session-sheet" role="dialog" aria-modal="true" aria-label="Configurar simulacro personalizado" (click)="$event.stopPropagation()">
+      <section class="session-sheet estudio-sim-sheet" role="dialog" aria-modal="true" aria-label="Crear simulacro" (click)="$event.stopPropagation()">
         <div class="sheet-handle"></div>
-        <div class="sheet-title"><div><span class="eyebrow">SIMULACRO PERSONALIZADO</span><h2>Configura tu simulacro</h2></div><button class="icon-button" type="button" (click)="closeLauncher()" aria-label="Cerrar"><app-icon name="close"/></button></div>
-        <p>Selecciona la asignatura, temas, tipo, dificultad, origen, repaso y cantidad.</p>
-        <div class="session-options">
-          @for(size of [5,10,20,30,0];track size) {
-            <button type="button" [class.active]="study.filters().count===size" (click)="setCount(''+size)"><strong>{{size||'∞'}}</strong><span>{{size?'preguntas':'Todas'}}</span></button>
-          }
+        <div class="sheet-title">
+          <div><span class="eyebrow">ESTUDIO · SIMULACRO</span><h2>Prepara tu examen</h2></div>
+          <button class="icon-button" type="button" (click)="closeLauncher()" aria-label="Cerrar"><app-icon name="close"/></button>
         </div>
-        <div class="session-choice">
-          <label class="estudio-subject-select">Asignatura
-            <select aria-label="Asignatura" [value]="study.filters().subjectId" (change)="selectSubject($any($event.target).value)">
-              @for(subject of subjects;track subject.id){<option [value]="subject.id">{{subject.name}}</option>}
-            </select>
-          </label>
-          <label>Tipo de examen
-            <select aria-label="Modalidad" [value]="study.filters().mode" (change)="setMode($any($event.target).value)">
-              @for(m of modes;track m.id){<option [value]="m.id">{{m.label}}</option>}
-            </select>
-          </label>
-          <label>Dificultad
-            <select aria-label="Dificultad" [value]="study.filters().level" (change)="setLevel($any($event.target).value)"><option value="all">Media y alta</option><option value="medio">Media</option><option value="alto">Alta</option></select>
-          </label>
-          <label>Origen de preguntas
-            <select aria-label="Origen" [value]="study.filters().source" (change)="setSource($any($event.target).value)"><option value="all">Todo el temario</option><option value="audio">Relacionadas con los audios</option><option value="temario">Temario y prácticas</option></select>
-          </label>
-          <label>Repaso
-            <select aria-label="Tipo de repaso" [value]="study.filters().weakOnly?'weak':'all'" (change)="study.updateFilters({weakOnly:$any($event.target).value==='weak'})"><option value="all">Todas las preguntas</option><option value="weak">Falladas / regulares</option></select>
-          </label>
+        <p class="estudio-sim-subtitle">Elige lo esencial y empieza. Puedes ajustar el resto si lo necesitas.</p>
+        <div class="estudio-sim-fields">
+          <label class="estudio-sim-label" for="sim-subject">1. Asignatura</label>
+          <select id="sim-subject" class="estudio-sim-select" [value]="study.filters().subjectId" (change)="selectSubject($any($event.target).value)">
+            @for (subject of subjects; track subject.id) { <option [value]="subject.id">{{subject.name}}</option> }
+          </select>
+
+          <div class="estudio-sim-title"><span class="estudio-sim-label">2. ¿Qué temas?</span><small>Uno o varios</small></div>
+          <div class="estudio-sim-topics">
+            <button type="button" [class.active]="allThemesSelected()" [attr.aria-pressed]="allThemesSelected()" (click)="setAllThemes()">Todos</button>
+            @for (theme of activeSubject().themes; track theme.id) {
+              <button type="button" [class.active]="study.filters().units.includes(theme.id)" [attr.aria-pressed]="study.filters().units.includes(theme.id)" [title]="theme.name" (click)="selectTheme(theme.id)">UD{{theme.id}}</button>
+            }
+          </div>
+
+          <div class="estudio-sim-title"><span class="estudio-sim-label">3. Tipo de examen</span></div>
+          <div class="estudio-sim-modes">
+            @for (mode of basicModes; track mode.id) {
+              <button type="button" [class.active]="selectedBasicMode()===mode.id" [attr.aria-pressed]="selectedBasicMode()===mode.id" (click)="setBasicMode(mode.id)">
+                <app-icon [name]="mode.icon" [size]="18"/>
+                <strong>{{mode.label}}</strong>
+              </button>
+            }
+          </div>
+          @if (selectedBasicMode()==='custom') {<p class="estudio-sim-tip">Has elegido una modalidad específica en «Más opciones».</p>}
+
+          <div class="estudio-sim-title"><span class="estudio-sim-label">4. Número de preguntas</span></div>
+          <div class="estudio-sim-amounts">
+            @for (size of [10,20,30,0]; track size) {
+              <button type="button" [class.active]="study.filters().count===size" [attr.aria-pressed]="study.filters().count===size" (click)="setCount(''+size)">{{size || 'Todas'}}</button>
+            }
+          </div>
         </div>
-        <div class="session-choice estudio-content-select">
-          <label>Contenido
-            <select aria-label="Origen del contenido" [value]="study.filters().content" (change)="setContent($any($event.target).value)">
-              <option value="all">Teoría y actividades</option>
-              <option value="theory">Solo teoría del temario</option>
-              <option value="activities">Solo ejercicios y actividades</option>
-            </select>
-          </label>
+        <button class="estudio-sim-expand" type="button" [attr.aria-expanded]="advanced()" (click)="toggleAdvanced()">
+          <span><app-icon name="settings" [size]="17"/>Más opciones</span><span>{{advanced()?'Ocultar':'Opcional'}} <app-icon name="chevron" [size]="16"/></span>
+        </button>
+        @if (advanced()) {
+          <div class="estudio-sim-advanced">
+            <label>Dificultad
+              <select [value]="study.filters().level" (change)="setLevel($any($event.target).value)"><option value="all">Media y alta</option><option value="medio">Media</option><option value="alto">Alta</option></select>
+            </label>
+            <label>Tipo específico
+              <select [value]="study.filters().mode" (change)="setMode($any($event.target).value)">
+                @for (mode of modes; track mode.id) {<option [value]="mode.id">{{mode.label}}</option>}
+              </select>
+            </label>
+            <label>Contenido
+              <select [value]="study.filters().content" (change)="setContent($any($event.target).value)"><option value="all">Teoría y actividades</option><option value="theory">Solo teoría</option><option value="activities">Solo prácticas y actividades</option></select>
+            </label>
+            <label>Origen
+              <select [value]="study.filters().source" (change)="setSource($any($event.target).value)"><option value="all">Todas las fuentes</option><option value="audio">Relacionadas con audios</option><option value="temario">Temario y actividades</option></select>
+            </label>
+            <label>Repaso
+              <select [value]="study.filters().weakOnly?'weak':'all'" (change)="study.updateFilters({weakOnly:$any($event.target).value==='weak'})"><option value="all">Todas</option><option value="weak">Falladas o regulares</option></select>
+            </label>
+            <label class="sheet-check"><input type="checkbox" [checked]="!!study.filters().strict" (change)="study.updateFilters({strict:$any($event.target).checked})"> Ocultar soluciones hasta finalizar</label>
+            <label class="sheet-check"><input type="checkbox" [checked]="study.filters().withImages" (change)="study.updateFilters({withImages:$any($event.target).checked})"> Solo preguntas con imágenes</label>
+          </div>
+        }
+        <div class="estudio-sim-footer">
+          @if(error()) {<p class="message-line" role="alert">{{error()}}</p>}
+          <p class="estudio-sim-availability">{{study.filtered().length}} disponibles · {{includedCount()}} en tu simulacro</p>
+          <button class="primary-button wide" type="button" (click)="start()" [disabled]="!study.filtered().length || !study.filters().units.length"><app-icon name="play" [size]="18"/>Empezar simulacro</button>
         </div>
-        <p class="sheet-small-title">TEMAS DE {{activeSubject().shortName}}</p>
-        <div class="sheet-units">
-          @for(theme of activeSubject().themes;track theme.id){
-            <button class="sheet-unit" type="button" [class.active]="study.filters().units.includes(theme.id)" [attr.aria-pressed]="study.filters().units.includes(theme.id)" [attr.aria-label]="'Tema '+theme.id+': '+theme.name" (click)="study.toggleUnit(theme.id)"><span>{{study.filters().units.includes(theme.id)?'✓':'+'}}</span><strong>{{theme.id}}</strong></button>
-          }
-        </div>
-        <label class="sheet-check"><input type="checkbox" [checked]="!!study.filters().strict" (change)="study.updateFilters({strict:$any($event.target).checked})"> Modo examen: ocultar soluciones hasta finalizar</label>
-        <label class="sheet-check"><input type="checkbox" [checked]="study.filters().withImages" (change)="study.updateFilters({withImages:$any($event.target).checked})"> Solo preguntas con imágenes</label>
-        @if(error()){<p class="message-line">{{error()}}</p>}
-        <div class="estudio-builder-summary"><strong>Tu examen</strong><span>{{activeSubject().shortName}} · {{study.filters().units.length}} temas · {{study.filters().mode==='mixed'?'Mixto':modesLabel()}} · {{study.filters().count===0?'Todas':study.filters().count}} preguntas solicitadas</span></div>
-        <p class="sheet-count">{{study.filtered().length}} preguntas disponibles · se incluirán {{study.filters().count===0?study.filtered().length:includedCount()}}</p>
-        <button class="primary-button wide" type="button" (click)="start()" [disabled]="!study.filtered().length"><app-icon name="play" [size]="18"/>Empezar simulacro</button>
       </section>
     </div>
   }

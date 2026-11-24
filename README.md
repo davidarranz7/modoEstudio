@@ -1,3 +1,32 @@
+# ESTUDIO 12 — Flujo simplificado para móvil
+
+La aplicación mantiene las dos asignaturas y sus bancos de preguntas, pero diferencia dos entradas:
+
+- **Práctica rápida:** Inicio → Asignaturas → Tema → Tipo de práctica → preguntas, sin configuración intermedia.
+- **Crear simulacro:** Inicio → Asignatura → Temas → Modalidad → Cantidad → Empezar. Las opciones específicas se encuentran en «Más opciones».
+
+Al entrar en el simulacro se recuerdan las últimas preferencias en `localStorage` (clave `estudio-simulacro-preferencias-v1`). El progreso y los exámenes anteriores conservan sus claves de almacenamiento.
+
+**Banco de preguntas:** Asignaturas → temas → ver preguntas completas → marcar errores → copiar o exportar. El resto de la app mantiene sus funciones anteriores.
+
+## Ejecutar
+
+```powershell
+npm ci
+npm run check
+npm start
+```
+
+## Publicar
+
+```powershell
+npm run build
+```
+
+En Render: Static Site, comando `npm ci && npm run build`, directorio `dist/modo-estudio/browser` y regla Rewrite `/*` → `/index.html`.
+
+---
+
 # ESTUDIO 11.0 — Dos asignaturas y banco sencillo
 
 Proyecto Angular 21 para estudiar en móvil. Conserva el diseño azul original, el banco sencillo y los simulacros, y añade una segunda asignatura independiente: **Despregamento de Apps. Web**.
