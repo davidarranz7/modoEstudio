@@ -8,6 +8,7 @@
     <button class="setting-row" type="button" (click)="router.navigateByUrl('/progreso')"><div><strong>Mis estadísticas</strong><span>Aciertos y temas por reforzar</span></div><app-icon name="chevron" [size]="18"/></button>
     <button class="setting-row" type="button" (click)="router.navigateByUrl('/preguntas')"><div><strong>Banco de preguntas</strong><span>Busca preguntas y consulta favoritas</span></div><app-icon name="chevron" [size]="18"/></button>
   </div>
+  <div class="settings-group"><button class="setting-row" type="button" (click)="router.navigateByUrl('/apuntes')"><div><strong>Apuntes y materiales</strong><span>Guías PDF por asignaturas y unidades</span></div><app-icon name="chevron" [size]="18"/></button></div>
   <h3 class="settings-label">EXÁMENES</h3>
   <div class="settings-group">
     <button class="setting-row" type="button" (click)="router.navigateByUrl('/inicio')"><div><strong>Crear simulacro desde Inicio</strong><span>Personaliza asignatura, temas, modalidad y dificultad</span></div><app-icon name="chevron" [size]="18"/></button>
@@ -31,5 +32,5 @@
     <button class="setting-row reset" type="button" (click)="clear()"><div class="setting-with-icon"><span class="setting-icon danger"><app-icon name="trash" [size]="19"/></span><div><strong>Reiniciar progreso</strong><span>Borra las estadísticas de este dispositivo</span></div></div><app-icon name="chevron" [size]="18"/></button>
   </div>
   @if(message()){<p class="message-line" role="status">{{message()}}</p>}
-  <p class="version">Estudio · Angular · versión 9.0</p>
+  <p class="version">Estudio · Angular · versión 17.0 · DWCS renovado</p>
 </main>

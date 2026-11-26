@@ -1,19 +1,24 @@
-# Comprobaciones realizadas en ESTUDIO 9.0
+# Verificación de ESTUDIO 17 · 25/11/2026
 
-- `npm run check:bank`: estructura de **408** preguntas, referencias de imágenes y modalidades. Correcto.
-- `npm run check:types`: TypeScript sin errores. Correcto.
-- `npm run check:templates`: Angular compilador de plantillas sin errores; advertencias no bloqueantes de cadena opcional en el componente de reporte. Correcto.
-- `npm run check:coverage`: matriz de coincidencias y señales de revisión humana generada. Correcto.
-- `php -l` en cada archivo PHP de material de consulta. Correcto.
-- Hash bcrypt ficticio de ejemplo verificado mediante `password_verify`. Correcto.
-- Salidas exactas de tres nuevos ejercicios de interpretación comprobadas con `php -r`. Correcto.
-- El diseño visual original en la hoja `src/styles/figma-original.css` no se ha reemplazado; se añadieron estilos funcionales sin cambiar la paleta.
+El detalle de cambios, límites y uso está en [INFORME_DWCS_FINAL.md](INFORME_DWCS_FINAL.md).
 
-## Limitaciones de la verificación
+| Comprobación | Resultado |
+|---|---|
+| `npm run check` | Superado: banco, recursos, TypeScript, Angular, cobertura, selección, persistencia y catálogo de prácticas |
+| Conservación | 545 DWCS + 181 Despregamento y 78 recursos binarios intactos por SHA256 frente al estado recibido |
+| Producción | `npm run build` superado sin avisos; inicial 743,12 kB y laboratorio diferido |
+| Selección | 1.500 sesiones 70/30 sin repetición, cobertura, escasez de categorías y repaso adaptativo |
+| PHP 8.2.35 real | 23 comprobaciones del motor en Chromium/WebKit; aislamiento, errores, STDIN, archivos, JSON, HTTP, cookies, sesiones, autenticación, uploads y cancelación |
+| Preguntas PHP | 25 interpretaciones y 17 funciones/39 casos; sin necesidad de modificar preguntas |
+| Interfaz de ejercicios rápidos | 17 soluciones/39 casos por motor; rechaza errores y ejecuta la conversión por STDIN |
+| Proyectos | 18 soluciones, 69 escenarios y 99 peticiones por motor; 18 inicios incompletos y tres errores realistas rechazados |
+| Laboratorio completo | Cursor y selección, deshacer/rehacer, guardado, POST, inspector, pruebas, ZIP, simulacro, cookies, upload y TXT generado comprobados en Chromium/WebKit |
+| IndexedDB real | 34 comprobaciones por motor; diario obsoleto/cuota, fallos, recarga, importación y rutas |
+| ZIP | CRC, UTF-8, archivos y carpetas vacías verificados con Python zipfile |
+| Móvil emulado | Chromium y WebKit con configuración iPhone 13; navegación, filtros, referencias y fuentes locales sin desbordamiento |
+| Visor de imágenes | Diálogo modal nativo, zoom 100–400 %, teclado, fondo inerte y devolución de foco en ambos motores; laboratorio oscuro conserva paleta/ancho |
+| Offline de producción | Recarga, banco, imágenes, fuentes, PDF y Worker PHP nuevo sin servidor tras preparar caché en ambos motores |
 
-- `npm run build` se intentó ejecutar en Linux, pero la copia de `node_modules` disponible incluye esbuild para Windows. Por tanto **no se ha verificado el build final de producción**; requiere `npm ci` en un entorno compatible.
-- Sin navegador real, no se han ejecutado pruebas E2E de interacciones, IndexedDB, navegación PWA o persistencia iOS. El almacenamiento en uso es `localStorage` por origen.
-- No se ha realizado ejecución integrada de PHP: el editor del simulador no incluye intérprete.
-- El sistema de importación/exportación tiene validación de datos y vista previa implementadas, pero falta una batería de pruebas automáticas en navegador para restauraciones complejas.
-- La matriz temática usa palabras clave: **no demuestra cobertura exhaustiva ni garantiza ausencia de errores conceptuales**.
-- Algunas preguntas antiguas carecen de apartado concreto y requieren clasificación manual.
+Las pruebas se reproducen con los scripts `test:*` del package.json y `-- --webkit` para el segundo motor. Instalar previamente navegadores mediante `npx playwright install chromium webkit`. La prueba offline WebKit apaga el servidor origen para evitar una incidencia de emulación de desconexión de Playwright con Service Worker.
+
+Pendientes: iPhone físico (instalación, teclado, suspensión, memoria y reinicio offline), revisión pedagógica humana completa y PDF original de algoritmos de la Actividad 2.2. Los PDF existentes se conservan íntegros; no se atribuye una nueva revisión visual completa de sus páginas a este trabajo. No se ha probado Docker ni se requiere para estudiar con el nuevo intérprete.

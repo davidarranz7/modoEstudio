@@ -1,0 +1,23 @@
+{
+  "packageVersion": "3.1.66",
+  "phpVersion": "8.2.35",
+  "asyncMode": "asyncify",
+  "source": "https://github.com/WordPress/wordpress-playground/tree/d8fce746d38e168e6929b1289940339403293679",
+  "files": [
+    {
+      "path": "php-api.js",
+      "bytes": 110721,
+      "sha256": "ceba7dcfde7aedf9d10c20f77104b7f1735da243efd0d1c4f2a2d335cac3b068"
+    },
+    {
+      "path": "php-loader.js",
+      "bytes": 268551,
+      "sha256": "85a8af63881ff6a28baeeb119a148eebf88d8a222c55c285b7188b58a47d4ae8"
+    },
+    {
+      "path": "php_8_2.wasm",
+      "bytes": 18016349,
+      "sha256": "112707570be9cbca7e12b3763f88d456704d56a938d9cb7cd190b1038a2f3277"
+    }
+  ]
+}

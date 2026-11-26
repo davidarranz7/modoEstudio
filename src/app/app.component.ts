@@ -52,6 +52,7 @@ export class AppComponent {
     return 'custom';
   });
   readonly allThemesSelected = computed(() => this.study.filters().units.length === this.activeSubject().themes.length);
+  readonly sections = computed(() => [...new Set(this.study.questions().filter(q=>q.subjectId===this.study.filters().subjectId&&this.study.filters().units.includes(q.unit)).map(q=>q.section).filter((v):v is string=>!!v))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true})));
   includedCount():number {return this.study.filters().count===0?this.study.filtered().length:Math.min(this.study.filters().count,this.study.filtered().length);}
   modesLabel(): string { return this.modes.find(m => m.id === this.study.filters().mode)?.label ?? 'Mixto'; }
   closeLauncher(): void { this.launcher.close(); this.advanced.set(false); this.error.set(''); }

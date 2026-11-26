@@ -1,3 +1,4 @@
+import { QuestionSourceComponent } from '../../shared/question-source.component';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Question } from '../../core/questions';
@@ -6,7 +7,7 @@ import { SUBJECTS, themeName } from '../../core/subjects';
 import { HeaderComponent } from '../../shared/header.component';
 import { IconComponent } from '../../shared/icon.component';
 const names:Record<ExamMode,string>={mixed:'Mixto',test:'Test',single:'Test único',multi:'Test múltiple',written:'Escrito',short:'Breves',develop:'Desarrollo',code:'Código',write:'Escribir código',interpret:'Interpretar código',match:'Relacionar',order:'Ordenar'};
-@Component({selector:'app-exam-detail',standalone:true,imports:[HeaderComponent,IconComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./exam-detail.component.html'})
+@Component({selector:'app-exam-detail',standalone:true,imports:[QuestionSourceComponent,HeaderComponent,IconComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./exam-detail.component.html'})
 export class ExamDetailComponent {
   readonly router=inject(Router);
   readonly route=inject(ActivatedRoute);

@@ -30,6 +30,18 @@
   <button type="button" class="simple-bank-back" (click)="back()"><app-icon name="arrow" [size]="17"/> Volver a temas</button>
   <div class="intro-copy simple-bank-title"><span class="eyebrow">{{activeSubject()!.shortName}} · UNIDAD {{unitId()}}</span><h2>{{activeTheme()!.name}}</h2><p>{{questionsFor(activeSubject()!.id,unitId())}} preguntas. Abre cada solución cuando quieras comprobarla.</p></div>
   <label class="library-search"><input type="search" [value]="search()" (input)="search.set($any($event.target).value);countVisible.set(20)" placeholder="Buscar dentro del tema…" aria-label="Buscar preguntas"/></label>
+  @if(subjectId()==='dwcs'){
+   <div class="academic-filters">
+    <label>Modalidad<select [value]="modality()" (change)="modality.set($any($event.target).value);countVisible.set(20)">
+      <option value="all">Todas las modalidades</option><option value="theory">Modalidad teórica</option><option value="practice">Modalidad práctica</option><option value="single">Test de una respuesta</option><option value="multi">Test de varias respuestas</option><option value="true-false">Verdadero / falso</option><option value="short">Preguntas cortas</option><option value="develop">Desarrollo</option><option value="fill">Completar</option><option value="write">Escribir código</option><option value="interpret">Interpretar código</option><option value="fix-code">Corregir código</option><option value="match">Relacionar</option><option value="order">Ordenar</option><option value="image">Con imágenes</option><option value="activity">Prácticas</option>
+    </select></label>
+    <label>Apartado<select [value]="sectionFilter()" (change)="sectionFilter.set($any($event.target).value);countVisible.set(20)"><option value="all">Todos los apartados</option>@for(section of sections();track section){<option [value]="section">{{section}}</option>}</select></label>
+    <label>Prioridad<select [value]="priority()" (change)="priority.set($any($event.target).value);countVisible.set(20)"><option value="all">Todo el temario</option><option value="high">Destacados por la profesora</option><option value="normal">Resto del temario</option></select></label>
+    <label class="sheet-check"><input type="checkbox" [checked]="pendingOnly()" (change)="pendingOnly.set($any($event.target).checked);countVisible.set(20)"/> Sin responder o favoritas pendientes</label>
+   </div>
+   <button type="button" class="outline-button wide" [disabled]="!currentQuestions().length" (click)="startVisible()">Estudiar con estos filtros</button>
+   <a class="academic-material-link" [href]="'/apuntes/dwcs-ud'+unitId()+'.pdf'" target="_blank" rel="noopener"><app-icon name="download" [size]="18"/> Apuntes de esta unidad</a>
+  }
   <div class="simple-bank-toggle-row">
    <button type="button" class="simple-bank-chip" [class.active]="!markedOnly()" (click)="markedOnly.set(false);countVisible.set(20)">Todas</button>
    <button type="button" class="simple-bank-chip" [class.active]="markedOnly()" (click)="markedOnly.set(true);countVisible.set(20)">⚑ Marcadas ({{flagsFor(activeSubject()!.id,unitId())}})</button>
@@ -39,6 +51,7 @@
    @for(q of shownQuestions();track q.id){
     <article class="question-list-item simple-bank-question">
      <div class="question-list-top"><span>UD{{q.unit}} · {{typeName(q)}} · {{q.level}}</span><span class="simple-bank-id">{{q.id}}</span></div>
+     @if(q.subjectId==='dwcs'){<p class="library-activity-tag">{{metadata(q).priority==='high'?'Contenido destacado por la profesora':'Resto del temario'}} · {{metadata(q).modality==='practice'?'Práctica':'Teoría'}}<small> · Clasificación de estudio por apartado</small></p>}
      @if(q.activity){<p class="library-activity-tag">{{q.activity}}</p>}
      <h3>{{q.prompt}}</h3>
      @if(q.scenario){<div class="simple-bank-context"><strong>Contexto</strong><p>{{q.scenario}}</p></div>}
@@ -67,6 +80,7 @@
        <p><strong>{{q.kind==='code'?'Solución de referencia':'Explicación y respuesta modelo'}}:</strong></p>
        <pre>{{q.solution}}</pre>
        @if(q.check){<p><strong>Para corregirte:</strong> {{q.check}}</p>}
+       <app-question-source [question]="q"/>
       </section>
      }
      <div class="simple-bank-flag-row">
@@ -75,6 +89,7 @@
       </button>
      </div>
      @if(isMarked(q.id)){
+      <label class="simple-bank-note">Motivo de revisión<select [value]="study.reports()[q.id]?.reason??'otro'" (change)="study.reportQuestion(q.id,[$any($event.target).value],study.reports()[q.id]?.comment??'')"><option value="otro">Observación general</option><option value="respuesta">Respuesta incorrecta</option><option value="respuesta-incompleta">Explicación insuficiente</option><option value="referencia">Referencia incorrecta</option><option value="imagen">Imagen incorrecta</option><option value="enunciado">Problema en el enunciado</option></select></label>
       <label class="simple-bank-note">¿Qué falla? (opcional)
        <textarea rows="2" maxlength="2000" placeholder="Ej.: la respuesta no corresponde al enunciado" [value]="study.reports()[q.id]?.comment??''" (change)="saveNote(q.id,$any($event.target).value)"></textarea>
        <small>La nota se guarda al salir del campo.</small>
@@ -93,6 +108,6 @@
  }
  @if(feedback()){<p class="simple-bank-feedback" role="status">{{feedback()}}</p>}
  @if(imageZoom()){
-  <div class="overlay question-lightbox" (click)="imageZoom.set(null)"><button type="button" class="lightbox-close" (click)="imageZoom.set(null)">Cerrar ×</button><img [src]="'/temario/'+imageZoom()" alt="Imagen ampliada" (click)="$event.stopPropagation()"/></div>
+  <app-image-viewer [src]="'/temario/'+imageZoom()" (closed)="imageZoom.set(null)"/>
  }
 </main>

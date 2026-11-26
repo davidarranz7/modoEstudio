@@ -39,6 +39,8 @@
       </button>
     }
   </section>
+  <button class="outline-button wide estudio-more" type="button" (click)="router.navigateByUrl('/apuntes')"><app-icon name="download" [size]="18"/>Apuntes y materiales PDF</button>
+  <button class="outline-button wide" type="button" (click)="router.navigateByUrl('/laboratorio')"><app-icon name="code" [size]="18"/>Laboratorio PHP · proyectos completos</button>
   <div class="home-quick-actions estudio-secondary-actions">
     <button type="button" (click)="router.navigateByUrl('/preguntas')"><span><app-icon name="layers" [size]="18"/></span><strong>Banco de preguntas</strong><small>Ver y marcar preguntas</small></button>
     <button type="button" (click)="router.navigateByUrl('/examenes')"><span><app-icon name="chart" [size]="18"/></span><strong>Mis exámenes</strong><small>Pendientes y resultados</small></button>

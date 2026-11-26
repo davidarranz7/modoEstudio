@@ -1,6 +1,6 @@
 {
   "name": "modo-estudio",
-  "version": "12.0.0",
+  "version": "17.0.0",
   "private": true,
   "description": "ESTUDIO: banco por asignaturas y unidades, DWCS y Despregamento de Apps. Web, práctica rápida y simulacros simplificados",
   "scripts": {
@@ -9,10 +9,24 @@
     "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "check:bank": "node tools/check-questions.mjs",
-    "check": "npm run check:bank && npm run check:types && npm run check:templates && npm run check:coverage",
+    "check": "npm run check:bank && npm run check:assets && npm run check:types && npm run check:templates && npm run check:coverage && npm run check:selection && npm run check:persistence && npm run check:projects",
+    "check:assets": "node tools/check-preserved-assets.mjs",
+    "check:selection": "node tools/check-selection.mjs",
+    "check:persistence": "node tools/check-study-persistence.mjs",
+    "check:projects": "node tools/check-project-content.mjs",
+    "test:runtime": "node tools/runtime-poc.mjs --bank",
+    "test:projects": "node tools/check-project-runtime.mjs",
+    "test:quick": "node tools/runtime-quick-ui.mjs --production",
+    "test:laboratory": "node tools/check-laboratory-ui.mjs",
+    "test:mobile": "node tools/check-study-mobile.mjs --production --offline",
+    "test:project-storage": "node tools/check-project-storage.mjs",
+    "test:images": "node tools/check-image-viewer.mjs",
     "check:coverage": "node tools/audit-coverage.mjs",
     "check:types": "node node_modules/typescript/bin/tsc --project tsconfig.app.json --noEmit",
-    "check:templates": "node node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.app.json"
+    "check:templates": "node node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.app.json",
+    "php:runner": "node tools/php-runner/server.mjs",
+    "start:php": "ng serve --host 127.0.0.1 --proxy-config proxy.php.json",
+    "check:php": "node tools/php-runner/check-fixtures.mjs"
   },
   "dependencies": {
     "@angular/common": "~21.2.0",
@@ -28,6 +42,7 @@
     "@angular/build": "~21.2.0",
     "@angular/cli": "~21.2.0",
     "@angular/compiler-cli": "~21.2.0",
+    "playwright": "^1.61.0",
     "typescript": "~5.9.2"
   },
   "engines": {

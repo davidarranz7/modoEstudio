@@ -1,0 +1,26 @@
+PHP-WASM runtime for ESTUDIO
+
+Upstream packages: @php-wasm/universal and @php-wasm/web-8-2, version 3.1.66.
+Copyright: The WordPress contributors and upstream contributors.
+License: GPL-2.0-or-later, reproduced in LICENSE-PHP-WASM.txt.
+Corresponding source and build instructions:
+https://github.com/WordPress/wordpress-playground/tree/d8fce746d38e168e6929b1289940339403293679
+https://github.com/WordPress/wordpress-playground/tree/d8fce746d38e168e6929b1289940339403293679/packages/php-wasm/compile
+Exact npm source distributions:
+https://registry.npmjs.org/@php-wasm/universal/-/universal-3.1.66.tgz
+https://registry.npmjs.org/@php-wasm/web-8-2/-/web-8-2-3.1.66.tgz
+
+This distribution selects the Asyncify build of PHP 8.2.35, relocates its WASM
+URL to ./php_8_2.wasm, and bundles the public PHP API with esbuild.
+The application-specific worker.js is maintained in this repository.
+Reproduction: tools/runtime-vendor.mjs. Hashes: vendor-manifest.json.
+
+PHP and the Zend Engine include upstream licenses and notices:
+This product includes PHP software, freely available from http://www.php.net/software/
+This product includes the Zend Engine, freely available at http://www.zend.com
+The Zend Engine is freely available at http://www.zend.com
+Full texts are reproduced in LICENSE-PHP.txt and LICENSE-ZEND.txt.
+https://www.php.net/license/3_01.txt
+https://github.com/php/php-src/blob/php-8.2.35/LICENSE
+https://github.com/php/php-src/blob/php-8.2.35/Zend/LICENSE
+No WordPress installation, database, external PHP service, or runtime CDN is used.

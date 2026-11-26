@@ -13,7 +13,7 @@ jobs:
           node-version: '22'
       - name: Instalar dependencias
         run: npm ci --no-audit --no-fund
-      - name: Validar banco de preguntas
-        run: npm run check:bank
+      - name: Validar banco, conservación, selección y persistencia
+        run: npm run check
       - name: Compilar en producción
         run: npm run build

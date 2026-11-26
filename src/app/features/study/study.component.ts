@@ -1,3 +1,6 @@
+import { PhpRunnerComponent } from '../../shared/php-runner.component';
+import { ImageViewerComponent } from '../../shared/image-viewer.component';
+import { QuestionSourceComponent } from '../../shared/question-source.component';
 import { ChangeDetectionStrategy,Component,computed,inject,signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { StudyService,Grade } from '../../core/study.service';
@@ -8,11 +11,12 @@ import { IconComponent } from '../../shared/icon.component';
 import { HeaderComponent } from '../../shared/header.component';
 import { CodeWorkspaceComponent } from '../../shared/code-workspace.component';
 import { QuestionReportComponent } from '../../shared/question-report.component';
-@Component({selector:'app-exam',standalone:true,imports:[IconComponent,HeaderComponent,QuestionReportComponent,CodeWorkspaceComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./study.component.html'})
+@Component({selector:'app-exam',standalone:true,imports:[ImageViewerComponent,PhpRunnerComponent,QuestionSourceComponent,IconComponent,HeaderComponent,QuestionReportComponent,CodeWorkspaceComponent],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./study.component.html'})
 export class ExamComponent {
   readonly router=inject(Router);readonly study=inject(StudyService);readonly launcher=inject(LauncherService);
   readonly paused=signal(false);readonly imageOpen=signal(false);
   readonly currentFile=signal('');
+  runnerFiles(starter?:Record<string,string>):Record<string,string>{const session=this.study.session();return starter?{...starter,...(session?.files??{})}:{'solucion.php':session?.draft??''};}
   files(starter:Record<string,string>):string[]{return Object.keys(starter);}
   chooseFile(name:string):void {this.currentFile.set(name);}
   activeFile(starter:Record<string,string>):string {return Object.hasOwn(starter,this.currentFile())?this.currentFile():Object.keys(starter)[0]??'solucion.php';}

@@ -34,6 +34,7 @@ export class QuestionReportComponent {
  readonly reasons:{id:ReportReason;label:string}[]=[
  {id:'enunciado',label:'Enunciado ambiguo'}, {id:'contexto',label:'Falta contexto'},
  {id:'respuesta',label:'Solución incorrecta'}, {id:'respuesta-incompleta',label:'Respuesta incompleta'},
+ {id:'referencia',label:'Referencia académica incorrecta'},
  {id:'codigo',label:'Código no corresponde'}, {id:'salida-falta',label:'Falta salida del código'},
  {id:'salida-incorrecta',label:'Salida de código incorrecta'}, {id:'imagen',label:'Imagen equivocada'},
  {id:'opciones',label:'Opciones de test incorrectas'}, {id:'pista',label:'Pista revela la respuesta'},

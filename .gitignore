@@ -8,3 +8,8 @@
 .DS_Store
 *.log
 *.tsbuildinfo
+/.local-baseline-*/
+/.runtime-test-deps/
+/test-results/
+/.local-*.json
+/.local-*.zip

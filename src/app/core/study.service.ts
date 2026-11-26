@@ -1,5 +1,7 @@
 import { Injectable, computed, signal, inject } from '@angular/core';
-import { QUESTIONS, Question, QuestionKind } from './questions';
+import { Question, QuestionKind } from './questions';
+import { questionMetadata } from './exam-priority';
+import { selectQuestions } from './question-selection';
 import { DEFAULT_SUBJECT_ID, findSubject } from './subjects';
 import { CatalogService } from './catalog.service';
 
@@ -17,6 +19,10 @@ export interface Filters {
   withImages: boolean;
   weakOnly: boolean;
   strict?: boolean;
+  preparation?: 'general' | 'exam';
+  priorityShare?: number;
+  section?: string;
+  pendingOnly?: boolean;
 }
 export interface AnswerRecord {
   seen: number;
@@ -29,9 +35,11 @@ export interface AnswerRecord {
   lastDate: string;
   lastDraft: string;
 }
-export type ReportReason = 'enunciado'|'contexto'|'respuesta'|'respuesta-incompleta'|'codigo'|'salida-falta'|'salida-incorrecta'|'imagen'|'opciones'|'pista'|'duplicada'|'fuera-temario'|'dificultad'|'redaccion'|'otro';
+export type ReportReason = 'enunciado'|'contexto'|'respuesta'|'respuesta-incompleta'|'codigo'|'salida-falta'|'salida-incorrecta'|'imagen'|'opciones'|'pista'|'duplicada'|'fuera-temario'|'dificultad'|'redaccion'|'referencia'|'otro';
 export interface QuestionReport { reason: ReportReason; reasons: ReportReason[]; comment: string; date: string; status: 'pendiente'|'corregida'|'descartada'; useful?: boolean; }
+export interface SavedQuestionDraft { draft: string; files: Record<string,string>; }
 export interface ExamAnswer {
+  files?: Record<string,string>;
   questionId: string;
   grade: Grade | null;
   skipped: boolean;
@@ -79,7 +87,7 @@ const storageKey = 'estudio-php-v1';
 const sessionKey = 'estudio-php-session-v1';
 const filterPreferencesKey = 'estudio-simulacro-preferencias-v1';
 const defaultRecord = (): AnswerRecord => ({ seen: 0, good: 0, medium: 0, bad: 0, lastGrade: null, starred: false, note: '', lastDate: '', lastDraft: '' });
-const defaultFilters: Filters = { subjectId: DEFAULT_SUBJECT_ID, units: [1, 2, 3], mode: 'mixed', level: 'all', count: 10, source: 'all', content: 'all', withImages: false, weakOnly: false, strict:false };
+const defaultFilters: Filters = { subjectId: DEFAULT_SUBJECT_ID, units: [1, 2, 3], mode: 'mixed', level: 'all', count: 10, source: 'all', content: 'all', withImages: false, weakOnly: false, strict:false, preparation:'general', priorityShare:70, section:'all', pendingOnly:false };
 const modeKinds: Record<ExamMode, QuestionKind[]> = {
   mixed: ['single', 'multi', 'short', 'develop', 'code', 'match', 'order'],
   test: ['single', 'multi'], single: ['single'], multi: ['multi'],
@@ -87,18 +95,22 @@ const modeKinds: Record<ExamMode, QuestionKind[]> = {
   write: ['code'], interpret: ['code'],match:['match'],order:['order']
 };
 const cleanAnswer = (q: Question, session: ExamSession, grade: Grade | null, skipped = grade === null): ExamAnswer => ({
-  questionId: q.id, grade, skipped, selected: [...session.selected], matched:{...(session.matched??{})}, ordered:[...(session.ordered??[])], draft: session.draft
+  questionId: q.id, grade, skipped, selected: [...session.selected], matched:{...(session.matched??{})}, ordered:[...(session.ordered??[])], draft: session.draft, files:{...(session.files??{})}
 });
 
 @Injectable({ providedIn: 'root' })
 export class StudyService {
+  private progressStorageBlocked=false;
   readonly catalog = inject(CatalogService);
   readonly questions = this.catalog.entries;
   readonly records = signal<Record<string, AnswerRecord>>({});
   readonly results = signal<ExamResult[]>([]);
   readonly reports = signal<Record<string, QuestionReport>>({});
+  readonly drafts = signal<Record<string, SavedQuestionDraft>>({});
   readonly reportCount = computed(() => Object.values(this.reports()).filter(r=>r.reasons?.length || r.comment).length);
   readonly theme = signal<'dark' | 'light'>('light');
+  readonly storageError = signal('');
+  readonly questionMetadata = questionMetadata;
   readonly session = signal<ExamSession | null>(null);
   readonly filters = signal<Filters>({ ...defaultFilters });
   readonly seenCount = computed(() => Object.values(this.records()).filter(r => r.seen > 0).length);
@@ -121,9 +133,9 @@ export class StudyService {
   readonly filtered = computed(() => this.questions().filter(q => this.matches(q, this.filters())));
   constructor() {
     try {
-      const storedFilters = localStorage.getItem(filterPreferencesKey);
+      const storedFilters = this.readStored(filterPreferencesKey);
       if (storedFilters) {
-        const previous = JSON.parse(storedFilters) as Partial<Filters>;
+        const previous = storedFilters as Partial<Filters>;
         const subject = findSubject(previous.subjectId ?? '') ?? findSubject(DEFAULT_SUBJECT_ID)!;
         const available = subject.themes.map(theme => theme.id);
         const units = Array.isArray(previous.units) ? previous.units.filter(id => available.includes(id)) : [];
@@ -138,38 +150,57 @@ export class StudyService {
           content: ['all','activities','theory'].includes(previous.content ?? '') ? previous.content! : 'all',
           weakOnly: previous.weakOnly === true,
           strict: previous.strict === true,
-          withImages: previous.withImages === true
+          withImages: previous.withImages === true,
+          preparation: previous.preparation === 'exam' ? 'exam' : 'general',
+          priorityShare: typeof previous.priorityShare === 'number' ? Math.max(10,Math.min(90,previous.priorityShare)) : 70,
+          section: typeof previous.section === 'string' ? previous.section : 'all',
+          pendingOnly: previous.pendingOnly === true
         });
       }
-      const saved = localStorage.getItem(storageKey);
+      const saved = this.readStored(storageKey);
       if (saved) {
-        const state = JSON.parse(saved);
-        if (state.records && typeof state.records === 'object' && !Array.isArray(state.records)) this.records.set(state.records);
+        const state = saved;
+        if (state.records && typeof state.records === 'object' && !Array.isArray(state.records)) this.records.set(this.readRecords(state.records));
         if (Array.isArray(state.results)) this.results.set(state.results.filter((r: ExamResult) => r && typeof r.id === 'string' && Array.isArray(r.answers)));
         if (state.reports && typeof state.reports === 'object' && !Array.isArray(state.reports)) {
-          const known = new Set(this.questions().map(q => q.id));
-          this.reports.set(Object.fromEntries(Object.entries(state.reports).filter(([id, report]) => known.has(id) && report && typeof report === 'object').map(([id, raw]) => { const r = raw as QuestionReport; return [id,{...r,reasons:r.reasons??[r.reason],status:r.status??'pendiente'}]; })) as Record<string, QuestionReport>);
+          this.reports.set(this.readReports(state.reports));
         }
+        if (state.drafts && typeof state.drafts === 'object' && !Array.isArray(state.drafts)) this.drafts.set(this.readDrafts(state.drafts));
         if (state.theme === 'light' || state.theme === 'dark') this.theme.set(state.theme);
       }
-      const previous = localStorage.getItem(sessionKey);
+      const previous = this.readStored(sessionKey);
       if (previous) {
-        const s = JSON.parse(previous) as ExamSession;
+        const s = previous as ExamSession;
         if (Array.isArray(s.ids) && s.ids.length > 0 && s.ids.every(id => this.questions().some(q => q.id === id))) this.session.set(s);
       }
-    } catch { localStorage.removeItem(sessionKey); }
+    } catch { this.storageError.set('No se pudieron leer todos los datos guardados. Se conservan en el dispositivo; exporta una copia antes de sustituirlos.'); }
   }
   isDefective(id:string):boolean {const report=this.reports()[id];return !!(report?.status==='pendiente' && report.reasons?.length);}
   record(id: string): AnswerRecord { return this.records()[id] ?? defaultRecord(); }
+  private readStored(key: string): ReturnType<typeof JSON.parse> | null {
+    try {
+      const raw=localStorage.getItem(key);
+      if(!raw)return null;
+      const value=JSON.parse(raw);
+      if(!value||typeof value!=='object'||Array.isArray(value))throw new Error('Formato inválido');
+      if(key===storageKey&&(!value.records||typeof value.records!=='object'||Array.isArray(value.records)))throw new Error('Progreso inválido');
+      return value;
+    }catch{
+      if(key===storageKey)this.progressStorageBlocked=true;
+      this.storageError.set('Hay datos guardados que no se pueden leer. Se conservan; exporta una copia para recuperarlos antes de importar o restablecer.');
+      return null;
+    }
+  }
   private persist(): void {
-    try { localStorage.setItem(storageKey, JSON.stringify({ records: this.records(), results: this.results(), reports: this.reports(), theme: this.theme() })); } catch {}
+    if(this.progressStorageBlocked)return;
+    try { localStorage.setItem(storageKey, JSON.stringify({ records: this.records(), results: this.results(), reports: this.reports(), drafts:this.drafts(), theme: this.theme() })); this.storageError.set(''); } catch { this.storageError.set('No se ha podido guardar el progreso. El almacenamiento puede estar lleno; exporta una copia.'); }
   }
   private persistSession(): void {
     try {
       const s = this.session();
       if (s) localStorage.setItem(sessionKey, JSON.stringify(s));
       else localStorage.removeItem(sessionKey);
-    } catch {}
+    } catch { this.storageError.set('No se ha podido guardar el intento actual. Exporta el progreso y libera espacio.'); }
   }
   private updateRecord(id: string, patch: Partial<AnswerRecord>): void {
     this.records.update(v => ({ ...v, [id]: { ...this.record(id), ...patch } }));
@@ -210,6 +241,8 @@ export class StudyService {
         `Estado: ${report?.reasons?.length ? 'Reportada (' + report.reasons.join(', ') + ')' : 'Favorita'}`,
         report?.comment ? `Observación: ${report.comment}` : '',
         `Pregunta: ${q.prompt}`,
+        q.section ? `Apartado: ${q.section}` : '',
+        q.reference ? `Fuente: ${q.reference}` : '',
         q.code ? `Código: ${q.code}` : '',
         q.image ? `Imagen: ${q.image}` : '',
         `Respuesta de ESTUDIO: ${q.solution}`
@@ -245,7 +278,7 @@ export class StudyService {
   selectSubject(id: string): void {
     const subject = findSubject(id);
     if (subject) {
-      this.filters.update(f => ({ ...f, subjectId: id, units: subject.themes.map(t => t.id), source: 'all', content: 'all', weakOnly: false, withImages: false }));
+      this.filters.update(f => ({ ...f, subjectId: id, units: subject.themes.map(t => t.id), source: 'all', content: 'all', weakOnly: false, withImages: false, section:'all', pendingOnly:false }));
       this.persistFilters();
     }
   }
@@ -255,6 +288,8 @@ export class StudyService {
   }
   matches(q: Question, f: Filters): boolean {
     if (q.subjectId !== f.subjectId || !f.units.includes(q.unit)) return false;
+    if (f.section && f.section !== 'all' && q.section !== f.section) return false;
+    if (f.pendingOnly && this.record(q.id).seen > 0 && !this.record(q.id).starred) return false;
     if (!modeKinds[f.mode].includes(q.kind)) return false;
     if ((f.mode === 'write' || f.mode === 'interpret') && q.codeTask !== f.mode) return false;
     if (f.level !== 'all' && f.level !== q.level) return false;
@@ -271,9 +306,9 @@ export class StudyService {
     const f = config ?? this.filters();
     if(ids && !ids.length)return false;
     const valid = this.questions().filter(q => this.matches(q, f));
-    const options = ids?.length ? ids.filter(id => valid.some(q => q.id === id)) : [...valid].sort(() => Math.random() - 0.5).map(q => q.id).slice(0, f.count || undefined);
+    const options = ids?.length ? [...new Set(ids)].filter(id => valid.some(q => q.id === id)) : selectQuestions(valid, f.count, this.records(), f).map(q => q.id);
     if (!options.length) return false;
-    this.session.set({ ids: options, pointer: 0, selected: [], matched:{}, ordered:[], draft: '', files:{}, hintLevel:0, revealed: false, graded: false, lastGrade: null, good: 0, medium: 0, bad: 0, completed: false, history: [], answers: [], startedAt: new Date().toISOString(), config: { ...f, units: [...f.units] } });
+    this.session.set({ ids: options, pointer: 0, selected: [], matched:{}, ordered:[], ...this.draftState(options[0]), hintLevel:0, revealed: false, graded: false, lastGrade: null, good: 0, medium: 0, bad: 0, completed: false, history: [], answers: [], startedAt: new Date().toISOString(), config: { ...f, units: [...f.units] } });
     this.persistSession();
     return true;
   }
@@ -297,16 +332,16 @@ export class StudyService {
   chooseMatch(left:string,right:string):void {const s=this.session();if(!s||s.revealed)return;this.updateSession({matched:{...(s.matched??{}),[left]:right}});}
   orderItems():string[] {const q=this.current();const s=this.session();return s?.ordered?.length?s.ordered:q?.sequence?[...q.sequence].reverse():[];}
   moveOrder(index:number,direction:-1|1):void {const s=this.session();if(!s||s.revealed)return;const items=this.orderItems();const other=index+direction;if(other<0||other>=items.length)return;[items[index],items[other]]=[items[other],items[index]];this.updateSession({ordered:items});}
-  write(value: string): void { this.updateSession({ draft: value }); }
+  write(value: string): void { this.updateSession({ draft: value }); this.saveDraft(); }
   writeFile(name: string, value: string, starter: Record<string,string>): void {
     const s=this.session(); if(!s||!Object.hasOwn(starter,name))return;
     const files={...starter,...(s.files??{}),[name]:value};
     const draft=Object.entries(files).map(([file,code])=>`===== ${file} =====\n${code}`).join('\n\n');
-    this.updateSession({files,draft});
+    this.updateSession({files,draft}); this.saveDraft();
   }
   nextHint(): void {
     const s=this.session(); const q=this.current();
-    if(!s||!q||s.revealed||!q.hints?.length)return;
+    if(!s||!q||s.revealed||s.config.strict||!q.hints?.length)return;
     this.updateSession({hintLevel:Math.min((s.hintLevel??0)+1,q.hints.length)});
   }
   reveal(): void {
@@ -334,7 +369,7 @@ export class StudyService {
     }
     const next:ExamSession={...s,history,answers:[...(s.answers??[]),entry],good:s.good+ +(grade==='good'),bad:s.bad+ +(grade==='bad')};
     if(s.pointer+1>=s.ids.length)this.finish(next);
-    else this.updateSession({...next,pointer:s.pointer+1,selected:[],matched:{},ordered:[],files:{},draft:'',hintLevel:0,revealed:false,graded:false,lastGrade:null});
+    else this.updateSession({...next,pointer:s.pointer+1,selected:[],matched:{},ordered:[],...this.draftState(s.ids[s.pointer+1]),hintLevel:0,revealed:false,graded:false,lastGrade:null});
   }
   assessResult(resultId:string,questionId:string,grade:Grade):void {
     const result=this.results().find(r=>r.id===resultId);
@@ -357,7 +392,7 @@ export class StudyService {
     const alreadySaved = s.resultId && this.results().some(r => r.id === s.resultId);
     const resultId = s.resultId ?? `${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
     if (!alreadySaved) {
-      this.results.update(results => [{ id: resultId, subjectId: s.config.subjectId, startedAt: s.startedAt ?? new Date().toISOString(), completedAt: new Date().toISOString(), config: { ...s.config, content: s.config.content ?? 'all' }, total: s.ids.length, good: s.good, medium: s.medium, bad: s.bad, skipped: (s.answers ?? []).filter(a => a.skipped).length, answers: [...(s.answers ?? [])] }, ...results].slice(0, 250));
+      this.results.update(results => [{ id: resultId, subjectId: s.config.subjectId, startedAt: s.startedAt ?? new Date().toISOString(), completedAt: new Date().toISOString(), config: { ...s.config, content: s.config.content ?? 'all' }, total: s.ids.length, good: s.good, medium: s.medium, bad: s.bad, skipped: (s.answers ?? []).filter(a => a.skipped).length, answers: [...(s.answers ?? [])] }, ...results]);
       this.persist();
     }
     this.updateSession({ completed: true, resultId, answers: s.answers ?? [] });
@@ -368,13 +403,13 @@ export class StudyService {
     if (!s || !q || s.revealed) return;
     const next: ExamSession = { ...s, answers: [...(s.answers ?? []), cleanAnswer(q, s, null)] };
     if (s.pointer + 1 >= s.ids.length) this.finish(next);
-    else this.updateSession({ answers: next.answers, pointer: s.pointer + 1, selected: [], matched:{}, ordered:[], draft: '', files:{}, hintLevel:0, revealed: false, graded: false, lastGrade: null });
+    else this.updateSession({ answers: next.answers, pointer: s.pointer + 1, selected: [], matched:{}, ordered:[], ...this.draftState(s.ids[s.pointer+1]), hintLevel:0, revealed: false, graded: false, lastGrade: null });
   }
   next(): void {
     const s = this.session();
     if (!s || !s.graded) return;
     if (s.pointer + 1 >= s.ids.length) this.finish(s);
-    else this.updateSession({ pointer: s.pointer + 1, selected: [], matched:{}, ordered:[], draft: '', files:{}, hintLevel:0, revealed: false, graded: false, lastGrade: null });
+    else this.updateSession({ pointer: s.pointer + 1, selected: [], matched:{}, ordered:[], ...this.draftState(s.ids[s.pointer+1]), hintLevel:0, revealed: false, graded: false, lastGrade: null });
   }
   abandon(): void { this.session.set(null); this.persistSession(); }
   discardActiveExam(): void {
@@ -391,7 +426,7 @@ export class StudyService {
     this.abandon();
   }
   exportFile(): void {
-    const json = JSON.stringify({ schema: 'estudio-php-v1', exportedAt: new Date().toISOString(), records: this.records(), results: this.results(), reports: this.reports(), theme: this.theme() }, null, 2);
+    const json = JSON.stringify({ schema: 'estudio-php-v1', exportedAt: new Date().toISOString(), records: this.records(), results: this.results(), reports: this.reports(), drafts:this.drafts(), theme: this.theme(), unreadableStorage:this.progressStorageBlocked?localStorage.getItem(storageKey):undefined }, null, 2);
     const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
     const anchor = document.createElement('a');
     anchor.href = url;
@@ -402,21 +437,60 @@ export class StudyService {
   importFile(text: string): void {
     const data = JSON.parse(text);
     if (data.schema !== 'estudio-php-v1' || !data.records || typeof data.records !== 'object' || Array.isArray(data.records)) throw new Error('Archivo de progreso no válido');
-    const next: Record<string, AnswerRecord> = {};
-    for (const [id, value] of Object.entries(data.records)) {
-      if (!this.questions().some(q => q.id === id) || !value || typeof value !== 'object') continue;
-      const v = value as Partial<AnswerRecord>;
-      next[id] = { ...defaultRecord(), ...v, note: typeof v.note === 'string' ? v.note : '', lastDraft: typeof v.lastDraft === 'string' ? v.lastDraft : '' };
-    }
-    this.records.set(next);
+    this.progressStorageBlocked=false;
+    this.records.set(this.readRecords(data.records));
     if (data.reports && typeof data.reports === 'object' && !Array.isArray(data.reports)) {
-      const known = new Set(this.questions().map(q => q.id));
-      this.reports.set(Object.fromEntries(Object.entries(data.reports).filter(([id, report]) => known.has(id) && report && typeof report === 'object')) as Record<string, QuestionReport>);
+      this.reports.set(this.readReports(data.reports));
     }
     this.results.set(Array.isArray(data.results) ? data.results.filter((r: ExamResult) => r && typeof r.id === 'string' && Array.isArray(r.answers)) : []);
+    if (data.drafts && typeof data.drafts === 'object' && !Array.isArray(data.drafts)) this.drafts.set(this.readDrafts(data.drafts));
     if (data.theme === 'light' || data.theme === 'dark') this.theme.set(data.theme);
     this.abandon();
     this.persist();
   }
-  reset(): void { this.records.set({}); this.results.set([]); this.reports.set({}); this.abandon(); this.persist(); }
+  private draftState(id: string): SavedQuestionDraft {
+    return this.drafts()[id] ?? {draft:this.record(id).lastDraft,files:{}};
+  }
+  private saveDraft(): void {
+    const current=this.current(); const session=this.session();
+    if(!current||!session)return;
+    this.drafts.update(all=>({...all,[current.id]:{draft:session.draft,files:{...(session.files??{})}}}));
+    this.persist();
+  }
+  private readReports(input: Record<string,unknown>): Record<string,QuestionReport> {
+    const reports: Record<string,QuestionReport>={};
+    for(const [id,value] of Object.entries(input)){
+      if(!value||typeof value!=='object'||Array.isArray(value))continue;
+      const report=value as QuestionReport;
+      reports[id]={...report,reason:report.reason??'otro',reasons:Array.isArray(report.reasons)?report.reasons:report.reason?[report.reason]:[],comment:typeof report.comment==='string'?report.comment:'',date:typeof report.date==='string'?report.date:'',status:report.status??'pendiente'};
+    }
+    return reports;
+  }
+  private readDrafts(input: Record<string,unknown>): Record<string,SavedQuestionDraft> {
+    const drafts: Record<string,SavedQuestionDraft>={};
+    for(const [id,value] of Object.entries(input)){
+      if(!value||typeof value!=='object'||Array.isArray(value))continue;
+      const candidate=value as Partial<SavedQuestionDraft>;
+      const files=candidate.files&&typeof candidate.files==='object'&&!Array.isArray(candidate.files)?Object.fromEntries(Object.entries(candidate.files).filter(([,code])=>typeof code==='string')):{};
+      drafts[id]={draft:typeof candidate.draft==='string'?candidate.draft:'',files};
+    }
+    return drafts;
+  }
+  private readRecords(input: Record<string, unknown>): Record<string, AnswerRecord> {
+    const records: Record<string, AnswerRecord> = {};
+    for (const [id, value] of Object.entries(input)) {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) continue;
+      const raw = value as Partial<AnswerRecord>;
+      const record = { ...defaultRecord(), ...raw };
+      for (const key of ['seen','good','medium','bad'] as const) record[key] = typeof raw[key] === 'number' && Number.isFinite(raw[key]) ? Math.max(0,raw[key]!) : 0;
+      record.note = typeof raw.note === 'string' ? raw.note : '';
+      record.lastDraft = typeof raw.lastDraft === 'string' ? raw.lastDraft : '';
+      record.lastDate = typeof raw.lastDate === 'string' ? raw.lastDate : '';
+      record.starred = raw.starred === true;
+      record.lastGrade = ['good','medium','bad'].includes(raw.lastGrade ?? '') ? raw.lastGrade! : null;
+      records[id] = record;
+    }
+    return records;
+  }
+  reset(): void { this.progressStorageBlocked=false; this.records.set({}); this.results.set([]); this.reports.set({}); this.drafts.set({}); this.abandon(); this.persist(); }
 }

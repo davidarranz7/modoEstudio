@@ -1,3 +1,5 @@
+import { QuestionSourceComponent } from '../../shared/question-source.component';
+import { ImageViewerComponent } from '../../shared/image-viewer.component';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -7,11 +9,13 @@ import { CatalogService } from '../../core/catalog.service';
 import { StudyService } from '../../core/study.service';
 import { IconComponent } from '../../shared/icon.component';
 import { HeaderComponent } from '../../shared/header.component';
+import { questionMetadata } from '../../core/exam-priority';
+import { selectQuestions } from '../../core/question-selection';
 
 @Component({
  selector: 'app-library',
  standalone: true,
- imports: [IconComponent, HeaderComponent],
+ imports: [ImageViewerComponent,QuestionSourceComponent,IconComponent, HeaderComponent],
  templateUrl: './library.component.html',
  changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -26,6 +30,12 @@ export class LibraryComponent {
  readonly unitId = signal(0);
  readonly search = signal('');
  readonly markedOnly = signal(false);
+ readonly modality = signal('all');
+ readonly priority = signal('all');
+ readonly pendingOnly = signal(false);
+ readonly metadata=questionMetadata;
+ readonly sections = computed(() => [...new Set(this.study.questions().filter(q=>q.subjectId===this.subjectId()&&q.unit===this.unitId()).map(q=>q.section).filter((v):v is string=>!!v))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true})));
+ readonly sectionFilter=signal('all');
  readonly expanded = signal<string | null>(null);
  readonly countVisible = signal(20);
  readonly imageZoom = signal<string | null>(null);
@@ -36,6 +46,11 @@ export class LibraryComponent {
  readonly currentQuestions = computed(() => this.study.questions().filter(q => {
   if (q.subjectId !== this.subjectId() || q.unit !== this.unitId()) return false;
   if (this.markedOnly() && !this.isMarked(q.id)) return false;
+  if(this.priority()!=='all'&&questionMetadata(q).priority!==this.priority())return false;
+  if(this.pendingOnly()&&this.study.record(q.id).seen>0&&!this.study.record(q.id).starred)return false;
+  const mode=this.modality();
+  if(mode!=='all' && !(mode==='theory'||mode==='practice'?questionMetadata(q).modality===mode:mode==='image'?!!q.image:mode==='activity'?!!q.activity:mode==='write'||mode==='interpret'?q.codeTask===mode:mode==='true-false'||mode==='fill'||mode==='fix-code'?q.format===mode:q.kind===mode))return false;
+  if(this.sectionFilter()!=='all'&&q.section!==this.sectionFilter())return false;
   const term = this.search().trim().toLocaleLowerCase('es');
   return !term || [q.id,q.prompt,q.activity??'',q.section??'',q.code, ...q.options].join(' ').toLocaleLowerCase('es').includes(term);
  }));
@@ -51,6 +66,10 @@ export class LibraryComponent {
    this.subjectId.set(subject?.id ?? null);
    this.unitId.set(theme);
    this.search.set('');
+   this.modality.set('all');
+   this.priority.set('all');
+   this.pendingOnly.set(false);
+   this.sectionFilter.set('all');
    this.markedOnly.set(false);
    this.expanded.set(null);
    this.countVisible.set(20);
@@ -99,18 +118,37 @@ export class LibraryComponent {
  pairChoices(q: Question): string[] { return [...(q.pairs ?? [])].map(p => p.right).reverse(); }
  starterFiles(q: Question): {name:string;code:string}[] { return Object.entries(q.starterFiles ?? {}).map(([name,code]) => ({name,code})); }
  typeName(q: Question): string {
+  if(q.format==='true-false')return 'Verdadero / falso';
+  if(q.format==='fill')return 'Completar';
+  if(q.format==='fix-code')return 'Corregir código';
   if (q.kind === 'code') return q.codeTask === 'interpret' ? 'Interpretar código' : 'Escribir código';
   return this.typeNames[q.kind];
+ }
+ startVisible():void {
+  if(this.study.hasActiveExam()&&!window.confirm('Ya tienes un intento pendiente. ¿Descartarlo para estudiar estas preguntas?'))return;
+  if(this.study.hasActiveExam())this.study.discardActiveExam();
+  const config={...this.study.filters(),subjectId:this.subjectId()!,units:[this.unitId()],mode:'mixed' as const,source:'all' as const,content:'all' as const,level:'all' as const,weakOnly:false,withImages:false,section:this.sectionFilter(),pendingOnly:this.pendingOnly(),strict:false};
+  const available=this.currentQuestions().filter(q=>this.study.matches(q,config));
+  const ids=selectQuestions(available,config.count,this.study.records(),config).map(q=>q.id);
+  if(this.study.start(ids,config))void this.router.navigateByUrl('/estudiar');
+  else this.feedback.set('No hay preguntas disponibles para estudiar con estos filtros. Las preguntas reportadas permanecen en el banco para revisión.');
  }
  private reportPayload(q: Question): object {
   const report = this.study.reports()[q.id];
   return {
    id: q.id,
+   question: q,
+   academicMetadata: questionMetadata(q),
    asignatura: SUBJECTS.find(s => s.id === q.subjectId)?.name ?? q.subjectId,
    unidad: q.unit,
    tipo: this.typeName(q),
    dificultad: q.level,
    apartado: q.section ?? null,
+   referencia: q.reference ?? null,
+   paginaGuia: q.sourcePage ?? null,
+   formato: q.format ?? null,
+   pruebasPHP: q.phpTests ?? [],
+   modoEjecucion: q.runnerMode ?? null,
    actividad: q.activity ?? null,
    origen: q.origin,
    enunciado: q.prompt,
@@ -139,7 +177,7 @@ export class LibraryComponent {
    const format = (key: string, name: string) => payload[key] ? `${name}: ${typeof payload[key] === 'string' ? payload[key] : JSON.stringify(payload[key])}` : '';
    return [
     `# ${i + 1} · ${q.id} · UD${q.unit} · ${this.typeName(q)}`,
-    format('asignatura','Asignatura'), format('apartado','Apartado'),
+    format('asignatura','Asignatura'), format('apartado','Apartado'), format('referencia','Fuente'), format('paginaGuia','Página de la guía'),
     format('enunciado','Pregunta'), format('contexto','Contexto'),
     q.options.length ? `Opciones:\n${q.options.map((o,j) => `${j+1}. ${o}`).join('\n')}` : '',
     q.correct.length ? `Opciones correctas (índices 1..N): ${q.correct.map(x=>x+1).join(', ')}` : '',

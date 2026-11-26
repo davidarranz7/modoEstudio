@@ -1,0 +1,392 @@
+[
+  {
+    "path": "public/apuntes/dwcs-tarea01.1-original.zip",
+    "bytes": 2382,
+    "sha256": "3d61c86ada898c42d5d25225fde7e107219441e02155482fc2452df1ba77358c"
+  },
+  {
+    "path": "public/apuntes/dwcs-ud1-original-protocolos.pdf",
+    "bytes": 363124,
+    "sha256": "838ca3998b0f3b56d5bdfed62b9384d97aec6e149062a151b2bafeb29281a403"
+  },
+  {
+    "path": "public/apuntes/dwcs-ud1.pdf",
+    "bytes": 1858525,
+    "sha256": "04d33f88dc99adc8bd13177257ccebb33565d71907eeba61e5b511097d58fb89"
+  },
+  {
+    "path": "public/apuntes/dwcs-ud2.pdf",
+    "bytes": 1123007,
+    "sha256": "56698845d44c7a44d440af59577d7a050e16ae8ea15524a521cbe1b597e7500f"
+  },
+  {
+    "path": "public/apuntes/dwcs-ud3.pdf",
+    "bytes": 1795898,
+    "sha256": "d635c32b60f3f07c58ba509f975c5720a2e3d2c8665b1d23920bde2005deb031"
+  },
+  {
+    "path": "public/descargas/material-php-estudio.zip",
+    "bytes": 9536,
+    "sha256": "d0d5a05c8ce36f823b3ded81b3ef72d5d0339f8a0b0586c7aedeb68ac7711b98"
+  },
+  {
+    "path": "public/icons/favicon-32.png",
+    "bytes": 934,
+    "sha256": "ce5404c4dcdbc6b7713018b9283588182b2c24b6da3e4a329eeac8b793a41835"
+  },
+  {
+    "path": "public/icons/icon-192.png",
+    "bytes": 4848,
+    "sha256": "bab59327e59b9c9ab57c4f10302a855ab4a5fc49db39f69e12287fc2f3a9c7d2"
+  },
+  {
+    "path": "public/icons/icon-512.png",
+    "bytes": 13295,
+    "sha256": "ac4c4b632970deb5329cd805838fc8435ed915f161a49133c01e57b1ab02893d"
+  },
+  {
+    "path": "public/temario/arrays-diagrama.png",
+    "bytes": 24696,
+    "sha256": "cf60616bc2859b05d819326442e64b29102497bfb803f2b91ca3b7aca57f5f5a"
+  },
+  {
+    "path": "public/temario/arrays-multidimensionales.png",
+    "bytes": 57448,
+    "sha256": "e400dc45709a88a4b9d17c1a6ef8b0e91999fd91735e14177299fba48d0e50a2"
+  },
+  {
+    "path": "public/temario/autenticacion.png",
+    "bytes": 136101,
+    "sha256": "0fab0b64f39a8b4354871d734c8cc49f66d356dac3f571349a07660688865f36"
+  },
+  {
+    "path": "public/temario/cliente-web.png",
+    "bytes": 18004,
+    "sha256": "7cb7dea5ddb17723c3dc155ea7e7004fa99b1e67a50f77d2f0f0d7bb91476a1e"
+  },
+  {
+    "path": "public/temario/cookies-ciclo.jpg",
+    "bytes": 80911,
+    "sha256": "92b45a77a621c9be793c0c1033703ce98d46b3c745fb4d83b4625b47639ce986"
+  },
+  {
+    "path": "public/temario/despregamento-directory-1.png",
+    "bytes": 28110,
+    "sha256": "94f324c9adef90bdcaeb4af527884dbc3d4bcece54b70f8d2a6676287dd13cde"
+  },
+  {
+    "path": "public/temario/despregamento-directory-2.png",
+    "bytes": 45545,
+    "sha256": "927006a93185f44e6b2d4d57a5c16a72022dc1b9100da6cd3ff2d20e95652083"
+  },
+  {
+    "path": "public/temario/despregamento-directory-3.png",
+    "bytes": 28711,
+    "sha256": "3d757e7e76f6e9b465a83cf84815cd59ec468f02ae30da0aea55b6d9f8e517eb"
+  },
+  {
+    "path": "public/temario/despregamento-directory-4.png",
+    "bytes": 26809,
+    "sha256": "dc6c9d905d78beef32392091a294fc8442b33cff6bd18f753d29937a53b2a2c7"
+  },
+  {
+    "path": "public/temario/despregamento-mod-status.png",
+    "bytes": 105525,
+    "sha256": "7748d89c10446fddc132b839a7b56cb986204eb7278705edc1d5aad8a875839e"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-11.png",
+    "bytes": 91883,
+    "sha256": "25da7b3e7fcb5976b15463acf415329b24b829a14d6d86bd2fcbbc903aad9c51"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-19.png",
+    "bytes": 59933,
+    "sha256": "c18e02bf6e93875eb9315a991e4d79f3f3813c9a9338612e61c03e0ad4dd3182"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-20.png",
+    "bytes": 36163,
+    "sha256": "d9acb7189276e030e6130f6d1ff49b442b3131cc22495b1a20f8bbd9a3c9c498"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-21.png",
+    "bytes": 66596,
+    "sha256": "51fbe656598a2b4884813efd98caa8c162ce9aba40f4157742e95825e1e26bef"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-3.png",
+    "bytes": 55687,
+    "sha256": "8f86d5981370911cd5ff8f04bea4b292d02b0534ffbaab215f29bb88aa4735be"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-5.png",
+    "bytes": 81247,
+    "sha256": "60bb7131a2ed8f3a5b55d6d28906bfec496946f5235934dd23f1af8359f87e77"
+  },
+  {
+    "path": "public/temario/dwcs-r17-transparencia-8.png",
+    "bytes": 67930,
+    "sha256": "9b3a746754e993016302577f0eb211288976a6a6499d74c1f5d00d481b8cde8c"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u1-02.png",
+    "bytes": 489704,
+    "sha256": "2e9367cdebe91c306bf0cb77cecb993f3e8c2315bf9ec7ae0a023f94c42154fe"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u1-03.png",
+    "bytes": 316903,
+    "sha256": "1941bdfebb8fe59f88e14a149a4206a235b1391bbd52ae3cc581d8429306f513"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u1-23.png",
+    "bytes": 246379,
+    "sha256": "ef7a6f26788c0fbcb840110da4e731855b0c7af53f7bffd6c41be3e076ad58e8"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u1-27.png",
+    "bytes": 28515,
+    "sha256": "77e53a9198bc8cc2a1c5c04ae50856fee5175acac7c90c4c642f9b44913dd347"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u1-71.png",
+    "bytes": 62388,
+    "sha256": "ef699aa1155a6e30aba31c1a310fadf9324efb86c8a10ee0a128c73c258d85f5"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-08.png",
+    "bytes": 17783,
+    "sha256": "2fe13bf0133f1132e191dc48416532a5a5bc374a08fa34e5163b64250752553c"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-15.png",
+    "bytes": 25850,
+    "sha256": "35d9736731ca3426cd77b6c45d1c9ff7e14a688447863a4774615289441e4663"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-24.png",
+    "bytes": 9374,
+    "sha256": "c90c3aeee72101ba5bdded383bd2e68be3ecbd02679a7faf3bf79fcb038d99c3"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-25.png",
+    "bytes": 136514,
+    "sha256": "663e99c76b73c1f870a31f0e583bcb94bebbcf9d9ef71b0f72d8912a23f28356"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-28.png",
+    "bytes": 24696,
+    "sha256": "cf60616bc2859b05d819326442e64b29102497bfb803f2b91ca3b7aca57f5f5a"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-29.png",
+    "bytes": 57227,
+    "sha256": "5b6471a4f191ad2a93d23b8eff268508c05f9deeeedf83cfdeb5ad886102c19a"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-35.png",
+    "bytes": 49161,
+    "sha256": "9176b39af2f079c7479868794e0674e5d778b941c8a08f72712a77f7c1368d59"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-38.png",
+    "bytes": 69930,
+    "sha256": "e2d1f5017355b217d0ff09d9767d5ccdec5af48bb577ed60eaf0d74a848e597a"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-41.png",
+    "bytes": 74095,
+    "sha256": "2382188ff81a8d5e5b446214e3d5f1c1581f4fda5f4c785de8354b5cdc247f88"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-46.png",
+    "bytes": 22348,
+    "sha256": "fa0fb22da18f1131dfea4fcb64253d98a21ae882b220f33a8092465d8b744a95"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-47.png",
+    "bytes": 18004,
+    "sha256": "7cb7dea5ddb17723c3dc155ea7e7004fa99b1e67a50f77d2f0f0d7bb91476a1e"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-48.png",
+    "bytes": 133881,
+    "sha256": "087c1788fc1f8023f36c6e4217958795ebb5b348595e4d5c65f9d215867302b9"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-49.png",
+    "bytes": 57448,
+    "sha256": "e400dc45709a88a4b9d17c1a6ef8b0e91999fd91735e14177299fba48d0e50a2"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-50.png",
+    "bytes": 119982,
+    "sha256": "7750a5c934ebd7933ae2712c418a3e29651af54be42d8c7b120ca2ff9355a7b0"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-51.png",
+    "bytes": 48589,
+    "sha256": "5db48240711984e1bd3258e60a470e401afb853850ceb128907b1760cab47a96"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-52.png",
+    "bytes": 29859,
+    "sha256": "a296fe227c80db412904b9bbb4dee50a698519b28fb2e630f7b714359dd4b528"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-61.png",
+    "bytes": 18782,
+    "sha256": "8497d177456c9b148c955f10b0b3d1a118842dd2e3de90fd63cf62aaf07dad8e"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-62.png",
+    "bytes": 34191,
+    "sha256": "40e0319f14b10c661e36318ddf4dff6ee8aa103c96b535d97f8b555eb651fe6d"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-64.png",
+    "bytes": 13415,
+    "sha256": "ac102475906d5baa7f08137568b52f5bd4ed409565c94131fcccf9bae80c21c2"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-65.png",
+    "bytes": 46920,
+    "sha256": "c7cd6b880d9a7422f58834b63b550f5e38276be8d1604b97b4991f225d527427"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-67.png",
+    "bytes": 24485,
+    "sha256": "3b29ddf59767c5e6c5527eb3865d9eed313df3b0ee9ff7fb504b793d035fb242"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-68.png",
+    "bytes": 63124,
+    "sha256": "d24c0edc9ef2c0ca93e2e165d7e2d714db8960865be21784a3469047e42a501d"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-69.png",
+    "bytes": 59701,
+    "sha256": "ada4f11c174a819087aa53c24b8f3558873f24aa867f49705ac2ed973556ccee"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u2-70.png",
+    "bytes": 14535,
+    "sha256": "fcf0591128955837e1c755458781ced0e3cc6d2b2c79525d1df4630b1d67cbce"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-00.png",
+    "bytes": 40480,
+    "sha256": "7c28f77320da9f7de4e693bcc20c1dc1aa3e57488acf084d5679cd38d6a1645f"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-01.jpg",
+    "bytes": 80911,
+    "sha256": "92b45a77a621c9be793c0c1033703ce98d46b3c745fb4d83b4625b47639ce986"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-04.png",
+    "bytes": 119495,
+    "sha256": "ca022834dc8ea5b5d018498ba4eb50d81aa784cab374bd6ed196509ddbfc8a09"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-06.png",
+    "bytes": 19578,
+    "sha256": "6ce5514d989e4bd73ecf4f33872cc60fd459756ecada1499a1f6432feadc454e"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-07.png",
+    "bytes": 57635,
+    "sha256": "1dd5520d1b4a78795c6bb71d389242d307a8b0c0604c674e23a9246db63fdcf5"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-30.png",
+    "bytes": 32807,
+    "sha256": "cb9906513cff5b5e222d838221a5750c83910251d4ec2bd456b3911180b8c30a"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-31.png",
+    "bytes": 53531,
+    "sha256": "8bf7bbb93a68823b79314f9a38c1cb545204020eadd14260763d3d19a8fa25e3"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-36.png",
+    "bytes": 28963,
+    "sha256": "501255763bf2c8ea8bb2233d847eb8ddc7fed07c8903755346535bcda780dd4a"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-39.png",
+    "bytes": 578588,
+    "sha256": "ef83d701326e1f3d781c73ffe371ec1cb6c3f3e0411270a76028defe9a46ffa6"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-42.png",
+    "bytes": 51266,
+    "sha256": "8827075549a162a58b5824559cebcdd062dd3cbb8f095fce473ef510e35115c2"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-43.png",
+    "bytes": 54395,
+    "sha256": "13baa71c673c348528acbee25ec3b6790a8cf8948fcd79890142d901de77ed91"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-53.png",
+    "bytes": 29229,
+    "sha256": "f26bb26835fa357ab88bbcf23f891ec26066530b1c106e7a441bade71774ed43"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-54.png",
+    "bytes": 136101,
+    "sha256": "0fab0b64f39a8b4354871d734c8cc49f66d356dac3f571349a07660688865f36"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-55.png",
+    "bytes": 62507,
+    "sha256": "64667919bc96b88d34c2f8affea9c353a0036033aa64bb0f4262721e6c572f20"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-56.png",
+    "bytes": 38429,
+    "sha256": "0ac1edb9d16a6f3e6f91ceecd26e43d0662507d733a21a44e357b3ba972fa94f"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-58.png",
+    "bytes": 148938,
+    "sha256": "497340d9240e6dd3af69a952b78274a8ae7e71a8aebfbb3f2ea36f498bc384b0"
+  },
+  {
+    "path": "public/temario/dwcs-r17-u3-60.png",
+    "bytes": 85125,
+    "sha256": "5852a5790eb974f84f68c60c6efa7e8ee3c45c89fc080168369d549fb3a0f9a7"
+  },
+  {
+    "path": "public/temario/http-redireccion.png",
+    "bytes": 40480,
+    "sha256": "7c28f77320da9f7de4e693bcc20c1dc1aa3e57488acf084d5679cd38d6a1645f"
+  },
+  {
+    "path": "public/temario/http-request.png",
+    "bytes": 19578,
+    "sha256": "6ce5514d989e4bd73ecf4f33872cc60fd459756ecada1499a1f6432feadc454e"
+  },
+  {
+    "path": "public/temario/http-response.png",
+    "bytes": 57635,
+    "sha256": "1dd5520d1b4a78795c6bb71d389242d307a8b0c0604c674e23a9246db63fdcf5"
+  },
+  {
+    "path": "public/temario/notas-tabla.png",
+    "bytes": 136514,
+    "sha256": "663e99c76b73c1f870a31f0e583bcb94bebbcf9d9ef71b0f72d8912a23f28356"
+  },
+  {
+    "path": "public/temario/web-estatica-dinamica.png",
+    "bytes": 106969,
+    "sha256": "5aaa5986b118b1d76a79914ebd20b5fcb161947b18e1a658e392d510354cf873"
+  },
+  {
+    "path": "public/temario/xdebug-wizard.png",
+    "bytes": 63215,
+    "sha256": "f88dd3eca48125b568376e6396b1c3475f8ec6954964417f2c044587d279629a"
+  }
+]

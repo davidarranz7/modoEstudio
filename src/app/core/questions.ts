@@ -1,14 +1,10 @@
 import { DWCS_QUESTIONS } from '../data/dwcs.questions';
-import { DWCS_ACTIVITIES } from '../data/dwcs-activities.questions';
-import { DWCS_EXAMEN } from '../data/dwcs-examen.questions';
-import { DWCS_TEST_CODIGO } from '../data/dwcs-test-codigo.questions';
-import { DWCS_SEGURIDAD } from '../data/dwcs-seguridad.questions';
-import { DWCS_CURATED } from '../data/dwcs-curated.questions';
 import { DESPREGAMENTO_QUESTIONS } from '../data/despregamento.questions';
 
 export type QuestionKind = 'single' | 'multi' | 'short' | 'develop' | 'code' | 'match' | 'order';
 export type Level = 'medio' | 'alto';
 export type Source = 'audio' | 'temario';
+export interface PhpTestCase { label: string; functionName: string; args: unknown[]; expected: unknown; mode?: 'return' | 'output'; }
 export interface Question {
   id: string;
   subjectId: string;
@@ -31,13 +27,21 @@ export interface Question {
   expectedOutput?: string;
   imageCaption?: string;
   section?: string;
+  reference?: string;
+  referenceUrl?: string;
+  sourcePage?: number;
+  format?: 'true-false' | 'fill' | 'fix-code';
+  phpTests?: PhpTestCase[];
+  runnerMode?: 'console' | 'tests' | 'manual';
+  consoleInput?: string;
+  explanation?: string;
   hints?: string[];
   starterFiles?: Record<string,string>;
   pairs?: {left:string;right:string}[];
   sequence?: string[];
 }
 
-export const QUESTIONS: Question[] = [...DWCS_QUESTIONS, ...DWCS_ACTIVITIES, ...DWCS_EXAMEN, ...DWCS_TEST_CODIGO, ...DWCS_SEGURIDAD, ...DWCS_CURATED, ...DESPREGAMENTO_QUESTIONS];
+export const QUESTIONS: Question[] = [...DWCS_QUESTIONS, ...DESPREGAMENTO_QUESTIONS];
 export const TYPE_NAMES: Record<QuestionKind,string> = {
   single: 'Test · una respuesta', multi: 'Test · varias respuestas',
   short: 'Respuesta breve', develop: 'Desarrollo', code: 'Código e interpretación', match: 'Relacionar conceptos', order: 'Ordenar pasos'

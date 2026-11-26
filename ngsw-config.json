@@ -11,7 +11,8 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js",
-          "/icons/*.png"
+          "/icons/*.png",
+          "/fonts/**"
         ]
       }
     },
@@ -22,6 +23,27 @@
       "resources": {
         "files": [
           "/temario/**"
+        ]
+      }
+    },
+    {
+      "name": "study-materials",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "files": [
+          "/apuntes/**",
+          "/descargas/**"
+        ]
+      }
+    },
+    {
+      "name": "php-runtime",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "files": [
+          "/php-runtime/**"
         ]
       }
     }

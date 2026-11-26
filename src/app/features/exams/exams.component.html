@@ -1,10 +1,28 @@
 <app-header title="Exámenes"/>
 <main class="page with-header exam-history-page">
   <section class="intro-copy"><span class="eyebrow">TU CENTRO DE EXÁMENES</span><h2>Practica y mejora</h2><p>Prepara un simulacro, retoma el que dejaste o revisa tus resultados anteriores.</p></section>
+  <section class="section">
+    <div class="section-title"><h2>Primera evaluación DWCS</h2><span>Indicaciones facilitadas</span></div>
+    <p>Miércoles 2 de diciembre de 2026 · 15:00–18:30 como máximo.</p>
+    <p class="small-muted">UD1: escrita 90 % y tareas 10 %. UD2: práctica 80 % y tareas 20 %. UD3: escrita 25 %, práctica 50 % y tareas 25 %.</p>
+    <p class="small-muted">Escritas sin material. Prácticas UD2 y UD3 con apuntes y ejercicios locales, aula virtual, VS Code y XAMPP; sin Internet, IA, nube ni comunicación. Estos simulacros sirven para preparar la prueba y no son exámenes oficiales.</p>
+  </section>
   <section class="section"><div class="section-title"><h2>Simulacros por unidad</h2><span>Corrección al finalizar</span></div>
     <p class="preset-explainer">Propuestas de práctica basadas en el temario y los tipos de prueba. El número de preguntas es orientativo, no un reparto oficial del examen.</p>
-    <div class="preset-list">@for(preset of presets;track preset.id){<button type="button" class="module-row" (click)="startPreset(preset.id)"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>{{preset.label}}</strong><span>{{preset.description}} · {{preset.count}} preguntas</span></div><app-icon name="chevron"/></button>}</div>
+    <div class="preset-list">@for(preset of presets;track preset.id){<button type="button" class="module-row" (click)="startPreset(preset.id)"><div class="module-index"><app-icon name="layers" [size]="18"/></div><div><strong>{{preset.label}}</strong><span>{{preset.description}} · {{preset.count?preset.count+' preguntas':'Abrir laboratorio'}}</span></div><app-icon name="chevron"/></button>}</div>
   </section>
+  <section class="section">
+    <div class="section-title"><h2>Selección de preguntas</h2><span>Configuración personal</span></div>
+    <div class="academic-filters">
+      <label>Preparación<select [value]="study.filters().preparation??'general'" (change)="study.updateFilters({preparation:$any($event.target).value})"><option value="general">Estudio general · selección aleatoria</option><option value="exam">Examen DWCS · prioridad y repaso</option></select></label>
+      @if(study.filters().preparation==='exam'){
+        <label>Contenidos destacados<select [value]="study.filters().priorityShare??70" (change)="study.updateFilters({priorityShare:+$any($event.target).value})"><option value="50">50 % destacados / 50 % resto</option><option value="70">70 % destacados / 30 % resto</option><option value="85">85 % destacados / 15 % resto</option></select></label>
+      }
+    </div>
+    <p class="small-muted">El reparto es una preferencia de estudio, no un criterio de la profesora. Se adapta a las preguntas disponibles y combina variedad, fallos, favoritas, preguntas nuevas y tiempo sin repasar. El estudio general mantiene su selección aleatoria.</p>
+    <details><summary>Apartado y preguntas pendientes para el simulacro personalizado</summary><div class="academic-filters"><label>Apartado<select [value]="study.filters().section??'all'" (change)="study.updateFilters({section:$any($event.target).value})"><option value="all">Todos los apartados seleccionados</option>@for(section of sections();track section){<option [value]="section">{{section}}</option>}</select></label><label class="sheet-check"><input type="checkbox" [checked]="!!study.filters().pendingOnly" (change)="study.updateFilters({pendingOnly:$any($event.target).checked})"/> Solo sin responder o favoritas pendientes</label></div><p class="small-muted">Se respeta el apartado elegido. Revisa la asignatura y las unidades al crear el simulacro.</p></details>
+  </section>
+  @if(study.storageError()){<p class="message-line" role="alert">{{study.storageError()}}</p>}
   <button class="primary-button wide" type="button" (click)="create()"><app-icon name="play" [size]="18"/>Crear simulacro personalizado</button>
   @if(study.hasActiveExam()){
     <section class="exam-pending-card"><div class="exam-meta-label"><span class="status-dot"></span> EXAMEN SIN TERMINAR</div>

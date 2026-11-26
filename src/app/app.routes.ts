@@ -6,6 +6,8 @@ export const routes: Routes = [
   {path:'asignaturas/:subjectId/temas',title:'Temas · Estudio',loadComponent:()=>import('./features/topics/topics.component').then(m=>m.TopicsComponent)},
   {path:'asignaturas/:subjectId/temas/:unit',title:'Tipo de examen · Estudio',loadComponent:()=>import('./features/theme-detail/theme-detail.component').then(m=>m.ThemeDetailComponent)},
   {path:'modulos',redirectTo:'asignaturas'},
+  {path:'apuntes',title:'Apuntes · Estudio',loadComponent:()=>import('./features/materials/materials.component').then(m=>m.MaterialsComponent)},
+  {path:'laboratorio',title:'Laboratorio PHP · Estudio',loadComponent:()=>import('./features/laboratory/laboratory.component').then(m=>m.LaboratoryComponent)},
   {path:'preguntas',title:'Banco de preguntas · Estudio',loadComponent:()=>import('./features/library/library.component').then(m=>m.LibraryComponent)},
   {path:'estudiar',title:'Examen · Estudio',loadComponent:()=>import('./features/study/study.component').then(m=>m.ExamComponent)},
   {path:'examenes',title:'Exámenes · Estudio',loadComponent:()=>import('./features/exams/exams.component').then(m=>m.ExamsComponent)},

@@ -59,7 +59,7 @@ export class CatalogService {
       const additions: Question[] = [];
       const seen = new Set(original);
       for (const value of data.additions ?? []) {
-        try { const q = validateQuestion(value); if (!seen.has(q.id)) {additions.push(q); seen.add(q.id);} } catch {}
+        try { const q = validateQuestion(value); if (!seen.has(q.id) && (q.subjectId!=='dwcs' || q.id.startsWith('DWCS-R17-'))) {additions.push(q); seen.add(q.id);} } catch {}
       }
       this.overrides.set(overrides); this.additions.set(additions);
       if (Array.isArray(data.revisions)) this.revisions.set(data.revisions.slice(0,100));

@@ -19,9 +19,9 @@ export const SUBJECTS: Subject[] = [
     name: 'Desenvolvemento Web Contorno Servidor',
     description: 'Fundamentos web, programación PHP y gestión de sesiones y autenticación.',
     themes: [
-      { id: 1, name: 'Fundamentos web', description: 'Arquitectura cliente-servidor, HTTP, tecnologías y servidores web' },
-      { id: 2, name: 'Programación PHP', description: 'Sintaxis, formularios, arrays, funciones, ficheros y seguridad' },
-      { id: 3, name: 'HTTP, sesiones y autenticación', description: 'Cookies, sesiones, contraseñas, autenticación y permisos' }
+      { id: 1, name: 'Selección de arquitecturas e ferramentas de programación', description: 'Arquitectura cliente-servidor, HTTP, tecnologías y servidores web' },
+      { id: 2, name: 'Programación Web con PHP', description: 'Sintaxis, formularios, arrays, funciones, ficheros y seguridad' },
+      { id: 3, name: 'Mantemento do estado. Autenticación e roles', description: 'Cookies, sesiones, contraseñas, autenticación y permisos' }
     ]
   }
   ,{

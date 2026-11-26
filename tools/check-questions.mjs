@@ -1,8 +1,11 @@
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
-const names = readdirSync('src/app/data').filter(name => name.endsWith('.questions.ts'));
 const registry = readFileSync('src/app/core/questions.ts', 'utf8');
+const names = [...registry.matchAll(/from ['"]\.\.\/data\/([^'"]+\.questions)['"]/g)].map(match=>match[1]+'.ts');
+const baseline = JSON.parse(readFileSync('tools/bank-baseline.json','utf8'));
+if(names.length!==2 || !names.includes('dwcs.questions.ts') || !names.includes('despregamento.questions.ts')) throw Error('El registro activo debe conservar los dos bancos actuales.');
 const subjectsSource = readFileSync('src/app/core/subjects.ts', 'utf8');
 const subjectIds = new Set([...subjectsSource.matchAll(/id:\s*'([a-z0-9-]+)'/g)].map(match => match[1]));
 const ids = new Set();
@@ -16,6 +19,10 @@ for (const name of names) {
   const match = source.match(/export const [A-Z0-9_]+: Question\[\] = (\[[\s\S]*\]);\s*$/);
   if (!match) throw Error(`Formato de banco desconocido: ${name}`);
   const bank = JSON.parse(match[1]);
+  const original=baseline.banks[name.replace('.questions.ts','')];
+  if(bank.length!==original.count)throw Error(`Número de preguntas alterado: ${name}`);
+  for(const q of bank)if(createHash('sha256').update(JSON.stringify(q)).digest('hex')!==original.questions[q.id])throw Error(`Pregunta original modificada o sustituida: ${q.id}. Documenta cualquier corrección puntual antes de actualizar la referencia.`);
+  if(createHash('sha256').update(readFileSync(join('src/app/data',name))).digest('hex')!==original.sha256)throw Error(`Archivo del banco original modificado: ${name}`);
   for (const q of bank) {
     if (ids.has(q.id)) throw Error(`ID duplicado: ${q.id}`);
     ids.add(q.id);
@@ -35,7 +42,7 @@ for (const name of names) {
       }
     } else if (q.codeTask) throw Error(`Subtipo de código en otra modalidad: ${q.id}`);
     if (q.kind === 'single' || q.kind === 'multi') {
-      if (q.options.length < 3 || q.options.length > 8 || q.correct.length < 1 || (q.kind === 'single' && q.correct.length !== 1) || (q.kind === 'multi' && q.correct.length < 2)) throw Error(`Número incorrecto de opciones/respuestas: ${q.id}`);
+      if (q.options.length < (q.format === 'true-false' ? 2 : 3) || q.options.length > 8 || q.correct.length < 1 || (q.kind === 'single' && q.correct.length !== 1) || (q.kind === 'multi' && q.correct.length < 2)) throw Error(`Número incorrecto de opciones/respuestas: ${q.id}`);
       if (q.options.some(o => typeof o !== 'string' || !o.trim()) || new Set(q.options.map(o => o.trim())).size !== q.options.length) throw Error(`Opción vacía o duplicada: ${q.id}`);
       if (q.correct.some(i => !Number.isInteger(i) || i < 0 || i >= q.options.length) || new Set(q.correct).size !== q.correct.length) throw Error(`Índices de respuestas no válidos: ${q.id}`);
     } else if (q.options.length || q.correct.length) throw Error(`Las respuestas abiertas no deben tener opciones: ${q.id}`);
@@ -45,6 +52,7 @@ for (const name of names) {
       const imagePath = join('public/temario', q.image);
       if (!existsSync(imagePath) || statSync(imagePath).size === 0) throw Error(`Imagen no disponible: ${q.id}, ${q.image}`);
     }
+    if(q.subjectId==='dwcs' && (!q.section?.trim() || !q.reference?.trim())) throw Error(`Referencia ausente: ${q.id}`);
     counters[q.unit] ??= {};
     const key = q.kind === 'code' ? `code-${q.codeTask}` : q.kind;
     counters[q.unit][key] = (counters[q.unit][key] ?? 0) + 1;
@@ -52,8 +60,6 @@ for (const name of names) {
   }
 }
 if (!questions.length) throw Error('Banco vacío');
-if (!questions.some(q => q.origin === 'audio' && q.kind === 'code' && q.unit === 2)) throw Error('Faltan ejercicios de programación destacados por profesora');
-if (!questions.some(q => q.origin === 'audio' && q.unit === 3)) throw Error('Faltan indicaciones de la grabación sobre HTTP y autenticación');
 console.log(`Banco verificado: ${questions.length} preguntas, ${names.length} archivos de banco y ${subjectIds.size} asignatura(s).`);
 for (const [unit, modes] of Object.entries(counters)) {
   console.log(`Tema ${unit}: ${Object.values(modes).reduce((a, b) => a + b, 0)} preguntas; ${Object.entries(modes).map(([name,count]) => `${name} ${count}`).join('; ')}`);

@@ -1,0 +1,444 @@
+{
+  "description": "Cambios frente al estado de trabajo recibido el 25/11/2026, no frente a HEAD. Este manifiesto no se incluye a sí mismo.",
+  "initialReference": ".local-baseline-20261125",
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "status": "modified",
+      "initialSha256": "fe8b2ed3bc0333a10e062ea1504e79db1b62626deb9373ee3d975bd5088ebeb9",
+      "currentSha256": "ba8bb6bfd12c68f2d3b71b0a4e2bc42788aa43099ff24ca97cf0275018086d4c"
+    },
+    {
+      "path": ".gitignore",
+      "status": "modified",
+      "initialSha256": "6af678ea238041fe103ee158704ba94b66ebfa8ae314d7c50fe2f91b8bd0d9c0",
+      "currentSha256": "3b540f4d557a5627ee8caed4b288d0944c71d375d8639389fc8eb2352500828d"
+    },
+    {
+      "path": "INFORME_DWCS_FINAL.md",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "000a39391b1a92e00e4250bb669d75aa4af4372c025e90c3def1549b4a7f5500"
+    },
+    {
+      "path": "MATRIZ_COBERTURA.md",
+      "status": "modified",
+      "initialSha256": "bd0830cdcac92bf8fe214fac530befa4277324bdb142234e926f59549449c455",
+      "currentSha256": "78d25b5d3d548aa003396bc4b0522e11560d31903b7baea0f117636606bf824f"
+    },
+    {
+      "path": "ngsw-config.json",
+      "status": "modified",
+      "initialSha256": "0435bd96ccd009fd455c8cdfaf3ec2a70fac7009a25e256566e08087cf477ac4",
+      "currentSha256": "5fc5ec0b0ad9e72d959b5955aba08b7fc32d857903ecd6c5bbbd2e06ebc04b3f"
+    },
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "initialSha256": "5448852aa3946abc2d9014a0d49226c219593657b9cee725984ac80a74219c1a",
+      "currentSha256": "4a63c486ca1c86f4b1d0356912a2579f1427e6834f4a9a80368774400b4d6545"
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "initialSha256": "f07661d4fca4a2cc37dc56379348c0574791c45d22eeca1b2c61f7774900a63f",
+      "currentSha256": "9fe4b5fd4e1895adf702299120a35f30d950edec050d08084291830a77dc4c05"
+    },
+    {
+      "path": "PHP_RUNTIME.md",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "e26835acca3b0f6bca6e0c520af955bcf4136eae12749d90a2d19f50143251a6"
+    },
+    {
+      "path": "PRUEBAS_REALIZADAS.md",
+      "status": "modified",
+      "initialSha256": "44cb8409271651cc20011bd9150d1790ade540ff1f299639b1748e594627f759",
+      "currentSha256": "41293e82d1118c3f606cf3e5b470012d54d8657932ca74b718d4b889643bf8be"
+    },
+    {
+      "path": "public/descargas/matriz-cobertura.md",
+      "status": "modified",
+      "initialSha256": "bd0830cdcac92bf8fe214fac530befa4277324bdb142234e926f59549449c455",
+      "currentSha256": "78d25b5d3d548aa003396bc4b0522e11560d31903b7baea0f117636606bf824f"
+    },
+    {
+      "path": "public/fonts/dm-sans-latin-wght-normal.woff2",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "9fea608a947e67020c33cad9a6fe3d60c54119dfb8cff87768a8117a15ed7543"
+    },
+    {
+      "path": "public/fonts/jetbrains-mono-latin-wght-normal.woff2",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "18be452724bfdc236c074ca94a249a7f41a86752c7d04ab258ce9ed5651f6a7e"
+    },
+    {
+      "path": "public/fonts/LICENSE-DM-Sans.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "6fbd040a29c2037a765dfb9f2561e9965b5c95c6dcb5dce516089d63d5f17af7"
+    },
+    {
+      "path": "public/fonts/LICENSE-JetBrains-Mono.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+    },
+    {
+      "path": "public/fonts/SOURCES.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "2d3a44892b8ea5ad6d6821dc2c089ef27a816eb87398b77353b83b182820c020"
+    },
+    {
+      "path": "public/php-runtime/LICENSE-PHP-WASM.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "path": "public/php-runtime/LICENSE-PHP.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "b42e4df5e50e6ecda1047d503d6d91d71032d09ed1027ba1ef29eed26f890c5a"
+    },
+    {
+      "path": "public/php-runtime/LICENSE-ZEND.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "509aeb3be64e428d7e0004ce224620ab01bf94adaacefbb449611939df56bc5b"
+    },
+    {
+      "path": "public/php-runtime/NOTICE.txt",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "c6b03f6ca0751b3bcf7132f93cbfb8179477be59ba8a8f33ebe81db6107d6634"
+    },
+    {
+      "path": "public/php-runtime/php_8_2.wasm",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "112707570be9cbca7e12b3763f88d456704d56a938d9cb7cd190b1038a2f3277"
+    },
+    {
+      "path": "public/php-runtime/php-api.js",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "ceba7dcfde7aedf9d10c20f77104b7f1735da243efd0d1c4f2a2d335cac3b068"
+    },
+    {
+      "path": "public/php-runtime/php-loader.js",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "85a8af63881ff6a28baeeb119a148eebf88d8a222c55c285b7188b58a47d4ae8"
+    },
+    {
+      "path": "public/php-runtime/vendor-manifest.json",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "51d1e98dc471afcb127434d7cc4f3b27bb535b69d2ac50e1c838bfc81bcaac51"
+    },
+    {
+      "path": "public/php-runtime/worker.js",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "0ade3c1a021c0b2d3a7a308d1cdedee30cd70b8b41c26ef4c1f788f3b79038a1"
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "initialSha256": "51b3dfe56cc71dcb92250bb0d312135453fde770f42ff1771962b7404f027bdd",
+      "currentSha256": "bb5837b907fe8ba624f62a59a1f5f302137f60e05a824516f7ccbe42711ad9a3"
+    },
+    {
+      "path": "src/app/app.component.html",
+      "status": "modified",
+      "initialSha256": "4a84df3ebc540f0df9371d185f375d8b0369223cca30e2549970d70eecc00b99",
+      "currentSha256": "a94b4fa882fb06d8c961af01f2c0222efb3651855ece132a2946ad6531d06475"
+    },
+    {
+      "path": "src/app/app.component.ts",
+      "status": "modified",
+      "initialSha256": "b3a15be8a63e9cedba17e055f3e0a8926cd72dba0ccf2c0848fc2752043ba876",
+      "currentSha256": "90f99bd09264cc3176f7c5d2c2e863820a9d0c2dbf29ca228590ea6ed4bc0a01"
+    },
+    {
+      "path": "src/app/app.routes.ts",
+      "status": "modified",
+      "initialSha256": "61901a70761f67658f25fd952abd308e33c7b1508797eb7f85460fa152132099",
+      "currentSha256": "46ed4a77c34340baaf24f6e75a828e27d934d510728a7524d29c6784d19439ca"
+    },
+    {
+      "path": "src/app/core/exam-priority.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "cf46de0e960f69ef717a3b20e514fdfdba415f6aaf543894c8a47a6edfed3a5a"
+    },
+    {
+      "path": "src/app/core/php-project.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "6625bff3622561fad8c9cc28f24cf9f893da15ebdfcd639e6c6dd71e93c73627"
+    },
+    {
+      "path": "src/app/core/php-runtime.service.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "4750ff0c30f15ab97eacf9af099c4d80839933a438a685e885229ac4dddc4fcf"
+    },
+    {
+      "path": "src/app/core/project-evaluation.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "bfb655ceb8cb44278206d7c087b4912b82eb4dc58e20291f499f4ae2bca3b72a"
+    },
+    {
+      "path": "src/app/core/project-storage.service.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "57a17b311bc18a30858fc1c1bde722ed69eb60fb0fc7fc88b00dc77ddc852a88"
+    },
+    {
+      "path": "src/app/core/project-zip.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "ac28dbd7272ff24b35f86c1ec0f028d2472a80122f0a255225a2baac5cb4ab9e"
+    },
+    {
+      "path": "src/app/core/question-selection.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "7771db3266927dbcc7021530263095680b033e06bebd994bad56c0e2bc502d61"
+    },
+    {
+      "path": "src/app/core/study.service.ts",
+      "status": "modified",
+      "initialSha256": "4c113207ad42a060d7f5a3803021d26841f8e37f728b42930cf1c3987f041c18",
+      "currentSha256": "f1f39fb1f2c6041839fa127938007e9309c5ab25b93e8b7de5e834448b12c649"
+    },
+    {
+      "path": "src/app/data/php-projects.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "8d712f8425cdf6d4df0c5e3839a986aded0538eb323c359e0ee896eff5dec74e"
+    },
+    {
+      "path": "src/app/features/exams/exams.component.html",
+      "status": "modified",
+      "initialSha256": "9018fdd8fe1b0c68b0c8a58f41ce1283877e073ca71fa12e481cf455a3ac68c7",
+      "currentSha256": "0b5a602a338dbf3b2b0a53d40edb0a47a6ea0fcdd513ff72fd2395db58941ac7"
+    },
+    {
+      "path": "src/app/features/exams/exams.component.ts",
+      "status": "modified",
+      "initialSha256": "399d96d8fc976faa7d78cd890c7a9d13d286f7c44c115c2e97b7e22f5a2559e5",
+      "currentSha256": "74a89629cc37aeecfa59ba4f395a52a7823bcf19820f7ec4573217b54930a9fa"
+    },
+    {
+      "path": "src/app/features/home/home.component.html",
+      "status": "modified",
+      "initialSha256": "c882a54d469a226561f0ed4e94e00eb2924051ee19247042e04fc4763650db00",
+      "currentSha256": "621a4c7ea8cfa9df3e697350d03d2128754ce7fd8e20bf16deac9aff4230336f"
+    },
+    {
+      "path": "src/app/features/laboratory/laboratory.component.html",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "bf0f3170c99f432c9f561b7c3c3640f4bf25acac4bd3edd2ecc42492ed3c9162"
+    },
+    {
+      "path": "src/app/features/laboratory/laboratory.component.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "fba31b58859b188ebeef87cfed9e976a926ec96ade478386d21e7ab9499f2633"
+    },
+    {
+      "path": "src/app/features/library/library.component.html",
+      "status": "modified",
+      "initialSha256": "c037bf1241c2f14b32830542f57ffa4a3059c99bd7cc4b44380326ff682baa99",
+      "currentSha256": "65a4f2ebc8caad7e24b34e4645ee69a40f9d5fabf6de715c37325babdef15951"
+    },
+    {
+      "path": "src/app/features/library/library.component.ts",
+      "status": "modified",
+      "initialSha256": "976b4b2d72ccde0c8b952502ca06692548a695ed7ed89059bdd8bf0c335836f4",
+      "currentSha256": "d67cb2a96d0de4dfcf8178e03deb3f96d7a9cd299996d821493ba72fb9d00790"
+    },
+    {
+      "path": "src/app/features/study/study.component.html",
+      "status": "modified",
+      "initialSha256": "0cdd4d95781bf53137020b158e93c12ccb4e706411efb767cbf175ef572a8841",
+      "currentSha256": "e3c4c04fa25cc75665191a5c70f85b7d36105cd66a2595d215dfa981ed7fb659"
+    },
+    {
+      "path": "src/app/features/study/study.component.ts",
+      "status": "modified",
+      "initialSha256": "7f84c69928a26ad20b567925fd8a8d79067ef53b39f4d4e950c1b4b06f47e397",
+      "currentSha256": "8ae178eba8d5fab27add4a9fae8a181b8a3ff1f53e26b3cbd5334e3b9280f7b1"
+    },
+    {
+      "path": "src/app/features/theme-detail/theme-detail.component.html",
+      "status": "modified",
+      "initialSha256": "fac894518893f810f67a8aeaa59007f6074d479e2135e3976c2ac9ecb18fe2f0",
+      "currentSha256": "0b26637dbc3130641c2460528ee2a9df7de84c836b1a2454522c1f2fd7a2d4fe"
+    },
+    {
+      "path": "src/app/shared/code-workspace.component.ts",
+      "status": "modified",
+      "initialSha256": "2a420a09fc8e7078ed0c72a3f6466b5d9efaf4a14477a91f717fc59aa9feddc1",
+      "currentSha256": "51424cfa82943d7709103a891d35d3d89f8c6379d84fd4a03521de8d138bf255"
+    },
+    {
+      "path": "src/app/shared/image-viewer.component.ts",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "32a4f1894ad721b8a2d00588f499040a22c6b3b4af609dd956de6dde4632f87d"
+    },
+    {
+      "path": "src/app/shared/php-runner.component.ts",
+      "status": "modified",
+      "initialSha256": "582fd6d63f82f77fbfce8bcb0e7bd51e77e0eb85a09dd2011027a54ea7e0310f",
+      "currentSha256": "fea62515720949b5886c2fde31ed01758909fc5b11a3b4218f1c9bd42dc63fb5"
+    },
+    {
+      "path": "src/app/shared/question-report.component.ts",
+      "status": "modified",
+      "initialSha256": "7fcf308d40522a1596b4283e8048d5d47b6a4e82c97e2412b62631540547ae3d",
+      "currentSha256": "262c58c5163e607790db31648d1b998dc5aca0d0d10da52c7d02fd6bf1fe184e"
+    },
+    {
+      "path": "src/index.html",
+      "status": "modified",
+      "initialSha256": "f44dd3384728d42a90a89385ebf5b7254e7dc3031bb7b8f6fa6a2bf57884d7b7",
+      "currentSha256": "e920ada1e6b2b5f511b2a966dd5409f7fe875e39bdabd951b02e0e178e2b9955"
+    },
+    {
+      "path": "src/styles.css",
+      "status": "modified",
+      "initialSha256": "d73ee8f55152990395aa6ad39f6db4e99dcc93f72455b4bb2e9a2e3c21ef1bb0",
+      "currentSha256": "105470788abec2fa9132ec9d730c7d5f65ab525172f4278db01b79e9dbce501f"
+    },
+    {
+      "path": "src/styles/figma-original.css",
+      "status": "modified",
+      "initialSha256": "7a6c603896e22a8e9501cd4f2c110b74e9fff14e7f6e6ab2c065bd0176bdeb5b",
+      "currentSha256": "f7315eb7d6e8c41922be79796341d5287419bb5ad211e227023ea95aed7786fc"
+    },
+    {
+      "path": "src/styles/laboratory.css",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "085ae69c7a408c46272077998eaacc5336476fb56631130cc9a64856fc0c1f48"
+    },
+    {
+      "path": "tools/academic-assets-baseline.json",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "841576cf4b7bf77f212913feacb0df8cdf9107da44afeb7d448e2ebe35d1362f"
+    },
+    {
+      "path": "tools/audit-coverage.mjs",
+      "status": "modified",
+      "initialSha256": "c1980bd2978c41df333c7a9ba9f5ac5114d80d65d198b81367294b23b12aa00b",
+      "currentSha256": "a0adb79505546e3bb8450d97e40efc5f81cdb6c579b8a7a2068090a68da60951"
+    },
+    {
+      "path": "tools/bank-baseline.json",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "cb7fa7420c9448d2db81e9acc602f8f6daa23a5591f183149889c6c35518f4af"
+    },
+    {
+      "path": "tools/browser-test-support.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "3153d54ab1d198b319a253f24bac763ff4dd375a9f2dd03d81eeabb452f90f17"
+    },
+    {
+      "path": "tools/check-image-viewer.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "bbc7f93a2b7176bb8b67aae5170cb754358063f51d6817547ed0128514df664d"
+    },
+    {
+      "path": "tools/check-laboratory-ui.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "ea37d17d60ba41615db8fc37477f18fe7a1d80be5c4a6b0bdef91788184a5e51"
+    },
+    {
+      "path": "tools/check-preserved-assets.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "140cef76f16913f8a92d845d8116f2d8c9a17e1615faa46feaa96ffdce3b2989"
+    },
+    {
+      "path": "tools/check-project-content.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "556300621d0421550da839e9aa73dc2d0f944023d676d7e084d4ecc7597b4f63"
+    },
+    {
+      "path": "tools/check-project-runtime.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "89c1e5cc261cff2eeeb323f198a6e3b99a96e0c50577220fec0ba87b0492d0b0"
+    },
+    {
+      "path": "tools/check-project-storage.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "d8466b8abf516e87a89e080f17da251629b6c34b8d569ebc6e469552b86abbf4"
+    },
+    {
+      "path": "tools/check-questions.mjs",
+      "status": "modified",
+      "initialSha256": "9c7363f2f9bb5dc603fe1dd6161faef36a0ccbfbf92f9a69e846d339a3e62e33",
+      "currentSha256": "58451d3793117c8005545f671a1da7fdd47582d5cf5e5164b13393a82beaab20"
+    },
+    {
+      "path": "tools/check-selection.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "27285dfbd5946adb2299ccb0bf1df5c9d4d244feffb363da686ec9789a4a11cc"
+    },
+    {
+      "path": "tools/check-study-mobile.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "2092987a9936c4580030b8e402d536f7d26a117939d78f70746db76f2cb13030"
+    },
+    {
+      "path": "tools/check-study-persistence.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "54fd8556da4b275d372408601500a4513d72836f74f7ffb3c8dddf57f794ad25"
+    },
+    {
+      "path": "tools/debug-lab-bridge.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "d6925cc70f996b339a6d3fcd5115b9ffb16ac0df4e94e5ce7725500ad6196861"
+    },
+    {
+      "path": "tools/runtime-poc.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "a043bc47a532aff59e3bae39ccea6c836afacafa93e5fd0eb5e31e30b6c6c7b4"
+    },
+    {
+      "path": "tools/runtime-quick-ui.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "789509a93431d7a7b9e6302abd58913d139b19579e20b56cc066bd6c298fd820"
+    },
+    {
+      "path": "tools/runtime-vendor.mjs",
+      "status": "created",
+      "initialSha256": null,
+      "currentSha256": "297c014aa51fdef1b7b0c9e00e55f80a089ddc21c912bd8d57fb765ac174a028"
+    }
+  ]
+}

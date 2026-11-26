@@ -13,7 +13,7 @@
         <div><strong>{{position()}} <span>/ {{total()}}</span></strong><div class="study-track"><i [style.width.%]="progressPct()"></i></div></div>
         <button class="icon-button" type="button" (click)="togglePause()" aria-label="Pausar"><app-icon name="pause"/></button>
       </header>
-      <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.kind==='code'?(card.codeTask==='interpret'?'Interpretar código':'Escribir código'):typeNames[card.kind]}}</small></div>
+      <main class="study-main"><div class="card-label"><span>{{findSubject(card.subjectId)?.shortName}} · Tema {{card.unit}} · {{themeName(card.subjectId,card.unit)}}</span><small>{{card.level==='medio'?'MEDIA':'ALTA'}} · {{card.format==='true-false'?'Verdadero / falso':card.format==='fill'?'Completar':card.format==='fix-code'?'Corregir código':card.kind==='code'?(card.codeTask==='interpret'?'Interpretar código':'Escribir código'):typeNames[card.kind]}}</small></div>
         <article class="flashcard">
           <div class="question-context-head"><p class="context">{{card.origin==='audio'?'Práctica relacionada con temas destacados en los audios':'Pregunta basada en el temario y las actividades'}}</p><button class="question-favorite" type="button" (click)="study.toggleStar(card.id)" [attr.aria-label]="study.record(card.id).starred?'Quitar favorita':'Guardar favorita'">{{study.record(card.id).starred?'★':'☆'}}</button></div>
           <app-question-report [questionId]="card.id"/>
@@ -59,6 +59,7 @@
               }@else{
                 <app-code-workspace [value]="session.draft" (valueChange)="study.write($event)"/>
               }
+              @if(card.subjectId==='dwcs' && !session.config.strict){<app-php-runner [question]="card" [files]="runnerFiles(card.starterFiles)"/>}
             }@else{
               <label class="study-draft-label" for="self-answer">Escribe tu respuesta</label>
               <textarea id="self-answer" class="study-draft" [rows]="card.kind==='short'?5:9" [value]="session.draft" (input)="study.write($any($event.target).value)" [placeholder]="card.codeTask==='interpret'?'Indica la salida exacta y explica el razonamiento...':'Explica tu respuesta con tus palabras...'"></textarea>
@@ -78,6 +79,7 @@
               @if(card.kind==='code' && card.codeTask==='interpret'){<p class="answer-subhead">Por qué se obtiene este resultado</p>}
               @if(card.kind==='code' && card.codeTask!=='interpret'){<pre class="solution-code">{{card.solution}}</pre>}@else{<p class="answer-text">{{card.solution}}</p>}
               @if(card.check){<p class="small-muted">Criterios para corregir tu respuesta: {{card.check}}</p>}
+              <app-question-source [question]="card"/>
               @if(session.draft){<div class="own-draft"><strong>Tu respuesta</strong><pre>{{session.draft}}</pre></div>}
             </section>
           }
@@ -100,7 +102,7 @@
         }
       </footer>
     </div>
-    @if(imageOpen() && card.image){<div class="overlay question-lightbox" (click)="imageOpen.set(false)"><button type="button" (click)="imageOpen.set(false)" aria-label="Cerrar imagen" class="lightbox-close">Cerrar ×</button><img [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen ampliada'" (click)="$event.stopPropagation()"/></div>}
+    @if(imageOpen() && card.image){<app-image-viewer [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen original del temario'" (closed)="imageOpen.set(false)"/>}
     @if(paused()){
       <div class="overlay"><div class="pause-modal"><div class="pause-icon"><app-icon name="pause" [size]="28"/></div><h2>Sesión en pausa</h2><p>Tu progreso está guardado. Puedes retomarla cuando quieras.</p>
         <button class="primary-button wide" type="button" (click)="togglePause()"><app-icon name="play" [size]="18"/>Continuar</button>

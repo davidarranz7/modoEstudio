@@ -6,7 +6,9 @@
       <div class="hero-progress"><div><strong>{{percent()}}%</strong><span>exploradas</span></div>
         <div class="progress-track"><span [style.width.%]="percent()"></span></div><small>{{seen()}} / {{cards().length}}</small></div>
     </section>
+    @if(subjectId==='dwcs'){<a class="academic-material-link" [href]="'/apuntes/dwcs-ud'+unit+'.pdf'" target="_blank" rel="noopener"><app-icon name="download" [size]="18"/>Consultar apuntes PDF de esta unidad</a>}
     <div class="section-title topic-title"><h2>¿Cómo quieres practicar?</h2><span>{{cards().length}} preguntas</span></div>
+    @if(subjectId==='dwcs' && (unit===2||unit===3)){<button class="outline-button wide" type="button" (click)="router.navigate(['/laboratorio'],{queryParams:{unit:unit}})"><app-icon name="code" [size]="18"/>Proyectos PHP completos · UD{{unit}}</button>}
     <div class="topic-list estudio-main-practices">
       @for (type of mainTypes; track type.id) {
         @if (count(type)) {

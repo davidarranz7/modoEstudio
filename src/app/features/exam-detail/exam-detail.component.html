@@ -38,6 +38,7 @@
                 <p class="exam-review-label">Explicación y solución</p><pre>{{q.solution}}</pre>
                 @if(answer.grade===null && !answer.skipped){<div class="exam-self-grade"><p>Evalúa tu respuesta usando la solución y los criterios:</p><button type="button" (click)="assess(answer.questionId,'bad')">Mal</button><button type="button" (click)="assess(answer.questionId,'medium')">Regular</button><button type="button" (click)="assess(answer.questionId,'good')">Bien</button></div>}
                 @if(q.check){<p class="exam-review-tip">Puntos clave: {{q.check}}</p>}
+                <app-question-source [question]="q"/>
               </div>
             }
           </div>

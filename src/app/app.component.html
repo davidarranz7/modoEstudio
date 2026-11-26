@@ -1,5 +1,6 @@
 <div class="app-shell" [class.dark]="study.theme() === 'dark'">
   <router-outlet/>
+  @if(study.storageError()){<p class="storage-alert" role="alert">{{study.storageError()}}</p>}
   @if (!studyScreen()) {
     <nav class="bottom-nav" aria-label="Navegación principal">
       @for (item of navItems; track item.url) {
@@ -48,11 +49,18 @@
             }
           </div>
         </div>
+        @if(study.filters().subjectId==='dwcs'){
+          <div class="academic-filters"><label>Preparación<select [value]="study.filters().preparation??'general'" (change)="study.updateFilters({preparation:$any($event.target).value})"><option value="general">Estudio general</option><option value="exam">Prioridad del examen + repaso</option></select></label>
+          @if(study.filters().preparation==='exam'){<label>Contenidos destacados<select [value]="study.filters().priorityShare??70" (change)="study.updateFilters({priorityShare:+$any($event.target).value})"><option value="50">50 %</option><option value="70">70 % (inicial)</option><option value="85">85 %</option></select></label>}</div>
+          @if(study.filters().preparation==='exam'){<p class="small-muted">Proporción orientativa configurable, adaptada a las preguntas disponibles. El resto del temario sigue en la rotación.</p>}
+        }
         <button class="estudio-sim-expand" type="button" [attr.aria-expanded]="advanced()" (click)="toggleAdvanced()">
           <span><app-icon name="settings" [size]="17"/>Más opciones</span><span>{{advanced()?'Ocultar':'Opcional'}} <app-icon name="chevron" [size]="16"/></span>
         </button>
         @if (advanced()) {
           <div class="estudio-sim-advanced">
+            <label>Apartado<select [value]="study.filters().section??'all'" (change)="study.updateFilters({section:$any($event.target).value})"><option value="all">Todos los seleccionados</option>@for(section of sections();track section){<option [value]="section">{{section}}</option>}</select></label>
+            <label class="sheet-check"><input type="checkbox" [checked]="!!study.filters().pendingOnly" (change)="study.updateFilters({pendingOnly:$any($event.target).checked})"/> Sin responder o favoritas</label>
             <label>Dificultad
               <select [value]="study.filters().level" (change)="setLevel($any($event.target).value)"><option value="all">Media y alta</option><option value="medio">Media</option><option value="alto">Alta</option></select>
             </label>
