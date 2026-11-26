@@ -8,7 +8,7 @@
       <button type="button" class="outline-button wide" (click)="study.abandon();router.navigateByUrl('/progreso')">Ver progreso</button>
     </main>
   }@else if(study.current();as card){
-    <div class="study-shell">
+    <div class="study-shell" [class.programming-question]="card.kind==='code' || (card.subjectId==='dwcs' && !!card.code)">
       <header class="study-header"><button class="icon-button" type="button" (click)="goHome()" aria-label="Salir y guardar"><app-icon name="close"/></button>
         <div><strong>{{position()}} <span>/ {{total()}}</span></strong><div class="study-track"><i [style.width.%]="progressPct()"></i></div></div>
         <button class="icon-button" type="button" (click)="togglePause()" aria-label="Pausar"><app-icon name="pause"/></button>
@@ -21,11 +21,14 @@
           @if(card.scenario){<section class="case-context"><span class="case-kicker">CONTEXTO DEL EJERCICIO</span><p>{{card.scenario}}</p></section>}
           <h1>{{card.prompt}}</h1>
           @if(card.image){<figure class="question-image"><button type="button" (click)="imageOpen.set(true)" aria-label="Ampliar imagen del temario"><img [src]="'/temario/'+card.image" [alt]="card.imageCaption||'Imagen del material de clase'" loading="lazy"/></button><figcaption>{{card.imageCaption||'Imagen del material de clase'}} · Pulsa para ampliar</figcaption></figure>}
-          @if(card.code){<pre class="question-code"><code>{{card.code}}</code></pre>}
-          @if(card.exampleInput || card.exampleOutput){
+          @if(card.code){
+            @if(card.subjectId==='dwcs' && card.unit>=2){<app-code-snippet [code]="card.code" [language]="codeLanguage(card.code)" [label]="isPrediction(card)?'Interpretar código':'Código de la pregunta'" [hint]="isPrediction(card)?'Predice la salida antes de consultar la solución.':'Fragmento de la pregunta. Solo lectura.'"/>}
+            @else{<pre class="question-code"><code>{{card.code}}</code></pre>}
+          }
+          @if(card.exampleInput || (card.exampleOutput && (!isPrediction(card) || session.revealed))){
             <section class="practice-example"><span class="case-kicker">EJEMPLO PARA COMPROBAR TU SOLUCIÓN</span>
-              @if(card.exampleInput){<div><strong>Datos de entrada</strong><p>{{card.exampleInput}}</p></div>}
-              @if(card.exampleOutput){<div><strong>Resultado esperado</strong><pre>{{card.exampleOutput}}</pre></div>}
+              @if(card.exampleInput){<div><strong>{{returnsValue(card)?'Argumentos para la función':'Datos de entrada'}}</strong><p>{{card.exampleInput}}</p></div>}
+              @if(card.exampleOutput && (!isPrediction(card) || session.revealed)){<div><strong>{{returnsValue(card)?'Valor devuelto esperado':'Resultado esperado'}}</strong><pre>{{card.exampleOutput}}</pre>@if(returnsValue(card)){<p>La función debe devolver este valor con return. No necesita imprimirlo.</p>}</div>}
             </section>
           }
           @if(card.hints?.length && !session.revealed && !session.config.strict){
@@ -54,14 +57,17 @@
             @if(card.kind==='code' && card.codeTask==='write'){
               <p class="study-draft-label">Escribe tu solución</p>
               @if(card.starterFiles;as starter){
-                <div class="code-file-tabs">@for(file of files(starter);track file){<button type="button" [class.active]="activeFile(starter)===file" (click)="chooseFile(file)">{{file}}</button>}</div>
-                <app-code-workspace [filename]="activeFile(starter)" [value]="codeFor(activeFile(starter),starter)" (valueChange)="study.writeFile(activeFile(starter),$event,starter)"/>
+                @if(starterReady(card)){
+                <app-code-workspace [projectId]="card.id" [allowCheck]="!session.config.strict" [wrapLines]="true" [filename]="activeFile(starter)" [language]="activeFile(starter).split('.').pop()!.toUpperCase()" [files]="runnerFiles(starter)" [value]="codeFor(activeFile(starter),starter)" (valueChange)="study.writeFile(activeFile(starter),$event,starter)">
+                  <div editor-files class="exercise-file-tabs" aria-label="Archivos del ejercicio">@for(file of files(starter);track file){<button type="button" [class.active]="activeFile(starter)===file" [attr.aria-current]="activeFile(starter)===file?'page':null" (click)="chooseFile(file)">{{file}}</button>}</div>
+                </app-code-workspace>
+                }@else{<p class="small-muted" role="status">Preparando código inicial…</p>}
               }@else{
-                <app-code-workspace [value]="session.draft" (valueChange)="study.write($event)"/>
+                <app-code-workspace [projectId]="card.id" [allowCheck]="!session.config.strict" [wrapLines]="true" [files]="runnerFiles()" [value]="session.draft" (valueChange)="study.write($event)"/>
               }
-              @if(card.subjectId==='dwcs' && !session.config.strict){<app-php-runner [question]="card" [files]="runnerFiles(card.starterFiles)"/>}
+              @if(card.subjectId==='dwcs' && starterReady(card)){<app-php-runner [question]="card" [files]="runnerFiles(card.starterFiles)" [allowCheck]="!session.config.strict"/>}
             }@else{
-              <label class="study-draft-label" for="self-answer">Escribe tu respuesta</label>
+              <label class="study-draft-label" for="self-answer">{{isPrediction(card)?'Escribe la salida que esperas y explica por qué':'Escribe tu respuesta'}}</label>
               <textarea id="self-answer" class="study-draft" [rows]="card.kind==='short'?5:9" [value]="session.draft" (input)="study.write($any($event.target).value)" [placeholder]="card.codeTask==='interpret'?'Indica la salida exacta y explica el razonamiento...':'Explica tu respuesta con tus palabras...'"></textarea>
             }
           }
@@ -77,21 +83,26 @@
               @if(card.expectedOutput){<div class="expected-output-answer"><strong>Salida o resultado de la ejecución</strong><pre>{{card.expectedOutput}}</pre></div>}
               @if(card.kind==='code' && card.codeTask==='write'){<p class="answer-subhead">Solución de referencia</p>}
               @if(card.kind==='code' && card.codeTask==='interpret'){<p class="answer-subhead">Por qué se obtiene este resultado</p>}
-              @if(card.kind==='code' && card.codeTask!=='interpret'){<pre class="solution-code">{{card.solution}}</pre>}@else{<p class="answer-text">{{card.solution}}</p>}
+              @if(card.kind==='code' && card.subjectId==='dwcs'){
+                <app-code-snippet [code]="referenceCode(card)" [language]="codeLanguage(referenceCode(card))" [label]="card.codeTask==='interpret'?'Código analizado':'Solución de referencia'" hint=""/>
+                @if(card.codeTask==='interpret'){<p class="answer-text">{{card.solution}}</p>}
+                <app-php-runner class="reference-preview" [question]="card" [files]="referenceFiles(card)" [referenceMode]="true"/>
+              }@else if(card.kind==='code' && card.codeTask!=='interpret'){<pre class="solution-code">{{card.solution}}</pre>}@else{<p class="answer-text">{{card.solution}}</p>}
               @if(card.check){<p class="small-muted">Criterios para corregir tu respuesta: {{card.check}}</p>}
               <app-question-source [question]="card"/>
               @if(session.draft){<div class="own-draft"><strong>Tu respuesta</strong><pre>{{session.draft}}</pre></div>}
             </section>
+            @if(card.subjectId==='dwcs' && card.unit>=2 && card.code && !(card.kind==='code' && card.codeTask==='write') && !session.config.strict){<app-php-scratchpad [question]="card" title="Experimentar con el código"/>}
           }
         </article>
       </main>
       <footer class="study-actions">
         @if(!session.revealed){
-          <p>{{session.config.strict?'Modo examen: las soluciones aparecen al finalizar.':'Responde con calma. Puedes guardar y continuar más tarde.'}}</p>
-          <button class="primary-button wide" type="button" [disabled]="(card.kind==='single'||card.kind==='multi')&&!session.selected.length || (card.kind==='match' && !session.matched)" (click)="revealAnswer()">{{session.config.strict?'Guardar respuesta y continuar':['single','multi','match','order'].includes(card.kind)?'Comprobar respuesta':'Ver solución'}}</button>
+          <p>{{session.config.strict?'Modo examen: las soluciones aparecen al finalizar.':isPrediction(card)?'Escribe primero tu predicción y después consulta la salida y el razonamiento.':'Responde con calma. Puedes guardar y continuar más tarde.'}}</p>
+          <button class="primary-button wide" type="button" [disabled]="(card.kind==='single'||card.kind==='multi')&&!session.selected.length || (card.kind==='match' && !session.matched)" (click)="revealAnswer()">{{session.config.strict?'Guardar respuesta y continuar':isPrediction(card)?'Ver salida y explicación':['single','multi','match','order'].includes(card.kind)?'Comprobar respuesta':'Ver solución'}}</button>
           <button class="study-skip" type="button" (click)="skip()">Omitir esta pregunta</button>
         }@else if(!session.graded){
-          <p>¿Qué tal has respondido?</p><div class="rating-row">
+          <p>{{isPrediction(card)?'Compara tu predicción con la salida. ¿Qué tal lo has entendido?':'¿Qué tal has respondido?'}}</p><div class="rating-row">
             <button type="button" class="bad" (click)="grade('bad')"><span>×</span><strong>Mal</strong><small>Repetir pronto</small></button>
             <button type="button" class="regular" (click)="grade('medium')"><span>—</span><strong>Regular</strong><small>Seguir practicando</small></button>
             <button type="button" class="good" (click)="grade('good')"><span>✓</span><strong>Bien</strong><small>Lo tengo</small></button>

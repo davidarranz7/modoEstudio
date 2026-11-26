@@ -1,57 +1,97 @@
-<app-header title="Laboratorio PHP" back="/inicio"/>
-<main class="page with-header lab-page">
- @if(storage.warning()){<p role="alert">{{storage.warning()}}</p>}
- @if(error()){<p class="lab-feedback" data-ok="false" role="alert">{{error()}}</p>}
- @if(message()){<p class="lab-safe-message" role="status">{{message()}}</p>}
- @if(project();as project){
-  <div class="lab-actions"><button type="button" (click)="close()">← Todas las prácticas</button><a [href]="'/apuntes/dwcs-ud'+project.unit+'.pdf'" target="_blank" rel="noopener">Apuntes UD{{project.unit}}</a></div>
-  <span class="eyebrow">DWCS · UD{{project.unit}} · {{exam()?'SIMULACRO PRÁCTICO':'PROYECTO MULTIFICHERO'}}</span><h2>{{project.title}}</h2>
-  <p class="lab-safe-message">Práctica generada para preparar la evaluación; no es una tarea ni un examen oficial.</p>
-  @if(!work()){<p role="status">Cargando tu proyecto…</p>}@else{
-   <nav class="lab-tabs" aria-label="Secciones de la práctica">@for(item of tabs;track item.id){@if(item.id!=='solution'||canReview()){<button type="button" [class.active]="tab()===item.id" [attr.aria-current]="tab()===item.id?'page':null" (click)="tab.set(item.id)">{{item.label}}</button>}}</nav>
-   @if(tab()==='statement'){
-    <section class="lab-panel"><h3>Contexto y objetivo</h3><p>{{project.context}}</p><p>{{project.objective}}</p><h3>Enunciado</h3><p style="white-space:pre-line">{{project.statement}}</p><h3>Requisitos funcionales y técnicos</h3><ul>@for(requirement of project.requirements;track $index){<li>{{requirement}}</li>}</ul><h3>Restricciones</h3><ul>@for(restriction of project.restrictions;track $index){<li>{{restriction}}</li>}</ul><h3>Archivos y responsabilidades</h3>@for(file of project.files;track file.path){<p><strong>{{file.path}} · {{file.role==='provided'?'Proporcionado':file.role==='create'?'Debes crearlo':'Debes completarlo'}}</strong><br/>{{file.responsibility}}</p>}<h3>Ejemplos de funcionamiento</h3><ul>@for(example of project.examples;track $index){<li>{{example}}</li>}</ul></section>
-    @if(canReview()){<section class="lab-panel"><h3>Pistas progresivas</h3>@for(text of project.hints;track $index){@if($index<hint()){<p>{{$index+1}}. {{text}}</p>}}<div class="lab-actions"><button type="button" [disabled]="hint()>=project.hints.length" (click)="hint.set(hint()+1)">Mostrar siguiente pista</button></div></section>}
-    <section class="lab-panel"><h3>Referencias académicas</h3>@for(ref of project.references;track $index){<p>DWCS · UD{{ref.unit}} · {{ref.section}} @if(ref.activity){ · {{ref.activity}} }@if(ref.note){<br/><small>{{ref.note}}</small>}</p>}</section>
-    <div class="lab-actions"><button type="button" class="primary-button" (click)="tab.set('editor')">Abrir archivos</button>@if(!exam()){<button type="button" (click)="startExam()">Simular prueba práctica</button>}@else if(!submitted()){<button type="button" (click)="leaveExam()">Volver a práctica</button>}</div>
+@if(project();as project){
+ <main class="programming-workspace">
+  <header class="workspace-header">
+   <button type="button" class="icon-button" (click)="close()" aria-label="Volver a las prácticas"><app-icon name="arrow"/></button>
+   <div><strong>Laboratorio PHP</strong><small>DWCS · UD{{project.unit}}{{exam()?' · SIMULACRO':''}}</small></div>
+   <button type="button" class="icon-button" aria-label="Opciones del proyecto" [attr.aria-expanded]="menuOpen()" (click)="menuOpen.set(!menuOpen())">···</button>
+   @if(menuOpen()){
+    <div class="workspace-project-menu" role="group" aria-label="Opciones del proyecto">
+     <a [href]="'/apuntes/dwcs-ud'+project.unit+'.pdf'" target="_blank" rel="noopener">Apuntes UD{{project.unit}}</a>
+     <button type="button" (click)="exportCode();menuOpen.set(false)">Descargar mi código ZIP</button>
+     @if(canReview()){<button type="button" (click)="exportPractice();menuOpen.set(false)">Descargar práctica completa ZIP</button>}
+     <button type="button" [disabled]="busy()" (click)="restartEnvironment();menuOpen.set(false)">Reiniciar cookies y sesión</button>
+     <button type="button" [disabled]="busy()" (click)="beginOperation('restore')">Restaurar archivos iniciales</button>
+    </div>
    }
-   @if(tab()==='editor'){
-    <details class="lab-panel" open><summary>Explorador de archivos</summary><div class="lab-actions"><button type="button" (click)="createFile()" [disabled]="busy()">Nuevo archivo</button><button type="button" (click)="createFolder()" [disabled]="busy()">Nueva carpeta</button></div><div class="lab-file-tree">@for(folder of work()!.folders;track folder){<small>📁 {{folder}}/</small>}@for(path of fileNames();track path){<button type="button" [class.active]="work()!.activeFile===path" (click)="selectFile(path)">{{path}}<small>{{fileRole(path)}}</small></button>}</div></details>
-    <div class="lab-tabs" aria-label="Archivos abiertos">@for(path of work()!.tabs;track path){<button type="button" [class.active]="path===work()!.activeFile" (click)="selectFile(path)">{{path}}</button><button type="button" [attr.aria-label]="'Cerrar pestaña '+path" (click)="closeTab(path)">×</button>}</div>
-    @if(work()!.activeFile){<app-code-workspace [readOnly]="busy()" [filename]="work()!.activeFile" [language]="work()!.activeFile.split('.').pop()!.toUpperCase()" [value]="activeCode()" (valueChange)="changeCode($event)"/><div class="lab-actions"><button type="button" [disabled]="busy()" (click)="renameFile(work()!.activeFile)">Renombrar archivo</button><button type="button" [disabled]="busy()" (click)="deleteFile(work()!.activeFile)">Eliminar archivo</button></div>}
-    <div class="lab-actions"><button type="button" class="primary-button" [disabled]="busy()" (click)="run()">Ejecutar proyecto</button>@if(busy()){<button type="button" (click)="cancel()">Cancelar</button>}<button type="button" (click)="exportCode()">Descargar mi código ZIP</button><button type="button" [disabled]="busy()" (click)="reset()">Restaurar inicio</button></div>
-    <p class="lab-safe-message">Los archivos comparten el mismo sistema de archivos PHP. Al editar se reinicia el estado HTTP en la próxima ejecución. Entre peticiones se conservan las cookies y sesiones del laboratorio.</p>
+  </header>
+  <div class="workspace-page">
+   <div class="workspace-label"><span>UD{{project.unit}} · Programación PHP</span><small>PRÁCTICA COMPLETA</small></div>
+   @if(storage.warning()){<p class="workspace-banner error" role="alert">{{storage.warning()}}</p>}
+   @if(message()){<div class="workspace-banner" role="status"><span>{{message()}}</span><button type="button" aria-label="Cerrar mensaje" (click)="message.set('')">×</button></div>}
+   @if(!work()){<p class="workspace-loading" role="status">Cargando tu proyecto…</p>}@else{
+    <article class="workspace-card">
+     <p class="workspace-context">{{project.objective}}</p><h1>{{project.title}}</h1>
+     <details class="workspace-assignment" [open]="tab()==='statement'">
+      <summary>Enunciado y requisitos</summary>
+      <h3>Contexto y objetivo</h3><p>{{project.context}}</p><p>{{project.objective}}</p><h3>Enunciado</h3><p style="white-space:pre-line">{{project.statement}}</p>
+      <h3>Requisitos funcionales y técnicos</h3><ul>@for(requirement of project.requirements;track $index){<li>{{requirement}}</li>}</ul>
+      <h3>Restricciones</h3><ul>@for(restriction of project.restrictions;track $index){<li>{{restriction}}</li>}</ul>
+      <h3>Archivos y responsabilidades</h3>@for(file of project.files;track file.path){<p><strong>{{file.path}} · {{file.role==='provided'?'Proporcionado':file.role==='create'?'Debes crearlo':'Debes completarlo'}}</strong><br/>{{file.responsibility}}</p>}
+      <h3>Ejemplos de funcionamiento</h3><ul>@for(example of project.examples;track $index){<li>{{example}}</li>}</ul>
+      @if(canReview()){<h3>Pistas progresivas</h3>@for(text of project.hints;track $index){@if($index<hint()){<p>{{$index+1}}. {{text}}</p>}}<button type="button" class="workspace-text-button" [disabled]="hint()>=project.hints.length" (click)="hint.set(hint()+1)">Mostrar siguiente pista</button>}
+      <h3>Referencias académicas</h3>@for(ref of project.references;track $index){<p>DWCS · UD{{ref.unit}} · {{ref.section}} @if(ref.activity){ · {{ref.activity}} }@if(ref.note){<br/><small>{{ref.note}}</small>}</p>}
+      @if(!exam()){<button type="button" class="workspace-text-button" (click)="startExam()">Simular prueba práctica</button>}@else if(!submitted()){<button type="button" class="workspace-text-button" (click)="leaveExam()">Volver a práctica</button>}
+     </details>
+     <div class="workspace-document" #documentPane>
+      <app-code-workspace [projectId]="project.id" [filename]="work()!.activeFile||project.entry" [language]="(work()!.activeFile||project.entry).split('.').pop()!.toUpperCase()" [value]="activeCode()" [files]="work()!.files" [savedState]="work()!.editorState?.[work()!.activeFile]" [readOnly]="busy()||!work()!.activeFile" [diagnostics]="editorProblems()" [navigateTo]="navigateTo()" [showActions]="true" [busy]="busy()" [saveStatus]="storage.saveState()==='saving'?'Guardando…':storage.saveState()==='error'?'Error de guardado':'Guardado'" (valueChange)="changeCode($event)" (stateChange)="saveEditorState($event)" (actionExecute)="run()" (actionCheck)="check()">
+       <div editor-files class="workspace-document-tabs">
+        <div class="workspace-open-files" aria-label="Archivos de la práctica">@for(path of filePaths();track path){<button type="button" [class.active]="work()!.activeFile===path" [attr.aria-current]="work()!.activeFile===path?'page':null" (click)="selectFile(path)">{{path}}</button>}</div>
+        <button type="button" class="workspace-add-file" aria-label="Nuevo archivo" [disabled]="busy()" (click)="beginOperation('createFile')">+</button>
+        <button type="button" class="workspace-files-menu" aria-label="Archivos y carpetas" [attr.aria-expanded]="explorerOpen()" (click)="toggleExplorer()">···</button>
+       </div>
+      </app-code-workspace>
+     </div>
+     <aside #fileManager class="workspace-file-manager" [hidden]="!explorerOpen()" aria-label="Archivos del proyecto">
+      <div class="workspace-panel-title"><strong>Archivos y carpetas</strong><button type="button" aria-label="Cerrar explorador" (click)="explorerOpen.set(false)">×</button></div>
+      <div class="workspace-file-actions"><button type="button" [disabled]="busy()" (click)="beginOperation('createFile')">+ Archivo</button><button type="button" [disabled]="busy()" (click)="beginOperation('createFolder')">+ Carpeta</button></div>
+      <app-file-explorer [files]="work()!.files" [folders]="work()!.folders" [activeFile]="work()!.activeFile" [disabled]="busy()" (fileOpen)="selectFile($event)" (options)="contextNode.set($event)"/>
+      @if(contextNode();as node){<div class="workspace-context-actions"><strong>{{node.path}}</strong><button type="button" (click)="beginOperation('rename',node.path,node.kind==='folder')">Renombrar</button><button type="button" (click)="beginOperation('delete',node.path,node.kind==='folder')">Eliminar</button><button type="button" (click)="contextNode.set(null)">Cancelar</button></div>}
+     </aside>
+     <div class="workspace-command-bar">
+      <button type="button" class="workspace-execute" [disabled]="busy()" (click)="run()"><app-icon name="play" [size]="16"/>Ejecutar</button>
+      <button type="button" class="workspace-check" [disabled]="busy()" (click)="check()">{{exam()&&!submitted()?'Entregar y corregir':'Corregir'}}</button>
+     </div>
+     @if(busy()){<div class="workspace-running"><span role="status">{{runtime.busy()?runtime.status():'Comprobando el proyecto…'}}</span><button type="button" (click)="cancel()">Cancelar</button></div>}
+     <app-php-result #results [response]="lastRun()" [preview]="preview()" [diagnostics]="diagnostics()" [error]="error()" [stale]="resultStale()" [busy]="busy()" [url]="address()" (diagnostic)="goToProblem($event)">
+      @if(executionState()==='cancelled'){<p class="workspace-cancelled">Ejecución cancelada. El código escrito se conserva.</p>}
+      @if(checks().length||resultTab()==='check'){
+       <details class="workspace-correction" [open]="resultTab()==='check'"><summary>{{exam()&&!submitted()?'Entrega del simulacro':'Corrección de la práctica'}}</summary>
+        <p>Se ejecuta el proyecto completo con sus casos de prueba. Revisa también los requisitos y la rúbrica.</p>
+        @if(checkStale()){<p class="workspace-stale">Esta corrección pertenece a una versión anterior de tu código.</p>}
+        @if(canReview()){@for(result of checks();track $index){<details class="lab-feedback" [attr.data-ok]="result.passed"><summary>{{result.passed?'✓':'✗'}} {{result.label}}</summary><small>{{result.detail}}</small></details>}}@else{<p>Entrega el simulacro para consultar sus comprobaciones.</p>}
+        <details class="workspace-rubric"><summary>Autoevaluación y observaciones</summary><p>No son criterios oficiales ni una nota automática. Revisa estos aspectos aunque pasen las pruebas.</p>
+         @for(criterion of project.rubric;track $index){<p><label><input type="checkbox"/> {{criterion.criterion}} · {{criterion.points}} puntos</label></p>}
+         @if(project.manualChecks?.length){<h3>Requisitos que debes revisar manualmente</h3><ul>@for(requirement of project.manualChecks;track $index){<li>{{requirement}}</li>}</ul>}
+         <label class="lab-note">Observaciones y requisitos pendientes de revisión<textarea [value]="work()!.note" (input)="patch({note:$any($event.target).value})"></textarea></label>
+         <h3>Historial de esta práctica</h3>@for(attempt of work()!.attempts;track $index){<p>{{attempt.date}} · {{attempt.mode==='exam'?'Simulacro':'Práctica'}} · {{attempt.passed}}/{{attempt.total}} comprobaciones superadas</p>}@empty{<p>Aún no has comprobado esta práctica.</p>}
+        </details>
+       </details>
+      }
+     </app-php-result>
+     @if(log().length){<details class="workspace-http"><summary>Dirección e inspector HTTP</summary>
+      <form class="workspace-address" (submit)="$event.preventDefault();openAddress()"><label for="lab-address">Página</label><input id="lab-address" aria-label="Ruta de la aplicación PHP" [value]="address()" (input)="address.set($any($event.target).value)" autocapitalize="off"/><button type="submit" [disabled]="busy()">Ir</button></form>
+      @for(entry of log();track $index){<details class="lab-inspector"><summary>{{entry.method}} {{entry.url}} · HTTP {{entry.status}}</summary><strong>GET</strong><pre>{{entry.get||'(vacío)'}}</pre><strong>POST</strong><pre>{{describe(entry.post)}}</pre><strong>Cabeceras de petición</strong><pre>{{describe(entry.requestHeaders)}}</pre><strong>Cabeceras de respuesta</strong><pre>{{describe(entry.headers)}}</pre><strong>Cookies del laboratorio</strong><pre>{{describe(entry.cookies)}}</pre><strong>Sesión</strong><pre>{{describe(entry.session)}}</pre><strong>Cuerpo de respuesta</strong><pre>{{entry.body}}</pre></details>}
+     </details>}
+     @if(canReview()){<details class="workspace-solution"><summary>Solución razonada</summary><p>Compara con tu código. Consultar esta solución no sobrescribe tus archivos.</p>@for(text of project.explanation;track $index){<p>{{text}}</p>}
+      @for(file of project.files;track file.path){<details><summary>{{file.path}} · {{file.responsibility}}</summary><p>{{file.explanation}}</p><pre>{{file.solution}}</pre><h3>Tu código</h3><pre>{{ownCode(file.path)}}</pre></details>}
+      <button type="button" class="workspace-text-button" (click)="exportPractice()">Descargar práctica completa ZIP</button>
+     </details>}
+    </article>
    }
-   @if(tab()==='preview'){
-    <form class="lab-address" (submit)="$event.preventDefault();run()"><input aria-label="Ruta de la aplicación PHP" [value]="address()" (input)="address.set($any($event.target).value)"/><button type="submit" [disabled]="busy()">Ir</button></form>
-    <div class="lab-actions">@if(busy()){<button type="button" (click)="cancel()">Cancelar ejecución</button>}<button type="button" [disabled]="busy()" (click)="environmentReady=false;run()">Reiniciar estado y ejecutar</button><button type="button" (click)="tab.set('http')">Inspeccionar HTTP</button></div>
-    @if(preview();as source){<iframe #previewFrame class="lab-preview" title="Aplicación PHP aislada" sandbox="allow-scripts allow-forms" referrerpolicy="no-referrer" [srcdoc]="source"></iframe>}@else{<p>Ejecuta el proyecto para abrir sus formularios y navegar entre páginas.</p>}
-    <p class="lab-safe-message">PHP se ejecuta en tu dispositivo. La vista HTML no ejecuta JavaScript del ejercicio ni accede a Internet o al progreso de ESTUDIO.</p>
-   }
-   @if(tab()==='http'){
-    <h3>Inspector HTTP educativo</h3><p class="lab-safe-message">Peticiones dentro del entorno virtual. Sus cookies y sesiones están separadas de ESTUDIO.</p>
-    @for(entry of log();track $index){<details class="lab-panel lab-inspector" [open]="$last"><summary>{{entry.method}} {{entry.url}} · HTTP {{entry.status}}</summary><strong>GET</strong><pre>{{entry.get||'(vacío)'}}</pre><strong>POST</strong><pre>{{describe(entry.post)}}</pre><strong>Cabeceras de petición proporcionadas</strong><pre>{{describe(entry.requestHeaders)}}</pre><strong>Cabeceras de respuesta · Location / Set-Cookie</strong><pre>{{describe(entry.headers)}}</pre><strong>Cookies almacenadas</strong><pre>{{describe(entry.cookies)}}</pre><strong>Sesión del ejercicio</strong><pre>{{describe(entry.session)}}</pre>@if(entry.stderr){<strong>Errores PHP</strong><pre>{{entry.stderr}}</pre>}<strong>Respuesta</strong><pre>{{entry.body}}</pre></details>}@empty{<p>Todavía no hay peticiones. Ejecuta la aplicación y envía un formulario.</p>}
-   }
-   @if(tab()==='check'){
-    <h3>{{exam()&&!submitted()?'Entrega del simulacro':'Comprobación de comportamiento'}}</h3><p>Se ejecuta tu código con datos válidos e inválidos. Cada escenario empieza aislado; sus pasos conservan cookies y sesiones. Las pruebas adicionales se distribuyen con la aplicación.</p>
-    <div class="lab-actions">@if(canReview()){<button type="button" class="primary-button" [disabled]="busy()" (click)="check()">Comprobar proyecto</button>}@else{<button type="button" class="primary-button" [disabled]="busy()" (click)="check(true)">Entregar y corregir</button>}@if(busy()){<button type="button" (click)="cancel()">Cancelar</button>}</div>
-    @if(canReview()){@for(result of checks();track $index){<details class="lab-feedback" [attr.data-ok]="result.passed"><summary>{{result.passed?'✓':'✗'}} {{result.label}}</summary><small>{{result.detail}}</small></details>}}
-    <section class="lab-panel"><h3>Autoevaluación · rúbrica orientativa</h3><p class="lab-safe-message">No son criterios oficiales ni una nota automática. Revisa estos aspectos aunque pasen las pruebas.</p>@for(criterion of project.rubric;track $index){<p><label><input type="checkbox"/> {{criterion.criterion}} · {{criterion.points}} puntos</label></p>}@if(project.manualChecks?.length){<h3>Requisitos que debes revisar manualmente</h3><ul>@for(requirement of project.manualChecks;track $index){<li>{{requirement}}</li>}</ul>}</section>
-    <label class="lab-note">Observaciones y requisitos pendientes de revisión<textarea [value]="work()!.note" (input)="patch({note:$any($event.target).value})"></textarea></label>
-    <h3>Historial de esta práctica</h3>@for(attempt of work()!.attempts;track $index){<div class="lab-attempt">{{attempt.date}} · {{attempt.mode==='exam'?'Simulacro':'Práctica'}} · {{attempt.passed}}/{{attempt.total}} comprobaciones superadas</div>}@empty{<p class="small-muted">Aún no has comprobado esta práctica.</p>}
-   }
-   @if(tab()==='solution'&&canReview()){
-    <h3>Solución razonada por archivos</h3><p>Compara con tu código. Consultar esta solución no sobrescribe tus archivos.</p>@for(text of project.explanation;track $index){<p>{{text}}</p>}
-    @for(file of project.files;track file.path){<details class="lab-panel"><summary>{{file.path}} · {{file.responsibility}}</summary><p>{{file.explanation}}</p><pre>{{file.solution}}</pre><h3>Tu código</h3><pre>{{ownCode(file.path)}}</pre></details>}
-    <div class="lab-actions"><button type="button" (click)="exportPractice()">Descargar práctica completa ZIP</button></div>
-   }
-  }
- }@else{
+  </div>
+ </main>
+ @if(dialog();as config){<app-project-dialog [config]="config" (confirm)="confirmOperation($event)" (dismiss)="dismissDialog()"/>}
+} @else {
+ <app-header title="Laboratorio PHP" back="/inicio"/>
+ <main class="page with-header lab-page">
+  @if(storage.warning()){<p role="alert">{{storage.warning()}}</p>}
+  @if(error()){<p class="lab-feedback" data-ok="false" role="alert">{{error()}}</p>}
+  @if(message()){<p class="lab-safe-message" role="status">{{message()}}</p>}
   <section class="intro-copy"><span class="eyebrow">DWCS · PROGRAMACIÓN PRÁCTICA</span><h2>Aplicaciones PHP completas</h2><p>Lee el enunciado, completa archivos relacionados y prueba la aplicación aquí. Los ejercicios rápidos siguen disponibles en cada unidad.</p></section>
   @if(exam()){<p class="lab-panel">Modo simulacro práctico: apuntes permitidos; pistas, soluciones y corrección disponibles al entregar. Sin duración ni nota oficiales inventadas.</p>}
   <div class="academic-filters"><label>Unidad<select [value]="unit()" (change)="unit.set(+$any($event.target).value)"><option value="0">UD2 y UD3</option><option value="2">UD2 · PHP y formularios</option><option value="3">UD3 · Estado y autenticación</option></select></label><label>Buscar competencia<input type="search" [value]="search()" (input)="search.set($any($event.target).value)" placeholder="JSON, arrays, roles…"/></label></div>
   <div class="lab-projects">@for(item of visibleProjects();track item.id){<button class="lab-project-card" type="button" (click)="open(item)"><span class="eyebrow">UD{{item.unit}} · {{item.files.length}} archivos</span><strong>{{item.title}}</strong><small>{{item.objective}}</small><small>{{item.skills.join(' · ')}}</small></button>}@empty{<p>No hay prácticas con esos filtros.</p>}</div>
   <details class="lab-panel"><summary>Copias de todos tus proyectos</summary><p class="lab-safe-message">Los proyectos se guardan en este navegador con IndexedDB y una copia inmediata. Exporta una copia para trasladarlos a otro dispositivo.</p><div class="lab-actions"><button type="button" (click)="storage.exportBackup()">Exportar proyectos JSON</button><label>Importar copia<input type="file" accept="application/json,.json" (change)="importBackup($event)"/></label></div></details>
   <details class="lab-panel"><summary>Uso desde iPhone y sin conexión</summary><p class="lab-safe-message">Abre ESTUDIO mediante HTTPS y añade la aplicación a la pantalla de inicio de Safari. Ejecuta una práctica con conexión para descargar PHP una vez (unos 18 MB); abre los PDF que quieras conservar. Comprueba después el arranque en modo avión. iOS puede retirar los datos del navegador si falta espacio. La validación en un iPhone físico sigue siendo necesaria.</p></details>
- }
-</main>
+ </main>
+}

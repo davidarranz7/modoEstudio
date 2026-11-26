@@ -1,0 +1,120 @@
+import type { EditorFunction, EditorParameter } from './editor-state';
+// Runtime reflection is generated from the same isolated PHP 8.2 build that executes exercises.
+import runtime from './editor-php-runtime.json';
+
+interface Help { description: string; params?: Record<string,string>; }
+const help: Record<string,Help> = {};
+const describe=(names:string,description:string,params:Record<string,string>={})=>{for(const name of names.split(' '))help[name]={description,params};};
+describe('move_uploaded_file','Mueve una subida HTTP válida desde su archivo temporal al destino del proyecto.',{from:'Ruta temporal recibida en $_FILES[campo]["tmp_name"].',to:'Ruta de destino dentro del proyecto; no utilices el nombre recibido como ruta sin validar.'});
+describe('is_uploaded_file','Comprueba que una ruta corresponde a un archivo recibido por subida HTTP.',{filename:'Ruta temporal que se quiere comprobar.'});
+describe('str_contains','Indica si una cadena contiene otra; la búsqueda distingue mayúsculas.',{haystack:'Cadena en la que se busca.',needle:'Texto que debe encontrarse.'});
+describe('str_starts_with','Comprueba si una cadena empieza por el texto indicado.',{haystack:'Cadena que se comprueba.',needle:'Prefijo buscado.'});
+describe('str_ends_with','Comprueba si una cadena termina por el texto indicado.',{haystack:'Cadena que se comprueba.',needle:'Sufijo buscado.'});
+describe('str_replace','Sustituye las apariciones de un texto; puede trabajar con cadenas o arrays.',{search:'Texto o textos que se buscan.',replace:'Texto o textos de sustitución.',subject:'Cadena o array en el que se sustituye.',count:'Variable opcional que recibe el número de sustituciones.'});
+describe('str_ireplace','Sustituye texto sin distinguir mayúsculas y minúsculas.',{search:'Texto buscado.',replace:'Texto de sustitución.',subject:'Cadena o array de entrada.',count:'Variable que recibe el número de sustituciones.'});
+describe('str_split','Divide una cadena en fragmentos de una longitud determinada.',{string:'Cadena que se divide.',length:'Longitud de cada fragmento en bytes; por defecto 1.'});
+describe('str_repeat','Repite una cadena el número de veces indicado.',{string:'Texto que se repite.',times:'Número de repeticiones, no negativo.'});
+describe('str_pad','Rellena una cadena hasta alcanzar una longitud.',{string:'Texto original.',length:'Longitud final deseada.',pad_string:'Texto de relleno.',pad_type:'Posición del relleno: STR_PAD_LEFT, STR_PAD_RIGHT o STR_PAD_BOTH.'});
+describe('str_shuffle','Devuelve los bytes de una cadena en orden aleatorio.',{string:'Cadena cuyos bytes se mezclan.'});
+describe('str_word_count','Cuenta palabras o devuelve las palabras encontradas según el formato.',{string:'Cadena que se analiza.',format:'0 para contar; 1 para array de palabras; 2 para array con posiciones.',characters:'Caracteres adicionales que se consideran parte de una palabra.'});
+describe('str_getcsv','Interpreta una línea CSV y devuelve sus campos.',{string:'Línea CSV que se interpreta.',separator:'Separador de campos.',enclosure:'Carácter que encierra campos.',escape:'Carácter de escape.'});
+describe('strlen','Devuelve la longitud de una cadena en bytes.',{string:'Cadena de entrada; los caracteres UTF-8 pueden ocupar varios bytes.'});
+describe('strtolower strtoupper','Convierte letras ASCII a minúsculas o mayúsculas; no cambia el valor original.',{string:'Cadena que se convierte.'});
+describe('substr','Extrae una parte de una cadena.',{string:'Cadena de origen.',offset:'Posición inicial; puede ser negativa.',length:'Número opcional de bytes que se extraen.'});
+describe('strpos stripos strrpos strripos','Busca una posición en una cadena. Puede devolver 0: compara con false de forma estricta.',{haystack:'Cadena donde se busca.',needle:'Texto buscado.',offset:'Posición desde la que comienza la búsqueda.'});
+describe('trim ltrim rtrim','Elimina espacios u otros caracteres de los extremos de una cadena.',{string:'Cadena que se limpia.',characters:'Conjunto opcional de caracteres que se eliminan.'});
+describe('explode','Separa una cadena por un delimitador y devuelve un array.',{separator:'Delimitador, que no puede estar vacío.',string:'Cadena que se divide.',limit:'Límite opcional del número de elementos.'});
+describe('implode join','Une los valores de un array en una cadena.',{separator:'Texto que se coloca entre elementos.',array:'Array de valores que se unen.'});
+describe('htmlspecialchars','Escapa caracteres especiales para mostrar texto en HTML de forma segura.',{string:'Texto no fiable que se quiere mostrar.',flags:'Opciones como ENT_QUOTES y ENT_SUBSTITUTE.',encoding:'Codificación del texto; normalmente UTF-8.',double_encode:'Si se vuelven a codificar entidades ya existentes.'});
+describe('htmlentities','Convierte caracteres a sus entidades HTML disponibles.',{string:'Texto que se codifica.',flags:'Opciones de comillas y tratamiento de errores.',encoding:'Codificación utilizada.',double_encode:'Si se codifican de nuevo entidades existentes.'});
+describe('htmlspecialchars_decode html_entity_decode','Decodifica entidades HTML; no es una operación de saneamiento.',{string:'Cadena con entidades.',flags:'Opciones de decodificación.',encoding:'Codificación del texto.'});
+describe('strip_tags','Elimina etiquetas HTML y PHP. No sustituye el escape de salida.',{string:'Cadena de entrada.',allowed_tags:'Etiquetas que se permiten conservar.'});
+describe('nl2br','Inserta saltos HTML antes de los saltos de línea del texto.',{string:'Texto con saltos de línea.',use_xhtml:'Si se generan etiquetas compatibles con XHTML.'});
+describe('sprintf','Devuelve una cadena formateada; no la imprime.',{format:'Plantilla con marcadores como %s, %d y %.2f.',values:'Valores que sustituyen los marcadores.'});
+describe('printf','Imprime una cadena formateada y devuelve el número de bytes escritos.',{format:'Plantilla de formato.',values:'Valores que se insertan en los marcadores.'});
+describe('number_format','Devuelve un número formateado como cadena.',{num:'Número que se presenta.',decimals:'Cantidad de decimales.',decimal_separator:'Separador decimal.',thousands_separator:'Separador de miles.'});
+describe('array_push','Añade elementos al final de un array y devuelve su nueva cantidad.',{array:'Array que se modifica por referencia.',values:'Elementos que se añaden.'});
+describe('array_pop array_shift','Extrae y devuelve un elemento del extremo del array, modificándolo.',{array:'Array que se modifica.'});
+describe('array_unshift','Añade elementos al principio de un array y devuelve su tamaño.',{array:'Array que se modifica.',values:'Valores que se insertan al principio.'});
+describe('array_keys','Devuelve las claves de un array, opcionalmente filtradas por un valor.',{array:'Array de origen.',filter_value:'Valor opcional que deben tener los elementos.',strict:'Si se comparan también los tipos.'});
+describe('array_values','Devuelve los valores con índices numéricos consecutivos.',{array:'Array de origen, que no se modifica.'});
+describe('array_key_exists key_exists','Comprueba si una clave existe, incluso cuando su valor es null.',{key:'Clave numérica o de texto.',array:'Array en el que se busca.'});
+describe('in_array','Busca un valor en un array.',{needle:'Valor buscado.',haystack:'Array en el que se busca.',strict:'Activa la comparación de valores y tipos; recomendable al validar.'});
+describe('array_search','Busca un valor y devuelve su clave, o false; compara estrictamente el resultado.',{needle:'Valor buscado.',haystack:'Array de entrada.',strict:'Si se exige el mismo tipo.'});
+describe('array_map','Aplica una función a los elementos de uno o varios arrays.',{callback:'Función que transforma cada elemento.',array:'Primer array.',arrays:'Otros arrays opcionales.'});
+describe('array_filter','Filtra elementos con una función, conservando sus claves.',{array:'Array de entrada.',callback:'Función que devuelve true para conservar un elemento.',mode:'Si la función recibe valor, clave o ambos.'});
+describe('array_reduce','Acumula los elementos de un array en un resultado.',{array:'Valores que se recorren.',callback:'Función que recibe acumulador y valor actual.',initial:'Valor inicial del acumulador.'});
+describe('array_merge','Combina arrays; las claves de texto posteriores sustituyen las anteriores y las numéricas se reindexan.',{arrays:'Arrays que se combinan en orden.'});
+describe('array_slice','Devuelve un tramo de un array sin modificarlo.',{array:'Array de origen.',offset:'Posición inicial.',length:'Cantidad opcional de elementos.',preserve_keys:'Si se conservan las claves numéricas.'});
+describe('array_splice','Elimina o sustituye un tramo del array y devuelve los elementos eliminados.',{array:'Array que se modifica.',offset:'Posición inicial.',length:'Cantidad que se elimina.',replacement:'Elementos que se insertan en su lugar.'});
+describe('array_sum array_product','Calcula la suma o el producto de los valores del array.',{array:'Valores numéricos que se procesan.'});
+describe('array_unique','Elimina valores repetidos conservando las claves del primer valor.',{array:'Array de entrada.',flags:'Forma de comparar los valores.'});
+describe('array_diff array_intersect','Compara valores y devuelve diferencias o intersecciones entre arrays.',{array:'Array principal.',arrays:'Arrays con los que se compara.'});
+describe('array_column','Extrae una columna de un array de filas.',{array:'Array bidimensional de entrada.',column_key:'Clave de la columna que se extrae.',index_key:'Columna opcional usada como clave del resultado.'});
+describe('array_combine','Crea un array asociativo a partir de claves y valores.',{keys:'Array de claves.',values:'Array de valores con la misma cantidad de elementos.'});
+describe('array_fill','Crea un array repitiendo un valor.',{start_index:'Primer índice.',count:'Cantidad de elementos.',value:'Valor de cada elemento.'});
+describe('array_reverse','Devuelve un array con el orden invertido.',{array:'Array de entrada.',preserve_keys:'Si se conservan las claves numéricas.'});
+describe('count sizeof','Cuenta elementos de un array o de un objeto Countable.',{value:'Array o Countable.',mode:'COUNT_NORMAL o COUNT_RECURSIVE.'});
+describe('sort rsort asort arsort ksort krsort','Ordena un array en el lugar: consulta el nombre para distinguir clave/valor y dirección.',{array:'Array que se modifica.',flags:'Criterio de comparación, por ejemplo SORT_NUMERIC.'});
+describe('sort','Ordena los valores de menor a mayor y reasigna las claves numéricas.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar los valores, por ejemplo SORT_NUMERIC.'});
+describe('rsort','Ordena los valores de mayor a menor y reasigna las claves numéricas.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar los valores.'});
+describe('asort','Ordena los valores de menor a mayor conservando la asociación con sus claves.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar los valores.'});
+describe('arsort','Ordena los valores de mayor a menor conservando sus claves.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar los valores.'});
+describe('ksort','Ordena el array por sus claves de menor a mayor.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar las claves.'});
+describe('krsort','Ordena el array por sus claves de mayor a menor.',{array:'Array que se modifica por referencia.',flags:'Forma de comparar las claves.'});
+describe('usort uasort uksort','Ordena un array mediante una función de comparación.',{array:'Array que se modifica.',callback:'Función que devuelve negativo, cero o positivo al comparar dos valores o claves.'});
+describe('json_encode','Convierte un valor PHP en texto JSON, o devuelve false si falla.',{value:'Valor que se codifica.',flags:'Opciones como JSON_UNESCAPED_UNICODE o JSON_THROW_ON_ERROR.',depth:'Profundidad máxima.'});
+describe('json_decode','Interpreta texto JSON y devuelve un valor PHP.',{json:'Texto JSON.',associative:'true para objetos como arrays asociativos; false para objetos.',depth:'Profundidad máxima.',flags:'Opciones como JSON_THROW_ON_ERROR.'});
+describe('json_last_error_msg','Explica el último error de JSON cuando no se usan excepciones.');
+describe('file_get_contents','Lee un archivo completo y devuelve su contenido, o false si falla.',{filename:'Ruta del archivo del proyecto.',use_include_path:'Si se busca también en include_path.',context:'Contexto opcional de lectura.',offset:'Posición inicial.',length:'Máximo de bytes que se leen.'});
+describe('file_put_contents','Escribe contenido en un archivo y devuelve bytes escritos o false.',{filename:'Ruta de destino.',data:'Contenido que se escribe.',flags:'FILE_APPEND para añadir; LOCK_EX si el entorno lo admite.',context:'Contexto opcional.'});
+describe('file_exists is_file is_dir','Comprueba una ruta del sistema de archivos virtual.',{filename:'Ruta que se comprueba.'});
+describe('mkdir','Crea una carpeta en el proyecto.',{directory:'Ruta de la carpeta.',permissions:'Permisos solicitados.',recursive:'Si se crean también las carpetas superiores.',context:'Contexto opcional.'});
+describe('unlink','Elimina un archivo del sistema virtual. Usa esta operación con cuidado.',{filename:'Ruta del archivo que se elimina.',context:'Contexto opcional.'});
+describe('basename','Obtiene el nombre final de una ruta.',{path:'Ruta completa o relativa.',suffix:'Sufijo opcional que se elimina.'});
+describe('dirname','Obtiene el directorio superior de una ruta.',{path:'Ruta de entrada.',levels:'Cantidad de niveles que se retrocede.'});
+describe('pathinfo','Extrae partes de una ruta, por ejemplo su extensión.',{path:'Ruta de entrada.',flags:'Parte solicitada, como PATHINFO_EXTENSION.'});
+describe('realpath','Normaliza una ruta existente del sistema virtual.',{path:'Ruta que se resuelve.'});
+describe('fopen','Abre un archivo o flujo y devuelve un recurso, o false.',{filename:'Ruta del archivo.',mode:'Modo, por ejemplo r, w o a.',use_include_path:'Si se consulta include_path.',context:'Contexto opcional.'});
+describe('fclose','Cierra un recurso de archivo abierto.',{stream:'Recurso que se cierra.'});
+describe('fgets','Lee una línea de un recurso, por ejemplo STDIN.',{stream:'Recurso de entrada.',length:'Límite opcional de bytes leídos.'});
+describe('fscanf','Lee datos de un recurso siguiendo un formato.',{stream:'Recurso de entrada, por ejemplo STDIN.',format:'Formato como %d o %f.',vars:'Variables opcionales que reciben los valores; sin ellas devuelve un array.'});
+describe('fread','Lee una cantidad de bytes de un recurso.',{stream:'Recurso abierto.',length:'Máximo de bytes que se leen.'});
+describe('fwrite','Escribe una cadena en un recurso.',{stream:'Recurso abierto.',data:'Datos que se escriben.',length:'Límite opcional de bytes.'});
+describe('feof','Indica si se alcanzó el final de un recurso de entrada.',{stream:'Recurso abierto.'});
+describe('rewind','Devuelve la posición del recurso al comienzo.',{stream:'Recurso abierto.'});
+describe('session_start','Inicia o recupera una sesión y permite usar $_SESSION. Debe ejecutarse antes de emitir HTML.',{options:'Opciones de sesión; por ejemplo read_and_close.'});
+describe('session_destroy','Destruye los datos de la sesión; vaciar $_SESSION y eliminar su cookie son operaciones adicionales.');
+describe('session_unset','Elimina todas las variables de la sesión activa.');
+describe('session_regenerate_id','Cambia el identificador de sesión manteniendo sus datos.',{delete_old_session:'Si se elimina también el almacenamiento del identificador anterior.'});
+describe('session_id','Consulta o establece el identificador de sesión.',{id:'Nuevo identificador opcional.'});
+describe('session_name','Consulta o establece el nombre de la cookie de sesión.',{name:'Nombre nuevo opcional; configurar antes de session_start.'});
+describe('session_status','Devuelve PHP_SESSION_DISABLED, PHP_SESSION_NONE o PHP_SESSION_ACTIVE.');
+describe('session_get_cookie_params','Devuelve los parámetros de la cookie de sesión.');
+describe('setcookie','Envía una cookie en la cabecera HTTP; se recibirá en una petición posterior.',{name:'Nombre de la cookie.',value:'Valor que se almacena.',expires_or_options:'Caducidad o array de opciones: expires, path, secure, httponly y samesite.',path:'Ruta de validez.',domain:'Dominio de validez.',secure:'Si solo se envía mediante HTTPS.',httponly:'Si no puede ser leída por JavaScript.'});
+describe('header','Envía una cabecera HTTP antes de imprimir salida.',{header:'Cabecera, por ejemplo Location: privada.php.',replace:'Si sustituye una cabecera del mismo nombre.',response_code:'Código de estado opcional.'});
+describe('http_response_code','Consulta o establece el código de estado de la respuesta.',{response_code:'Estado, por ejemplo 200, 403 o 404.'});
+describe('headers_list','Devuelve las cabeceras preparadas para enviar.');
+describe('headers_sent','Comprueba si ya se han enviado cabeceras.',{filename:'Variable que recibe el archivo donde comenzó la salida.',line:'Variable que recibe su línea.'});
+describe('password_hash','Crea un hash seguro de una contraseña ficticia de prácticas.',{password:'Contraseña que se transforma; no uses credenciales reales.',algo:'Algoritmo, por ejemplo PASSWORD_DEFAULT.',options:'Opciones del algoritmo.'});
+describe('password_verify','Comprueba una contraseña contra un hash existente; no compares hashes por igualdad.',{password:'Contraseña recibida del formulario.',hash:'Hash almacenado en los datos del usuario.'});
+describe('password_get_info','Devuelve información del algoritmo y opciones de un hash.',{hash:'Hash que se inspecciona.'});
+describe('hash_equals','Compara dos cadenas evitando revelar diferencias de tiempo en su contenido.',{known_string:'Valor de referencia conocido.',user_string:'Valor recibido que se compara.'});
+describe('filter_var','Valida o filtra un valor mediante un filtro explícito.',{value:'Dato recibido.',filter:'Filtro, por ejemplo FILTER_VALIDATE_INT o FILTER_VALIDATE_EMAIL.',options:'Opciones o indicadores del filtro.'});
+describe('intval floatval boolval strval','Convierte explícitamente un valor al tipo indicado.',{value:'Valor que se convierte.',base:'Base numérica opcional para intval.'});
+describe('is_array is_string is_int is_float is_bool is_null is_numeric','Comprueba el tipo o carácter numérico de un valor y devuelve un booleano.',{value:'Valor que se examina.'});
+describe('round floor ceil abs min max','Realiza una operación matemática sobre los valores recibidos.',{num:'Número de entrada.',precision:'Número de decimales.',mode:'Modo de redondeo.',value:'Primer valor.',values:'Otros valores.'});
+describe('time','Devuelve la marca de tiempo Unix actual; se usa para caducidades.');
+describe('date','Formatea una fecha como cadena.',{format:'Formato de salida.',timestamp:'Marca de tiempo opcional; por defecto la actual.'});
+
+const genericParameter:Record<string,string>={array:'Array de entrada.',arrays:'Arrays adicionales.',string:'Cadena de entrada.',value:'Valor de entrada.',values:'Valores adicionales.',callback:'Función que se invoca.',flags:'Indicadores opcionales que modifican el comportamiento.',options:'Opciones de configuración.',length:'Longitud o cantidad solicitada.',offset:'Posición inicial.',filename:'Ruta del archivo del proyecto.',stream:'Recurso de archivo o entrada.',format:'Formato que interpreta la función.',encoding:'Codificación de caracteres.',data:'Datos que se procesan.',key:'Clave del elemento.',needle:'Valor buscado.',haystack:'Datos en los que se busca.'};
+interface ReflectedFunction {name:string;returnType?:string;params:{name:string;type?:string;optional?:boolean;variadic?:boolean;default?:string;byReference?:boolean}[];}
+export const PHP_FUNCTIONS:EditorFunction[]=(runtime.functions as ReflectedFunction[]).map(fn=>({
+ name:fn.name,returnType:fn.returnType??'mixed',source:'PHP '+runtime.version,
+ description:help[fn.name]?.description??'Función nativa disponible en este intérprete. Consulta su referencia PHP para conocer sus condiciones y efectos.',
+ params:fn.params.map(p=>({name:p.name,byReference:!!p.byReference,type:p.type??'mixed',optional:!!p.optional,variadic:!!p.variadic,...(p.default!==undefined?{default:p.default}:{}),description:help[fn.name]?.params?.[p.name]??genericParameter[p.name]??'Parámetro de la función según la firma del intérprete PHP 8.2.'}))
+}));
+export const PHP_CONSTANTS=runtime.constants as {name:string;type?:string;value?:unknown}[];
+export function parameterLabel(parameter:EditorParameter):string {return `${parameter.type} ${parameter.byReference?'&':''}${parameter.variadic?'...':''}$${parameter.name}${parameter.default!==undefined?' = '+parameter.default:parameter.optional?' (opcional)':''}`;}
+export function functionSignature(fn:EditorFunction):string {return `${fn.name}(${fn.params.map(parameterLabel).join(', ')}): ${fn.returnType}`;}
+export const PHP_HELP_COUNT=Object.keys(help).length;

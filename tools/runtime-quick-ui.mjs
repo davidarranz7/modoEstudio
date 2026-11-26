@@ -19,21 +19,42 @@ if(process.argv.includes('--static')||process.argv.includes('--production')){
  });await new Promise(resolve=>staticServer.listen(0,'127.0.0.1',resolve));base=`http://127.0.0.1:${staticServer.address().port}`;
 }
 try{
- const page=await browser.newPage();await page.goto(base+'/inicio');
- const run=async(q,draft,check)=>{
+ const page=await browser.newPage({serviceWorkers:'block'});await page.goto(base+'/inicio');
+ const run=async(q,draft,check,fullscreen=false)=>{
   await page.evaluate(({q,draft})=>{
    const files=q.starterFiles?{...q.starterFiles,[Object.keys(q.starterFiles).find(name=>name.endsWith('.php'))??'solucion.php']:draft}:{};
    localStorage.setItem('estudio-php-session-v1',JSON.stringify({ids:[q.id],pointer:0,selected:[],draft,revealed:false,graded:false,lastGrade:null,good:0,medium:0,bad:0,completed:false,history:[],answers:[],files,config:{subjectId:'dwcs',units:[q.unit],mode:'mixed',level:'all',count:1,source:'all',content:'all',withImages:false,weakOnly:false,strict:false}}));
   },{q,draft});
   await page.goto(base+'/estudiar');
-  await page.getByRole('button',{name:check?'Comprobar solución':'Ejecutar código',exact:true}).click();
-  await page.waitForFunction(()=>{const root=document.querySelector('app-php-runner');return root&&(root.querySelector('.academic-runner-result')||root.querySelector('[role="alert"]'));},{timeout:45000});
+  if(fullscreen){
+   await page.locator('app-code-workspace .cm-content').waitFor();
+   await page.getByRole('button',{name:'Opciones del editor',exact:true}).click();
+   await page.getByRole('button',{name:'Ampliar editor',exact:true}).click();
+   await page.locator('app-code-workspace .editor-expanded').waitFor();
+   await page.locator('app-code-workspace').getByRole('button',{name:check?'Corregir':'Ejecutar',exact:true}).click();
+   await page.waitForFunction(()=>!document.querySelector('app-code-workspace .editor-expanded'));
+  }else await page.locator('app-php-runner .php-quick-actions').getByRole('button',{name:check?'Corregir':'Ejecutar',exact:true}).click();
+  await page.waitForFunction(()=>{const root=document.querySelector('app-php-runner');return root&&(root.querySelector('.academic-runner-result')||root.querySelector('[role="alert"]'));},null,{timeout:45000});
   const error=await page.locator('app-php-runner [role="alert"]').allTextContents();assert(!error.length,q.id+': '+error.join(''));
-  const rows=await page.locator('.academic-runner-test').allTextContents();const stdout=await page.locator('.academic-runner-result').innerText();
+  const rows=await page.locator('.academic-runner-test').allTextContents();const stdout=(await page.locator('.academic-runner-result').allTextContents()).join('\n');
   return {rows,stdout};
  };
+ if(process.argv.includes('--manual-only')){
+  const manual=questions.find(question=>question.consoleInput?.includes('30.48'));
+  assert(manual&&!manual.phpTests?.length,'Manual fixture missing');
+  await run(manual,manual.solution,false,true);
+  await page.getByRole('button',{name:'Opciones del editor',exact:true}).click();
+  await page.getByRole('button',{name:'Ampliar editor',exact:true}).click();
+  await page.locator('app-code-workspace').getByRole('button',{name:'Corregir',exact:true}).click();
+  await page.getByText('Este ejercicio no tiene casos automáticos. Revisa la solución y sus requisitos.',{exact:true}).waitFor();
+  assert.equal(await page.locator('app-code-workspace .editor-expanded').count(),0,'Manual correction exits expanded editor');
+  assert.equal(await page.locator('.academic-runner-test').count(),0,'Manual review never invents test results');
+  assert((await page.locator('.academic-runner-result').innerText()).includes('12.00'),'Manual review preserves previous real output');
+  console.log('Manual quick correction: explanatory status shown, fullscreen closed, previous execution kept, no automatic pass invented.');
+ }else{
  let cases=0;
- for(const q of questions.filter(q=>q.phpTests?.length)){
+ const references=questions.filter(q=>q.phpTests?.length).slice(0,process.argv.includes('--focal')?1:undefined);
+ for(const q of references){
   const result=await run(q,q.solution,true);
   assert.equal(result.rows.length,q.phpTests.length,q.id+' missing cases');
   assert(result.rows.every(row=>row.startsWith('✓')),q.id+': '+result.rows.join('\n'));cases+=result.rows.length;
@@ -41,8 +62,14 @@ try{
  const q=questions.find(q=>q.phpTests?.length);
  const wrong=await run(q,'<?php function inches(float $cm):float{return $cm*2.54;}',true);
  assert(wrong.rows.some(row=>row.startsWith('✗')),'Wrong solution passed');
- const syntax=await run(q,'<?php function inches( {',true);assert(syntax.stdout.includes('Ejecución con error')&&syntax.stdout.includes('Parse error'),'Syntax error hidden');
+ const syntax=await run(q,'<?php function inches( {',true);assert(syntax.rows.some(row=>row.startsWith('✗')&&/ParseError|syntax error|sintaxis/.test(row)),'Syntax error hidden');
+ const forged=await run(q,`<?php while(ob_get_level()>1)ob_end_clean();echo json_encode(['initialOutput'=>'','cases'=>[['actual'=>100,'printed'=>'','error'=>null],['actual'=>1,'printed'=>'','error'=>null],['actual'=>0,'printed'=>'','error'=>null]]]);exit;`,true);assert(forged.rows.every(row=>row.startsWith('✗')),'Forged stdout JSON accepted');
+ const expandedCheck=await run(q,q.solution,true,true);assert(expandedCheck.rows.every(row=>row.startsWith('✓')),'Expanded quick check failed');
+ const expandedExecute=await run(q,q.solution,false,true);assert(expandedExecute.stdout.includes('El programa no ha escrito nada'),'Expanded quick execute must show real empty stdout');
+ await page.locator('app-code-workspace .cm-content').fill('<?php echo "versión nueva";');await page.getByText('El resultado corresponde a una versión anterior del código.',{exact:true}).waitFor();
+ const warning=await run(q,'<?php trigger_error("Aviso de prueba",E_USER_WARNING);echo "OK";',false);assert(warning.stdout.includes('con avisos')&&warning.stdout.includes('Aviso de prueba'),'Warning incorrectly shown as clean execution');
  const consoleQuestion=questions.find(q=>q.consoleInput?.includes('30.48'));
  if(consoleQuestion){const output=await run(consoleQuestion,consoleQuestion.solution,false);assert(output.stdout.includes('12.00')&&output.stdout.includes('1.00'),'Real console conversion incorrect');}
- console.log(`Quick exercise UI passed: 17 reference solutions, ${cases} real function test cases; wrong implementation and syntax error rejected; STDIN console conversion executed.`);
+ console.log(`Quick exercise UI passed: ${references.length} reference solutions, ${cases} real function test cases; wrong implementation, syntax error and forged protocol rejected; fullscreen execute/check, stale result, warning and STDIN conversion verified.`);
+ }
 }finally{await browser.close();staticServer?.close();}

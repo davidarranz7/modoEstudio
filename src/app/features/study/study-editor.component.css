@@ -1,0 +1,10 @@
+.programming-question .study-main{overflow:visible;padding:20px 16px 24px;min-width:0}
+.programming-question .flashcard{padding:22px 17px 19px;min-height:0;overflow:visible}
+.programming-question .flashcard h1{font-size:20px;line-height:1.42;margin:18px 0 15px}
+.programming-question .study-actions{position:static;transform:none;left:auto;bottom:auto;width:100%;max-height:none;overflow:visible;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+.programming-question .study-draft-label{font-size:12px;margin:15px 0 10px}
+.programming-question .practice-example{margin-bottom:15px}
+.exercise-file-tabs{display:flex;overflow-x:auto;min-width:0;scrollbar-width:none;background:#202b3b;border-top:1px solid #384355}
+.exercise-file-tabs button{flex:none;min-height:44px;padding:10px 12px;border:0;border-right:1px solid #354155;font:11px 'JetBrains Mono',monospace;color:#a8b9ce;background:transparent;white-space:nowrap}
+.exercise-file-tabs button.active{color:#f1f7ff;background:#151a23;box-shadow:inset 0 2px #6b9efb}
+@media(max-width:370px){.programming-question .study-main{padding-left:11px;padding-right:11px}.programming-question .flashcard{padding-left:12px;padding-right:12px}}

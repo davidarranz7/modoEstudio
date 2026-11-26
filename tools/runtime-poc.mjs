@@ -29,7 +29,7 @@ try {
    await open({'index.php':`<?php require_once __DIR__.'/lib/f.php';require_once __DIR__.'/lib/f.php';include 'data.php';include_once 'data.php';echo sumar($n,3), '|', basename(__FILE__);file_put_contents('resultado.json',json_encode(['ok'=>true]));`,'lib/f.php':'<?php function sumar(int $a,int $b):int{return $a+$b;}','data.php':'<?php $n=7;'});
    run=await request({url:'/index.php'});check('Multifile include require once DIR FILE relative paths',run.body==='10|index.php',run);check('JSON virtual write',run.files['resultado.json']==='{"ok":true}',run);
    await open({'index.php':`<?php echo json_encode([$_GET,$_POST,$_SERVER['REQUEST_METHOD']]);`});
-   run=await request({url:'/index.php?a=uno',method:'POST',body:{x:'dos',list:['a','b']}});check('GET POST array + REQUEST_METHOD',run.body==='[{"a":"uno"},{"x":"dos","list":["a","b"]},"POST"]',run);
+   run=await request({url:'/index.php?a=uno',method:'POST',body:{x:'dos','list[]':['a','b']}});check('GET POST array + REQUEST_METHOD',run.body==='[{"a":"uno"},{"x":"dos","list":["a","b"]},"POST"]',run);
    await open({'index.php':`<?php session_start();$_SESSION['n']=($_SESSION['n']??0)+1;setcookie('idioma','gl',time()+3600,'/');echo $_SESSION['n'].'|'.($_COOKIE['idioma']??'');`,'delete.php':`<?php session_start();unset($_SESSION['n']);setcookie('idioma','',time()-3600,'/');header('Location: /index.php');`});
    run=await request({url:'/index.php'});check('Session + cookie created',run.body==='1|'&&!!run.cookies.PHPSESSID&&run.cookies.idioma==='gl',run);
    run=await request({url:'/index.php'});check('Session + cookie persist',run.body==='2|gl'&&Object.values(run.session).some(x=>x.includes('n|i:2;')),run);
@@ -39,8 +39,8 @@ try {
    run=await request({url:'/index.php'});const password=JSON.parse(run.body);check('Real bcrypt password_verify',password.valid===true&&password.invalid===false,password);
    await open({'index.php':`<?php $file=$_FILES['archivo'];move_uploaded_file($file['tmp_name'],__DIR__.'/subido.txt');echo $file['name'].'|'.file_get_contents('subido.txt');`});
    run=await request({url:'/index.php',method:'POST',body:{archivo:new File(['contenido'],'ejemplo.txt',{type:'text/plain'})}});check('Multipart upload + move_uploaded_file',run.body==='ejemplo.txt|contenido',run);
-   await open({'index.php':'<?php echo ;'});run=await request({url:'/index.php'});check('Syntax error detected',run.exitCode!==0&&/Parse error/.test(run.stderr+run.body),run);
-   await open({'index.php':'<?php funcion_inexistente();'});run=await request({url:'/index.php'});check('Runtime error detected',run.exitCode!==0&&/undefined function/.test(run.stderr+run.body),run);
+   await open({'index.php':'<?php echo ;'});run=await request({url:'/index.php'});check('Syntax error detected',run.exitCode!==0&&run.diagnostics.some(d=>d.kind==='syntax'&&d.file==='index.php'&&d.line===1),run);
+   await open({'index.php':'<?php funcion_inexistente();'});run=await request({url:'/index.php'});check('Runtime error detected',run.exitCode!==0&&run.diagnostics.some(d=>d.kind==='runtime'&&/undefined function/.test(d.message)),run);
    await open({'index.php':`<?php echo json_encode([function_exists('system'),function_exists('js_eval'),function_exists('post_message_to_js'),function_exists('curl_exec'),ini_get('allow_url_fopen'),@file_get_contents('/internal/shared/php.ini')]);`});
    run=await request({url:'/index.php'});check('Network/host bridge/engine ini unavailable',run.body==='[false,false,false,false,"0",false]',run);
    await open({'index.php':`<?php echo isset($_COOKIE['idioma'])?'leak':'isolated';`});run=await request({url:'/index.php'});check('Project reset isolates FS cookies sessions',run.body==='isolated'&&!Object.keys(run.session).length&&!Object.keys(run.cookies).length,run);
