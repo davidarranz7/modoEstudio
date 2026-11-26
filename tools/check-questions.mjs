@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
+import { fileContentHash } from './file-integrity.mjs';
 
 const registry = readFileSync('src/app/core/questions.ts', 'utf8');
 const names = [...registry.matchAll(/from ['"]\.\.\/data\/([^'"]+\.questions)['"]/g)].map(match=>match[1]+'.ts');
@@ -22,7 +23,7 @@ for (const name of names) {
   const original=baseline.banks[name.replace('.questions.ts','')];
   if(bank.length!==original.count)throw Error(`Número de preguntas alterado: ${name}`);
   for(const q of bank)if(createHash('sha256').update(JSON.stringify(q)).digest('hex')!==original.questions[q.id])throw Error(`Pregunta original modificada o sustituida: ${q.id}. Documenta cualquier corrección puntual antes de actualizar la referencia.`);
-  if(createHash('sha256').update(readFileSync(join('src/app/data',name))).digest('hex')!==original.sha256)throw Error(`Archivo del banco original modificado: ${name}`);
+  if(fileContentHash(name,readFileSync(join('src/app/data',name)))!==original.sha256)throw Error(`Archivo del banco original modificado: ${name}`);
   for (const q of bank) {
     if (ids.has(q.id)) throw Error(`ID duplicado: ${q.id}`);
     ids.add(q.id);
